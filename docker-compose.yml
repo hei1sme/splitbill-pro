@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-splitbill}
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    networks:
+      - splitbill-net
+
+  app:
+    build: .
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      # Default to the local sqlite dev DB inside the repo if DATABASE_URL not provided
+      DATABASE_URL: ${DATABASE_URL:-file:./prisma/dev.db}
+      NEXT_TELEMETRY_DISABLED: '1'
+      PORT: 3000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    volumes:
+      # mount the prisma folder so the container can use the existing sqlite dev.db
+      - ./prisma:/app/prisma:rw
+    networks:
+      - splitbill-net
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+    networks:
+      - splitbill-net
+
+volumes:
+  db_data:
+  caddy_data:
+  caddy_config:
+
+networks:
+  splitbill-net:
+    driver: bridge
