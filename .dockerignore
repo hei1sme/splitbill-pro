@@ -1,0 +1,17 @@
+# Ignore node_modules from the host so we don't overwrite container-installed modules
+node_modules
+.next
+dist
+build
+npm-debug.log
+.env
+.env.local
+dev.db
+prisma/dev.db
+Dockerfile*
+docker-compose.override.yml
+.vscode
+.idea
+.git
+*.tgz
+*.log

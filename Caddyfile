@@ -1,0 +1,9 @@
+# Replace example.com with your domain. Caddy will automatically provision TLS.
+example.com {
+    reverse_proxy app:3000
+}
+
+# Local/dev fallback (uncomment and set Caddy to use this file if you want HTTP only)
+# :80 {
+#   reverse_proxy app:3000
+# }
