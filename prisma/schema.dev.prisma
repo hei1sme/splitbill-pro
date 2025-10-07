@@ -1,0 +1,161 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client-dev"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Bank {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String
+  logoUrl   String?
+  type      BankType @default(BANK)
+  people    Person[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Person {
+  id               String        @id @default(cuid())
+  displayName      String        @unique
+  bankCode         String?
+  accountNumber    String?
+  accountHolder    String?
+  qrUrl            String?
+  active           Boolean       @default(true)
+  bank             Bank?         @relation(fields: [bankCode], references: [code])
+  groups           GroupMember[]
+  payerBills       Bill[]
+  splits           BillSplit[]
+  payerSettlements Settlement[]  @relation("SettlementPayer")
+  payeeSettlements Settlement[]  @relation("SettlementPayee")
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model Group {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  members   GroupMember[]
+  bills     Bill[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model GroupMember {
+  id       String @id @default(cuid())
+  groupId  String
+  personId String
+  group    Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  person   Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+
+  @@unique([groupId, personId])
+}
+
+model Bill {
+  id                    String       @id @default(cuid())
+  title                 String
+  description           String?
+  date                  DateTime
+  groupId               String?      // Make optional for MANUAL mode
+  group                 Group?       @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  payerId               String
+  payer                 Person       @relation(fields: [payerId], references: [id], onDelete: Restrict)
+  status                BillStatus   @default(DRAFT)
+  // Enhanced participant support
+  participantMode       String?      // "GROUP", "MANUAL", "MIXED"
+  customParticipants    String?      // JSON array of person IDs for MANUAL/MIXED modes
+  items                 BillItem[]
+  settlements           Settlement[]
+  logs                  BillLog[]
+  createdAt             DateTime     @default(now())
+  updatedAt             DateTime     @updatedAt
+}
+
+model BillItem {
+  id          String      @id @default(cuid())
+  description String
+  amount      Float
+  billId      String
+  bill        Bill        @relation(fields: [billId], references: [id], onDelete: Cascade)
+  splits      BillSplit[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model BillSplit {
+  id         String    @id @default(cuid())
+  billItemId String
+  billItem   BillItem  @relation(fields: [billItemId], references: [id], onDelete: Cascade)
+  personId   String
+  person     Person    @relation(fields: [personId], references: [id], onDelete: Cascade)
+  amount     Float
+  splitMode  SplitMode @default(EVENLY)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([billItemId, personId])
+}
+
+model Settlement {
+  id        String           @id @default(cuid())
+  billId    String
+  bill      Bill             @relation(fields: [billId], references: [id], onDelete: Cascade)
+  payerId   String
+  payer     Person           @relation("SettlementPayer", fields: [payerId], references: [id], onDelete: Cascade)
+  payeeId   String
+  payee     Person           @relation("SettlementPayee", fields: [payeeId], references: [id], onDelete: Cascade)
+  amount    Float
+  status    SettlementStatus @default(PENDING)
+  paidAt    DateTime?
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+}
+
+model BillLog {
+  id        String    @id @default(cuid())
+  billId    String
+  action    LogAction
+  createdAt DateTime  @default(now())
+  Bill      Bill      @relation(fields: [billId], references: [id])
+}
+
+enum BankType {
+  BANK
+  EWALLET
+}
+
+enum SplitMode {
+  EVENLY
+  BY_QUANTITY
+  BY_PERCENTAGE
+  BY_AMOUNT
+}
+
+enum BillStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  SETTLED
+}
+
+enum SettlementStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum LogAction {
+  CREATE_BILL
+  UPDATE_BILL
+  DELETE_BILL
+  ADD_ITEM
+  UPDATE_ITEM
+  REMOVE_ITEM
+  SETTLE_BILL
+  REOPEN_BILL
+}

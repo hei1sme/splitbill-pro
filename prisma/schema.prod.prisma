@@ -1,0 +1,155 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../node_modules/.prisma/client-prod"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Bank {
+  id       String    @id @default(cuid())
+  code     String    @unique
+  name     String
+  logoUrl  String?
+  type     BankType  @default(BANK)
+  people   Person[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Person {
+  id            String   @id @default(cuid())
+  displayName   String   @unique
+  bankCode      String?
+  accountNumber String?
+  accountHolder String?
+  qrUrl         String?
+  active        Boolean  @default(true)
+  bank          Bank?    @relation(fields: [bankCode], references: [code])
+  groups        GroupMember[]
+  bills         BillParticipant[]
+  payerBills    Bill[]   @relation("PayerBills")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Group {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  members   GroupMember[]
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+}
+
+model GroupMember {
+  id       String @id @default(cuid())
+  groupId  String
+  personId String
+  group    Group  @relation(fields: [groupId], references: [id], onDelete: Cascade)
+  person   Person @relation(fields: [personId], references: [id], onDelete: Cascade)
+  
+  @@unique([groupId, personId])
+}
+
+model Bill {
+  id           String            @id @default(cuid())
+  title        String
+  date         DateTime          @default(now())
+  note         String?
+  status       BillStatus        @default(DRAFT)
+  tags         String[]          @default([])
+  payerId      String
+  payer        Person            @relation("PayerBills", fields: [payerId], references: [id])
+  participants BillParticipant[]
+  items        Item[]
+  logs         BillLog[]
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+}
+
+model BillParticipant {
+  id       String  @id @default(cuid())
+  billId   String
+  personId String
+  isPayer  Boolean @default(false)
+  order    Int     @default(0)
+  bill     Bill    @relation(fields: [billId], references: [id], onDelete: Cascade)
+  person   Person  @relation(fields: [personId], references: [id], onDelete: Cascade)
+  shares   ItemShare[]
+  
+  @@unique([billId, personId])
+}
+
+model Item {
+  id          String      @id @default(cuid())
+  billId      String
+  name        String
+  fee         Decimal?    @db.Decimal(12,2)
+  splitMethod SplitMethod @default(EQUAL)
+  type        ItemType    @default(NORMAL)
+  order       Int         @default(0)
+  bill        Bill        @relation(fields: [billId], references: [id], onDelete: Cascade)
+  shares      ItemShare[]
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+}
+
+model ItemShare {
+  id            String          @id @default(cuid())
+  itemId        String
+  participantId String
+  include       Boolean         @default(true)
+  locked        Boolean         @default(false)
+  paid          Boolean         @default(false)
+  rawInput      String?
+  amount        Decimal         @default(0) @db.Decimal(12,2)
+  item          Item            @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  participant   BillParticipant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  
+  @@unique([itemId, participantId])
+}
+
+model BillLog {
+  id        String      @id @default(cuid())
+  billId    String
+  action    LogAction
+  payload   Json?
+  timestamp DateTime    @default(now())
+  bill      Bill        @relation(fields: [billId], references: [id], onDelete: Cascade)
+}
+
+enum BankType {
+  BANK
+  EWALLET
+}
+
+enum BillStatus {
+  DRAFT
+  ACTIVE
+  COMPLETED
+  SETTLED
+}
+
+enum SplitMethod {
+  EQUAL
+  PERCENT
+  CUSTOM
+}
+
+enum ItemType {
+  NORMAL
+  CARRY_OVER
+  SPECIAL
+}
+
+enum LogAction {
+  BUILD_PARTICIPANTS
+  DISTRIBUTE_ALL
+  DISTRIBUTE_ITEM
+  RESET
+  EXPORT
+  UPDATE_BILL
+  UPDATE_ITEM
+}

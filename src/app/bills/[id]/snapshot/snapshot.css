@@ -1,0 +1,119 @@
+/* Print-specific styles for snapshot exports */
+@media print {
+  /* Hide non-essential elements during print */
+  .no-print {
+    display: none !important;
+  }
+
+  /* Optimize table for printing */
+  .snapshot-table {
+    page-break-inside: avoid;
+    font-size: 12px;
+    width: 100%;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+
+  .snapshot-table table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  .snapshot-table th,
+  .snapshot-table td {
+    border: 1px solid #000 !important;
+    padding: 8px 4px !important;
+    font-size: 11px !important;
+  }
+
+  .snapshot-table th {
+    background-color: #f0f0f0 !important;
+    font-weight: bold !important;
+  }
+
+  /* Participant column styling for print */
+  .participant-column {
+    background-color: #f8f8f8 !important;
+  }
+
+  .payer-column {
+    background-color: #e5e5e5 !important;
+    font-weight: bold !important;
+  }
+
+  /* Adjustment items styling */
+  .adjustment-row {
+    background-color: #fff9c4 !important;
+  }
+
+  /* Total row styling */
+  .total-row {
+    background-color: #e0e0e0 !important;
+    font-weight: bold !important;
+    border-top: 3px solid #000 !important;
+  }
+
+  /* QR section on separate page */
+  .qr-payment-section {
+    page-break-before: always;
+    text-align: center;
+  }
+
+  /* Hide gradients and shadows for print */
+  .glass-card {
+    background: white !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+  }
+
+  /* Ensure currency formatting is readable */
+  .currency-amount {
+    font-family: 'Courier New', monospace !important;
+    font-size: 10px !important;
+  }
+}
+
+/* Snapshot-specific responsive design */
+@media screen and (max-width: 768px) {
+  .snapshot-mobile-card {
+    display: block;
+  }
+  
+  .snapshot-table {
+    display: none;
+  }
+  
+  .mobile-person-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    background: white;
+  }
+  
+  .mobile-person-header {
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 12px;
+    color: #1e40af;
+  }
+  
+  .mobile-item-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  
+  .mobile-item-row:last-child {
+    border-bottom: none;
+  }
+  
+  .mobile-total-row {
+    background: #f8fafc;
+    padding: 12px;
+    margin: 8px -16px -16px -16px;
+    border-top: 2px solid #e2e8f0;
+    font-weight: bold;
+  }
+}
