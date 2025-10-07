@@ -12,7 +12,9 @@ COPY prisma ./prisma
 COPY tsconfig.json ./
 
 # Install dependencies (dev dependencies needed for build)
-RUN npm ci --legacy-peer-deps
+# Use `npm install` here to avoid failing when package-lock.json is out of
+# sync in this development iteration. For production CI, prefer `npm ci`.
+RUN npm install --legacy-peer-deps
 
 # Generate Prisma client (development schema is used because the code imports
 # `@prisma/client/dev` in many places). If you prefer the production client,
