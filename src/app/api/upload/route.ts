@@ -54,8 +54,9 @@ export async function POST(request: NextRequest) {
     const bytes = await file.arrayBuffer();
     await writeFile(filePath, Buffer.from(bytes));
 
-    // Return public URL
-    const publicUrl = `/uploads/${uploadType}/${filename}`;
+    // Return API URL (dynamic route) instead of static public path
+    // This ensures the file is served through our API route which handles MIME types correctly
+    const publicUrl = `/api/uploads/${uploadType}/${filename}`;
 
     console.log('[UPLOAD] File uploaded successfully:', {
       originalName: file.name,

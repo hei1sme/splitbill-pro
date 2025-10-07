@@ -87,7 +87,7 @@ export function PersonCard({ person, onEdit, onDelete, onToggleActive }: PersonC
                 <DialogHeader>
                   <DialogTitle>Payment QR Code</DialogTitle>
                 </DialogHeader>
-                <Image src={person.qrUrl} alt="QR Code" width={400} height={400} className="mx-auto" />
+                <img src={person.qrUrl} alt="QR Code" className="mx-auto max-w-full h-auto" style={{ maxHeight: '400px' }} />
               </DialogContent>
             </Dialog>
           )}
