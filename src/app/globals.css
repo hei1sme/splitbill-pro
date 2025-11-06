@@ -27,25 +27,25 @@
   }
  
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
+    --background: 222 47% 9%;
+    --foreground: 210 20% 96%;
+    --card: 223 36% 14%;
+    --card-foreground: 210 20% 96%;
+    --popover: 228 36% 14%;
+    --popover-foreground: 210 20% 96%;
+    --primary: 263 84% 70%;
+    --primary-foreground: 210 40% 10%;
+    --secondary: 222 43% 17%;
+    --secondary-foreground: 210 20% 96%;
+    --muted: 220 45% 18%;
+    --muted-foreground: 215 20% 75%;
+    --accent: 260 70% 30%;
     --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 0 82% 60%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    --border: 220 40% 24%;
+    --input: 220 38% 24%;
+    --ring: 263 84% 70%;
   }
 }
  
@@ -54,7 +54,46 @@
     border-color: hsl(var(--border));
   }
   body {
-    background-color: hsl(var(--background));
+    min-height: 100vh;
+    background:
+      radial-gradient(120% 120% at 10% 10%, rgba(110, 26, 255, 0.25) 0%, transparent 55%),
+      radial-gradient(110% 110% at 80% 0%, rgba(14, 116, 255, 0.18) 0%, transparent 55%),
+      radial-gradient(100% 120% at 90% 80%, rgba(236, 72, 153, 0.18) 0%, transparent 60%),
+      hsl(var(--background));
     color: hsl(var(--foreground));
+    font-feature-settings: "ss01", "cv05";
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer components {
+  .glass-panel {
+    @apply rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-2xl shadow-[0_25px_80px_-40px_rgba(78,70,229,0.75)];
+  }
+
+  .frosted-card {
+    @apply rounded-3xl border border-white/10 bg-gradient-to-br from-white/[0.06] to-white/[0.02] backdrop-blur-xl;
+  }
+
+  .neon-pill {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.28em] text-slate-100;
+  }
+
+  .subtle-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(148, 163, 184, 0.4) transparent;
+  }
+
+  .subtle-scrollbar::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .subtle-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .subtle-scrollbar::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, rgba(148, 163, 184, 0.45), rgba(148, 163, 184, 0.1));
+    border-radius: 999px;
   }
 }

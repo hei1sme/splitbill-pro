@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent } from "@/components/ui/card";
 import { LucideIcon } from "lucide-react";
 
 interface MetricCardProps {
@@ -15,23 +14,26 @@ interface MetricCardProps {
 
 export function MetricCard({ title, value, icon, trend }: MetricCardProps) {
   return (
-    <Card className="hover:shadow-md transition-shadow">
-      <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-sm font-medium text-muted-foreground mb-1">{title}</p>
-            <p className="text-2xl font-bold">{value}</p>
-            {trend && (
-              <p className={`text-xs mt-1 ${trend.isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                {trend.isPositive ? '↗' : '↘'} {Math.abs(trend.value).toFixed(1)}% from last month
-              </p>
-            )}
-          </div>
-          <div className="text-2xl opacity-60">
-            {icon}
-          </div>
+    <div className="rounded-2xl border border-white/10 bg-white/5 p-5 shadow-[0_20px_60px_-50px_rgba(79,70,229,0.9)] backdrop-blur-xl transition hover:border-white/20 hover:bg-white/10">
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <p className="text-xs uppercase tracking-[0.35em] text-slate-400">
+            {title}
+          </p>
+          <p className="mt-2 text-2xl font-semibold text-white">{value}</p>
+          {trend && (
+            <p
+              className={`mt-2 text-xs ${
+                trend.isPositive ? "text-emerald-300" : "text-rose-300"
+              }`}
+            >
+              {trend.isPositive ? "↗" : "↘"} {Math.abs(trend.value).toFixed(1)}%
+              {" • "}month over month
+            </p>
+          )}
         </div>
-      </CardContent>
-    </Card>
+        <div className="text-2xl opacity-70">{icon}</div>
+      </div>
+    </div>
   );
 }

@@ -1,7 +1,5 @@
 "use client";
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { 
   FileText, 
   Clock, 
@@ -44,40 +42,36 @@ export function StatusWorkflowIndicator() {
   ];
 
   return (
-    <Card className="mb-6">
-      <CardContent className="p-4">
-        <div className="flex items-center gap-2 mb-3">
-          <Info className="h-4 w-4 text-muted-foreground" />
-          <span className="text-sm font-medium text-muted-foreground">Bill Workflow</span>
-        </div>
-        
-        <div className="flex items-center justify-center gap-2 overflow-x-auto">
-          {workflowSteps.map((step, index) => {
-            const IconComponent = step.icon;
-            return (
-              <div key={step.status} className="flex items-center gap-2">
-                <div className="flex flex-col items-center gap-1 min-w-0">
-                  <div className={`p-2 rounded-full border-2 border-current ${step.color}`}>
-                    <IconComponent className="h-4 w-4" />
+    <div className="rounded-3xl border border-white/10 bg-white/[0.05] px-6 py-5 text-slate-200 shadow-[0_25px_70px_-55px_rgba(79,70,229,0.85)] backdrop-blur-2xl">
+      <div className="mb-4 flex items-center gap-2 text-xs uppercase tracking-[0.35em] text-slate-300/80">
+        <Info className="h-4 w-4" />
+        Bill workflow
+      </div>
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        {workflowSteps.map((step, index) => {
+          const IconComponent = step.icon;
+          return (
+            <div key={step.status} className="flex items-center gap-2">
+              <div className="flex flex-col items-center gap-2">
+                <div className="grid h-10 w-10 place-items-center rounded-full border border-white/20 bg-white/10 text-white shadow-inner shadow-slate-900/40">
+                  <IconComponent className="h-4 w-4" />
+                </div>
+                <div className="text-center">
+                  <div className="text-xs font-semibold text-white">
+                    {step.label}
                   </div>
-                  <div className="text-center">
-                    <div className={`text-xs font-medium ${step.color}`}>
-                      {step.label}
-                    </div>
-                    <div className="text-xs text-muted-foreground whitespace-nowrap">
-                      {step.description}
-                    </div>
+                  <div className="text-[0.65rem] uppercase tracking-[0.28em] text-slate-400">
+                    {step.description}
                   </div>
                 </div>
-                
-                {index < workflowSteps.length - 1 && (
-                  <ArrowRight className="h-4 w-4 text-muted-foreground mx-2 flex-shrink-0" />
-                )}
               </div>
-            );
-          })}
-        </div>
-      </CardContent>
-    </Card>
+              {index < workflowSteps.length - 1 && (
+                <ArrowRight className="h-4 w-4 text-slate-500/70" />
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </div>
   );
 }

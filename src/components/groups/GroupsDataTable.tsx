@@ -185,50 +185,56 @@ export function GroupsDataTable() {
       id: "actions",
       cell: ({ row }) => {
         const group = row.original;
-        return (
-          <AlertDialog>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem
-                  onClick={() => {
-                    setSelectedGroup(group);
-                    setIsFormOpen(true);
-                  }}
-                >
-                  <Pencil className="mr-2 h-4 w-4" />
-                  Edit
+      return (
+        <AlertDialog>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0 text-slate-200 hover:text-white">
+                <span className="sr-only">Open menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-40 border-white/10 bg-slate-950/95 backdrop-blur-xl">
+              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              <DropdownMenuItem
+                onClick={() => {
+                  setSelectedGroup(group);
+                  setIsFormOpen(true);
+                }}
+              >
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit
+              </DropdownMenuItem>
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem className="text-rose-400 focus:text-rose-400">
+                  <Trash2 className="mr-2 h-4 w-4" />
+                  Delete
                 </DropdownMenuItem>
-                <AlertDialogTrigger asChild>
-                  <DropdownMenuItem className="text-red-500">
-                    <Trash2 className="mr-2 h-4 w-4" />
-                    Delete
-                  </DropdownMenuItem>
-                </AlertDialogTrigger>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  This action cannot be undone. This will permanently delete the group.
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction onClick={() => handleDelete(group.id)} className="bg-red-500 hover:bg-red-600">
-                  Continue
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
-        );
+              </AlertDialogTrigger>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <AlertDialogContent className="max-w-sm border-white/10 bg-slate-950/90 backdrop-blur-xl">
+            <AlertDialogHeader>
+              <AlertDialogTitle>Remove group</AlertDialogTitle>
+              <AlertDialogDescription className="text-slate-300/80">
+                This action cannot be undone. All participants will lose quick
+                access to this roster.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel className="rounded-full border border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/15">
+                Cancel
+              </AlertDialogCancel>
+              <AlertDialogAction
+                onClick={() => handleDelete(group.id)}
+                className="rounded-full bg-gradient-to-r from-rose-500 via-red-500 to-amber-500 text-white hover:brightness-110"
+              >
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      );
       },
     },
   ];
@@ -249,29 +255,37 @@ export function GroupsDataTable() {
   });
 
   return (
-    <div className="w-full" suppressHydrationWarning>
-      <div className="flex items-center justify-between py-4" suppressHydrationWarning>
+    <div className="space-y-6" suppressHydrationWarning>
+      <div className="flex flex-wrap items-center justify-between gap-4" suppressHydrationWarning>
         <Input
           placeholder="Filter by group name..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
           }
-          className="max-w-sm"
+          className="w-full max-w-sm rounded-2xl border border-white/20 bg-white/10 text-sm text-white placeholder:text-slate-400 focus:border-white/40 focus-visible:ring-0"
         />
-        <Dialog open={isFormOpen} onOpenChange={(open) => {
+        <Dialog
+          open={isFormOpen}
+          onOpenChange={(open) => {
             setIsFormOpen(open);
             if (!open) setSelectedGroup(null);
-        }}>
+          }}
+        >
           <DialogTrigger asChild>
-            <Button>
+            <Button
+              className="rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white transition hover:border-white/35 hover:bg-white/15"
+              data-group-action="open"
+            >
               <PlusCircle className="mr-2 h-4 w-4" />
-              Add Group
+              Add group
             </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-lg border-white/10 bg-slate-950/90 backdrop-blur-xl">
             <DialogHeader>
-              <DialogTitle>{selectedGroup ? "Edit Group" : "Add New Group"}</DialogTitle>
+              <DialogTitle>
+                {selectedGroup ? "Edit Group" : "Add New Group"}
+              </DialogTitle>
             </DialogHeader>
             <GroupForm
               onSubmit={handleFormSubmit}
@@ -282,23 +296,25 @@ export function GroupsDataTable() {
           </DialogContent>
         </Dialog>
       </div>
-      <div className="rounded-md border" suppressHydrationWarning>
+
+      <div
+        className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
+        suppressHydrationWarning
+      >
         <Table suppressHydrationWarning>
-          <TableHeader suppressHydrationWarning>
+          <TableHeader className="bg-white/5 text-xs uppercase tracking-[0.35em] text-slate-300/80">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id} className="py-4">
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -308,18 +324,30 @@ export function GroupsDataTable() {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="transition hover:bg-white/10"
                   suppressHydrationWarning
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} suppressHydrationWarning>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    <TableCell
+                      key={cell.id}
+                      className="py-5 text-sm text-slate-200"
+                      suppressHydrationWarning
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow suppressHydrationWarning>
-                <TableCell colSpan={columns.length} className="h-24 text-center" suppressHydrationWarning>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center text-slate-300/70"
+                  suppressHydrationWarning
+                >
                   {isLoading ? "Loading..." : "No results."}
                 </TableCell>
               </TableRow>
@@ -327,12 +355,14 @@ export function GroupsDataTable() {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
+
+      <div className="flex items-center justify-end gap-3 pt-2">
         <Button
           variant="outline"
           size="sm"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
+          className="rounded-full border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/15 disabled:opacity-40"
         >
           Previous
         </Button>
@@ -341,6 +371,7 @@ export function GroupsDataTable() {
           size="sm"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
+          className="rounded-full border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/15 disabled:opacity-40"
         >
           Next
         </Button>

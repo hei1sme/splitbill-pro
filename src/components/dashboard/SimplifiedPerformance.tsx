@@ -1,7 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
 import { Clock, Target } from "lucide-react";
 
@@ -51,49 +49,48 @@ export function SimplifiedPerformance({ bills }: SimplifiedPerformanceProps) {
 
   if (totalBills === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            📈 Performance Insights
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-8">
-            <Target className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
-            <p className="text-muted-foreground">Create bills to see performance insights</p>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 text-center text-slate-300/80 shadow-[0_25px_70px_-55px_rgba(79,70,229,0.85)] backdrop-blur-2xl">
+        <Target className="mx-auto mb-4 h-10 w-10 opacity-60" />
+        <p>Create bills to see performance insights.</p>
+      </div>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          📈 Performance Insights
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        {/* Settlement Rate */}
-        <div className="space-y-3">
+    <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 text-slate-200 shadow-[0_25px_70px_-55px_rgba(79,70,229,0.85)] backdrop-blur-2xl">
+      <div className="space-y-6">
+        <div className="flex items-center justify-between">
+          <h2 className="text-sm font-semibold uppercase tracking-[0.35em] text-slate-300/80">
+            Performance pulse
+          </h2>
+          <Badge className="rounded-full border border-white/15 bg-white/10 text-[10px] uppercase tracking-[0.28em] text-slate-200">
+            {totalBills} tracked
+          </Badge>
+        </div>
+
+        <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Target className="h-4 w-4 text-muted-foreground" />
-              <span className="font-medium">Settlement Rate</span>
+            <div className="flex items-center gap-2 text-sm font-medium text-white">
+              <Target className="h-4 w-4 opacity-70" />
+              Settlement rate
             </div>
-            <Badge 
-              variant={settlementRate >= 80 ? "default" : settlementRate >= 60 ? "secondary" : "destructive"}
-              className={getSettlementRateColor(settlementRate)}
+            <Badge
+              variant="outline"
+              className={`rounded-full border-white/20 bg-white/10 px-3 py-1 text-xs ${getSettlementRateColor(
+                settlementRate
+              )}`}
             >
               {settlementRate.toFixed(0)}%
             </Badge>
           </div>
-          
-          <Progress value={settlementRate} className="h-3" />
-          
-          <div className="flex items-center justify-between text-xs">
-            <span className="text-muted-foreground">
+          <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+            <div
+              className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-teal-400 to-cyan-400 transition-all"
+              style={{ width: `${settlementRate}%` }}
+            />
+          </div>
+          <div className="flex items-center justify-between text-xs text-slate-300/80">
+            <span>
               {settledBills} settled / {totalBills} total
             </span>
             <span className={`font-medium ${getSettlementRateColor(settlementRate)}`}>
@@ -102,68 +99,64 @@ export function SimplifiedPerformance({ bills }: SimplifiedPerformanceProps) {
           </div>
         </div>
 
-        {/* Average Settlement Time */}
-        <div className="space-y-3">
+        <div className="space-y-4 rounded-2xl border border-white/10 bg-white/5 p-5">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Clock className="h-4 w-4 text-muted-foreground" />
-              <span className="font-medium">Avg Settlement Time</span>
+            <div className="flex items-center gap-2 text-sm font-medium text-white">
+              <Clock className="h-4 w-4 opacity-70" />
+              Avg settlement time
             </div>
-            <Badge 
+            <Badge
               variant="outline"
-              className={getSettlementTimeColor(Math.round(avgSettlementDays))}
+              className={`rounded-full border-white/20 bg-white/10 px-3 py-1 text-xs ${getSettlementTimeColor(
+                Math.round(avgSettlementDays)
+              )}`}
             >
               {Math.round(avgSettlementDays)} days
             </Badge>
           </div>
-          
-          {/* Visual time indicator */}
           <div className="flex items-center gap-2">
-            <div className="flex-1 bg-muted rounded-full h-2">
-              <div 
+            <div className="flex-1 overflow-hidden rounded-full bg-white/10">
+              <div
                 className={`h-2 rounded-full transition-all ${
-                  avgSettlementDays <= 7 ? 'bg-green-500' :
-                  avgSettlementDays <= 14 ? 'bg-yellow-500' : 'bg-red-500'
+                  avgSettlementDays <= 7
+                    ? "bg-gradient-to-r from-emerald-400 to-teal-400"
+                    : avgSettlementDays <= 14
+                    ? "bg-gradient-to-r from-amber-400 to-orange-400"
+                    : "bg-gradient-to-r from-rose-500 to-red-500"
                 }`}
-                style={{ 
-                  width: `${Math.min(100, (avgSettlementDays / 30) * 100)}%` 
+                style={{
+                  width: `${Math.min(100, (avgSettlementDays / 30) * 100)}%`,
                 }}
               />
             </div>
-            <span className="text-xs text-muted-foreground">30d</span>
+            <span className="text-xs text-slate-300/70">30d</span>
           </div>
-          
-          <div className="text-xs text-center">
-            <span className={`font-medium ${getSettlementTimeColor(Math.round(avgSettlementDays))}`}>
-              {getTimeMessage(Math.round(avgSettlementDays))}
-            </span>
+          <div className="text-xs text-slate-300/80">
+            {getTimeMessage(Math.round(avgSettlementDays))}
           </div>
         </div>
 
-        {/* Quick Stats */}
-        <div className="pt-4 border-t">
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <div className="p-2 bg-blue-50 rounded-lg">
-              <div className="text-sm font-semibold text-blue-600">
-                {bills.filter(b => b.status === 'ACTIVE').length}
-              </div>
-              <div className="text-xs text-blue-600">Active</div>
+        <div className="grid grid-cols-3 gap-3 pt-2 text-center text-xs text-slate-300/80">
+          <div className="rounded-2xl border border-indigo-400/20 bg-indigo-500/10 px-3 py-2">
+            <div className="text-sm font-semibold text-indigo-200">
+              {bills.filter((b) => b.status === "ACTIVE").length}
             </div>
-            <div className="p-2 bg-yellow-50 rounded-lg">
-              <div className="text-sm font-semibold text-yellow-600">
-                {bills.filter(b => b.status === 'COMPLETED').length}
-              </div>
-              <div className="text-xs text-yellow-600">Ready</div>
+            Active
+          </div>
+          <div className="rounded-2xl border border-amber-400/20 bg-amber-500/10 px-3 py-2">
+            <div className="text-sm font-semibold text-amber-200">
+              {bills.filter((b) => b.status === "COMPLETED").length}
             </div>
-            <div className="p-2 bg-green-50 rounded-lg">
-              <div className="text-sm font-semibold text-green-600">
-                {settledBills}
-              </div>
-              <div className="text-xs text-green-600">Settled</div>
+            Ready
+          </div>
+          <div className="rounded-2xl border border-emerald-400/20 bg-emerald-500/10 px-3 py-2">
+            <div className="text-sm font-semibold text-emerald-200">
+              {settledBills}
             </div>
+            Settled
           </div>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

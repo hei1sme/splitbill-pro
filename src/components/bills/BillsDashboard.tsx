@@ -1,9 +1,8 @@
 "use client";
 
 import { MetricCard } from "./MetricCard";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingUp, Calendar, Users, DollarSign } from "lucide-react";
+import { TrendingUp, Calendar } from "lucide-react";
 
 interface BillsDashboardProps {
   bills: Array<{
@@ -96,119 +95,115 @@ export function BillsDashboard({ bills }: BillsDashboardProps) {
       </div>
 
       {/* Status Overview & Recent Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Status Breakdown */}
-        <Card className="lg:col-span-1">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <TrendingUp className="h-5 w-5" />
-              Status Overview
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Draft</span>
-              <div className="flex items-center gap-2">
-                <div className="w-12 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-gray-500 transition-all"
-                    style={{ width: `${totalBills > 0 ? (bills.filter(b => b.status === 'DRAFT').length / totalBills) * 100 : 0}%` }}
-                  />
-                </div>
-                <Badge variant="secondary" className="text-xs">
-                  {bills.filter(b => b.status === 'DRAFT').length}
-                </Badge>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Active</span>
-              <div className="flex items-center gap-2">
-                <div className="w-12 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-orange-500 transition-all"
-                    style={{ width: `${totalBills > 0 ? (activeBills / totalBills) * 100 : 0}%` }}
-                  />
-                </div>
-                <Badge variant="default" className="bg-orange-500 text-xs">
-                  {activeBills}
-                </Badge>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Completed</span>
-              <div className="flex items-center gap-2">
-                <div className="w-12 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-blue-500 transition-all"
-                    style={{ width: `${totalBills > 0 ? (completedBills / totalBills) * 100 : 0}%` }}
-                  />
-                </div>
-                <Badge variant="default" className="bg-blue-500 text-xs">
-                  {completedBills}
-                </Badge>
-              </div>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-gray-600">Settled</span>
-              <div className="flex items-center gap-2">
-                <div className="w-12 h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-green-500 transition-all"
-                    style={{ width: `${totalBills > 0 ? (settledBills / totalBills) * 100 : 0}%` }}
-                  />
-                </div>
-                <Badge variant="default" className="bg-green-500 text-xs">
-                  {settledBills}
-                </Badge>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Recent Activity */}
-        <Card className="lg:col-span-2">
-          <CardHeader>
-            <CardTitle className="text-lg flex items-center gap-2">
-              <Calendar className="h-5 w-5" />
-              Recent Bills
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {recentBills.length > 0 ? (
-              <div className="space-y-3">
-                {recentBills.map((bill) => (
-                  <div key={bill.id} className="flex items-center justify-between p-3 bg-gray-100 dark:bg-gray-800 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
-                    <div className="flex items-center gap-3">
-                      <div className={`w-3 h-3 rounded-full ${
-                        bill.status === 'DRAFT' ? 'bg-gray-500' :
-                        bill.status === 'ACTIVE' ? 'bg-orange-500' :
-                        bill.status === 'COMPLETED' ? 'bg-blue-500' : 'bg-green-500'
-                      }`} />
-                      <div>
-                        <p className="font-medium text-sm">{(bill as any).title || 'Untitled Bill'}</p>
-                        <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {new Date(bill.createdAt).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-                    <Badge 
-                      variant="outline" 
-                      className={`text-xs ${
-                        bill.status === 'DRAFT' ? 'border-gray-500 text-gray-600' :
-                        bill.status === 'ACTIVE' ? 'border-orange-500 text-orange-600' :
-                        bill.status === 'COMPLETED' ? 'border-blue-500 text-blue-600' : 'border-green-500 text-green-600'
-                      }`}
-                    >
-                      {bill.status}
-                    </Badge>
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 text-slate-200 shadow-[0_25px_70px_-55px_rgba(79,70,229,0.85)] backdrop-blur-2xl">
+          <div className="flex items-center justify-between pb-4">
+            <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.35em] text-slate-300/80">
+              <TrendingUp className="h-4 w-4" />
+              Status overview
+            </h3>
+            <Badge className="rounded-full border border-white/15 bg-white/10 text-[10px] uppercase tracking-[0.28em] text-slate-200">
+              {totalBills} total
+            </Badge>
+          </div>
+          <div className="space-y-4 text-sm text-slate-200">
+            {[
+              {
+                label: "Draft",
+                value: bills.filter((b) => b.status === "DRAFT").length,
+                gradient: "from-slate-400 to-slate-500",
+              },
+              {
+                label: "Active",
+                value: activeBills,
+                gradient: "from-orange-400 to-orange-500",
+              },
+              {
+                label: "Completed",
+                value: completedBills,
+                gradient: "from-blue-400 to-indigo-500",
+              },
+              {
+                label: "Settled",
+                value: settledBills,
+                gradient: "from-emerald-400 to-teal-500",
+              },
+            ].map((item) => (
+              <div key={item.label} className="flex items-center justify-between gap-4">
+                <span className="text-xs uppercase tracking-[0.35em] text-slate-400">
+                  {item.label}
+                </span>
+                <div className="flex items-center gap-3">
+                  <div className="h-2 w-20 overflow-hidden rounded-full bg-white/10">
+                    <div
+                      className={`h-full rounded-full bg-gradient-to-r ${item.gradient}`}
+                      style={{
+                        width: `${
+                          totalBills > 0 ? (item.value / totalBills) * 100 : 0
+                        }%`,
+                      }}
+                    />
                   </div>
-                ))}
+                  <Badge className="rounded-full border border-white/20 bg-white/10 text-[10px] uppercase tracking-[0.28em] text-slate-200">
+                    {item.value}
+                  </Badge>
+                </div>
               </div>
-            ) : (
+            ))}
+          </div>
+        </div>
+
+        <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-white/[0.05] p-6 text-slate-200 shadow-[0_25px_70px_-55px_rgba(79,70,229,0.85)] backdrop-blur-2xl">
+          <div className="flex items-center justify-between pb-4">
+            <h3 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.35em] text-slate-300/80">
+              <Calendar className="h-4 w-4" />
+              Recent bills
+            </h3>
+            <Badge className="rounded-full border border-white/15 bg-white/10 text-[10px] uppercase tracking-[0.28em] text-slate-200">
+              {recentBills.length} shown
+            </Badge>
+          </div>
+          {recentBills.length > 0 ? (
+            <div className="space-y-3">
+              {recentBills.map((bill) => (
+                <div
+                  key={bill.id}
+                  className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm transition hover:border-white/20 hover:bg-white/10"
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`h-3 w-3 rounded-full ${
+                        bill.status === "DRAFT"
+                          ? "bg-slate-400"
+                          : bill.status === "ACTIVE"
+                          ? "bg-orange-400"
+                          : bill.status === "COMPLETED"
+                          ? "bg-blue-400"
+                          : "bg-emerald-400"
+                      }`}
+                    />
+                    <div>
+                      <p className="font-medium text-white">
+                        {(bill as any).title || "Untitled Bill"}
+                      </p>
+                      <p className="text-xs text-slate-300/70">
+                        {new Date(bill.createdAt).toLocaleDateString()}
+                      </p>
+                    </div>
+                  </div>
+                  <Badge
+                    variant="outline"
+                    className="rounded-full border border-white/15 bg-white/10 text-[10px] uppercase tracking-[0.28em] text-slate-200"
+                  >
+                    {bill.status}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          ) : (
               <p className="text-gray-500 dark:text-gray-400 text-center py-4">No bills yet</p>
-            )}
-          </CardContent>
-        </Card>
+          )}
+        </div>
       </div>
     </div>
   );

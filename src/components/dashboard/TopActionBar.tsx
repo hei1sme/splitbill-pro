@@ -1,9 +1,8 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Users, Clock, Activity, Eye } from "lucide-react";
+import { Plus, Users, Clock, Activity } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 interface TopActionBarProps {
@@ -39,46 +38,41 @@ export function TopActionBar({ totalBills, activeBills, activeGroups }: TopActio
   ];
 
   return (
-    <Card className="mb-6">
-      <CardContent className="p-4">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          {/* Primary Action */}
-          <div className="flex items-center gap-3">
-            <Button
-              onClick={() => router.push('/bills?action=add')}
-              className="bg-blue-600 hover:bg-blue-700 text-white font-medium px-6"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              Add New Bill
-            </Button>
-            
-            <div className="hidden sm:block text-sm text-muted-foreground">
-              Quick access to create and manage your bills
-            </div>
-          </div>
-
-          {/* Quick Shortcuts */}
-          <div className="flex flex-wrap items-center gap-2">
-            {quickShortcuts.map((shortcut) => (
-              <Button
-                key={shortcut.label}
-                variant={shortcut.variant}
-                size="sm"
-                onClick={() => router.push(shortcut.href)}
-                className="flex items-center gap-2"
-              >
-                {shortcut.icon}
-                <span className="hidden sm:inline">{shortcut.label}</span>
-                {shortcut.count !== undefined && (
-                  <Badge variant="secondary" className="ml-1 text-xs">
-                    {shortcut.count}
-                  </Badge>
-                )}
-              </Button>
-            ))}
-          </div>
+    <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 shadow-[0_25px_70px_-50px_rgba(79,70,229,0.9)] backdrop-blur-2xl">
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+        <div className="flex flex-col gap-3">
+          <Button
+            onClick={() => router.push("/bills?action=add")}
+            className="group w-fit rounded-full border border-white/20 bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 px-6 py-3 text-sm font-semibold text-white shadow-[0_20px_50px_-30px_rgba(79,70,229,0.9)] transition hover:shadow-[0_30px_60px_-35px_rgba(79,70,229,0.95)]"
+          >
+            <Plus className="mr-2 h-4 w-4 transition group-hover:rotate-12" />
+            Add new bill
+          </Button>
+          <p className="text-xs uppercase tracking-[0.35em] text-slate-400">
+            Quick shortcuts
+          </p>
         </div>
-      </CardContent>
-    </Card>
+
+        <div className="flex flex-wrap items-center gap-3">
+          {quickShortcuts.map((shortcut) => (
+            <Button
+              key={shortcut.label}
+              variant={shortcut.variant}
+              size="sm"
+              onClick={() => router.push(shortcut.href)}
+              className="flex items-center gap-2 rounded-full border-white/20 bg-white/10 text-xs text-white hover:border-white/30 hover:bg-white/15"
+            >
+              {shortcut.icon}
+              <span>{shortcut.label}</span>
+              {shortcut.count !== undefined && (
+                <Badge className="rounded-full border border-white/20 bg-white/10 text-[10px] uppercase tracking-[0.28em] text-slate-200">
+                  {shortcut.count}
+                </Badge>
+              )}
+            </Button>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }

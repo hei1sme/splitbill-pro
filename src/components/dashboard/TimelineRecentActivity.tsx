@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Activity, ExternalLink, Eye } from "lucide-react";
@@ -82,113 +81,107 @@ export function TimelineRecentActivity({ bills, maxItems = 3 }: TimelineRecentAc
 
   if (recentBills.length === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            🕒 Recent Activity
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-8">
-            <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
-            <p className="text-muted-foreground mb-4">No recent activity</p>
-            <Button
-              variant="outline"
-              onClick={() => router.push('/bills?action=add')}
-            >
-              Create First Bill
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 text-center text-slate-300/80 shadow-[0_25px_70px_-55px_rgba(79,70,229,0.85)] backdrop-blur-2xl">
+        <Activity className="mx-auto mb-4 h-10 w-10 opacity-60" />
+        <p>No recent activity. Create a bill to kick things off.</p>
+        <Button
+          variant="outline"
+          onClick={() => router.push("/bills?action=add")}
+          className="mt-4 rounded-full border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/15"
+        >
+          Create first bill
+        </Button>
+      </div>
     );
   }
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="flex items-center gap-2">
-          🕒 Recent Activity
-        </CardTitle>
+    <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 text-slate-200 shadow-[0_25px_70px_-55px_rgba(79,70,229,0.85)] backdrop-blur-2xl">
+      <div className="flex items-center justify-between pb-4">
+        <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.35em] text-slate-300/80">
+          <Activity className="h-4 w-4" />
+          Recent activity
+        </h2>
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => router.push('/bills')}
-          className="text-xs"
+          onClick={() => router.push("/bills")}
+          className="rounded-full text-xs text-slate-300 hover:text-white"
         >
-          View All
-          <ExternalLink className="h-3 w-3 ml-1" />
+          View all
+          <ExternalLink className="ml-1 h-3 w-3" />
         </Button>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-4">
-          {recentBills.map((bill, index) => (
-            <div key={bill.id} className="relative">
-              {/* Timeline Line */}
-              {index < recentBills.length - 1 && (
-                <div className="absolute left-6 top-12 w-0.5 h-8 bg-border" />
-              )}
-              
-              {/* Timeline Content */}
-              <div className="flex items-start gap-4 p-3 rounded-lg border hover:bg-accent/30 transition-colors">
-                {/* Timeline Dot */}
-                <div className={`w-3 h-3 rounded-full flex-shrink-0 mt-2 ${
-                  bill.status === 'SETTLED' ? 'bg-green-500' :
-                  bill.status === 'COMPLETED' ? 'bg-orange-500' :
-                  bill.status === 'ACTIVE' ? 'bg-blue-500' : 'bg-gray-400'
-                }`} />
-                
-                {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2 mb-2">
-                    <div className="flex-1 min-w-0">
-                      <h4 className="font-medium truncate">🧾 {bill.title}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        👥 {bill.group?.name || "No Group"}
-                      </p>
+      </div>
+      <div className="space-y-4">
+        {recentBills.map((bill, index) => (
+          <div key={bill.id} className="relative pl-8">
+            {index < recentBills.length - 1 && (
+              <div className="absolute left-[1.1rem] top-6 h-12 w-px bg-white/15" />
+            )}
+
+            <div className="flex items-start gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-white/20 hover:bg-white/10">
+              <div
+                className={`mt-1 h-3 w-3 flex-shrink-0 rounded-full ${
+                  bill.status === "SETTLED"
+                    ? "bg-emerald-400 shadow-[0_0_0_4px_rgba(16,185,129,0.2)]"
+                    : bill.status === "COMPLETED"
+                    ? "bg-amber-400 shadow-[0_0_0_4px_rgba(251,191,36,0.2)]"
+                    : bill.status === "ACTIVE"
+                    ? "bg-indigo-400 shadow-[0_0_0_4px_rgba(99,102,241,0.25)]"
+                    : "bg-slate-500 shadow-[0_0_0_4px_rgba(148,163,184,0.2)]"
+                }`}
+              />
+
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <h4 className="truncate text-sm font-semibold text-white">
+                      🧾 {bill.title}
+                    </h4>
+                    <p className="text-xs text-slate-300/70">
+                      👥 {bill.group?.name || "No Group"}
+                    </p>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-sm font-semibold text-white">
+                      {formatCurrency(calculateBillTotal(bill))}
                     </div>
-                    <div className="text-right flex-shrink-0">
-                      <div className="font-semibold text-sm">
-                        {formatCurrency(calculateBillTotal(bill))}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        {getTimeAgo(bill.updatedAt)}
-                      </div>
+                    <div className="text-[0.7rem] uppercase tracking-[0.28em] text-slate-400">
+                      {getTimeAgo(bill.updatedAt)}
                     </div>
                   </div>
-                  
-                  <div className="flex items-center justify-between gap-2">
-                    {getStatusBadge(bill.status)}
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => router.push(`/bills/${bill.id}`)}
-                      className="h-7 px-2 text-xs"
-                    >
-                      <Eye className="h-3 w-3 mr-1" />
-                      View
-                    </Button>
-                  </div>
+                </div>
+
+                <div className="mt-3 flex items-center justify-between gap-3">
+                  {getStatusBadge(bill.status)}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => router.push(`/bills/${bill.id}`)}
+                    className="rounded-full text-xs text-slate-300 hover:text-white"
+                  >
+                    <Eye className="mr-2 h-3 w-3" />
+                    View
+                  </Button>
                 </div>
               </div>
             </div>
-          ))}
-        </div>
-
-        {/* Show More Button */}
-        {bills.length > maxItems && (
-          <div className="mt-4 pt-4 border-t text-center">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => router.push('/bills')}
-              className="w-full"
-            >
-              View {bills.length - maxItems} more activities
-            </Button>
           </div>
-        )}
-      </CardContent>
-    </Card>
+        ))}
+      </div>
+
+      {bills.length > maxItems && (
+        <div className="mt-6 text-center">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => router.push("/bills")}
+            className="rounded-full border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/15"
+          >
+            View {bills.length - maxItems} more activities
+          </Button>
+        </div>
+      )}
+    </div>
   );
 }

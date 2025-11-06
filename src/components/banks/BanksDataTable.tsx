@@ -35,7 +35,7 @@ import { z } from "zod";
 import { toast } from "sonner";
 import Image from "next/image";
 import { Banknote, Building, Pencil, Trash2 } from "lucide-react";
-import { HydrationSafe, SearchContainer } from "@/components/ui/hydration-safe";
+import { HydrationSafe } from "@/components/ui/hydration-safe";
 import { ClientOnly } from "@/components/ui/client-only";
 
 type BankWithCount = Bank & {
@@ -275,90 +275,127 @@ export function BanksDataTable({ data, refreshData }: { data: BankWithCount[], r
   });
 
   return (
-    <HydrationSafe className="w-full">
-      <SearchContainer className="flex items-center justify-between py-4">
-        <ClientOnly fallback={<div className="h-10 w-64 bg-muted animate-pulse rounded-md"></div>}>
+    <HydrationSafe className="space-y-6">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <ClientOnly fallback={<div className="h-11 w-64 rounded-2xl border border-white/10 bg-white/10" />}>
           <Input
-            placeholder="🔍 Search banks by name or code..."
+            placeholder="Search banks by name or code..."
             value={globalFilter ?? ""}
             onChange={(event) => setGlobalFilter(event.target.value)}
-            className="max-w-sm"
+            className="w-full max-w-sm rounded-2xl border border-white/20 bg-white/10 text-sm text-white placeholder:text-slate-400 focus:border-white/40 focus-visible:ring-0"
           />
         </ClientOnly>
-        <Dialog open={isFormOpen} onOpenChange={(open) => {
-          setIsFormOpen(open);
-          if (!open) setSelectedBank(null);
-        }}>
+        <Dialog
+          open={isFormOpen}
+          onOpenChange={(open) => {
+            setIsFormOpen(open);
+            if (!open) setSelectedBank(null);
+          }}
+        >
           <DialogTrigger asChild>
-            <Button>Add Bank</Button>
+            <Button
+              className="rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white transition hover:border-white/35 hover:bg-white/15"
+              data-bank-action="open"
+            >
+              Add bank
+            </Button>
           </DialogTrigger>
-          <DialogContent>
+          <DialogContent className="max-w-lg border-white/10 bg-slate-950/90 backdrop-blur-xl">
             <DialogHeader>
-              <DialogTitle>{selectedBank ? "Edit Bank" : "Add New Bank"}</DialogTitle>
+              <DialogTitle>
+                {selectedBank ? "Edit Bank" : "Add New Bank"}
+              </DialogTitle>
             </DialogHeader>
-            <BankForm onSubmit={handleFormSubmit} isPending={isSubmitting} defaultValues={selectedBank || undefined} />
+            <BankForm
+              onSubmit={handleFormSubmit}
+              isPending={isSubmitting}
+              defaultValues={selectedBank || undefined}
+            />
           </DialogContent>
         </Dialog>
-      </SearchContainer>
-      <ClientOnly fallback={<div className="h-64 bg-muted animate-pulse rounded-md"></div>}>
-        <HydrationSafe className="rounded-md border glass-card">
+      </div>
+
+      <ClientOnly fallback={<div className="h-64 rounded-3xl border border-white/10 bg-white/10" />}>
+        <HydrationSafe className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
           <Table>
-            <TableHeader>
+            <TableHeader className="bg-white/5 text-xs uppercase tracking-[0.35em] text-slate-300/80">
               {table.getHeaderGroups().map((headerGroup) => (
                 <TableRow key={headerGroup.id} suppressHydrationWarning>
-                  {headerGroup.headers.map((header) => {
-                    return (
-                      <TableHead key={header.id} suppressHydrationWarning>
+                  {headerGroup.headers.map((header) => (
+                    <TableHead key={header.id} className="py-4" suppressHydrationWarning>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
                     </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody suppressHydrationWarning>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                  suppressHydrationWarning
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id} suppressHydrationWarning>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
                   ))}
                 </TableRow>
-              ))
-            ) : (
-              <TableRow suppressHydrationWarning>
-                <TableCell colSpan={columns.length} className="h-24 text-center" suppressHydrationWarning>
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </HydrationSafe>
+              ))}
+            </TableHeader>
+            <TableBody suppressHydrationWarning>
+              {table.getRowModel().rows?.length ? (
+                table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                    className="transition hover:bg-white/10"
+                    suppressHydrationWarning
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        key={cell.id}
+                        className="py-5 text-sm text-slate-200"
+                        suppressHydrationWarning
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              ) : (
+                <TableRow suppressHydrationWarning>
+                  <TableCell
+                    colSpan={columns.length}
+                    className="h-24 text-center text-slate-300/70"
+                    suppressHydrationWarning
+                  >
+                    No results.
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </HydrationSafe>
       </ClientOnly>
+
       <Dialog open={isDeleteConfirmOpen} onOpenChange={setIsDeleteConfirmOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-sm border-white/10 bg-slate-950/90 backdrop-blur-xl">
           <DialogHeader>
-            <DialogTitle>Are you sure?</DialogTitle>
+            <DialogTitle>Remove bank</DialogTitle>
           </DialogHeader>
-          <p>
-            This action cannot be undone. This will permanently delete the bank
-            "{selectedBank?.name}".
+          <p className="text-sm text-slate-300/80">
+            This action cannot be undone. Bank "{selectedBank?.name}" and its
+            mapped profiles will lose quick access to QR data.
           </p>
-          <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => setIsDeleteConfirmOpen(false)}>Cancel</Button>
-            <Button variant="destructive" onClick={handleDeleteConfirm} disabled={isSubmitting}>
+          <div className="flex justify-end gap-2 pt-4">
+            <Button
+              variant="outline"
+              onClick={() => setIsDeleteConfirmOpen(false)}
+              className="rounded-full border border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/15"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              onClick={handleDeleteConfirm}
+              disabled={isSubmitting}
+              className="rounded-full bg-gradient-to-r from-rose-500 via-red-500 to-amber-500 text-white hover:brightness-110"
+            >
               {isSubmitting ? "Deleting..." : "Delete"}
             </Button>
           </div>

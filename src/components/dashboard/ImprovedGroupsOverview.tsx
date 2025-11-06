@@ -1,6 +1,5 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Users, ExternalLink } from "lucide-react";
@@ -44,115 +43,118 @@ export function ImprovedGroupsOverview({ groups }: ImprovedGroupsOverviewProps) 
 
   if (groups.length === 0) {
     return (
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            👥 Groups Overview
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="text-center py-8">
-            <Users className="h-12 w-12 text-muted-foreground mx-auto mb-3" />
-            <p className="text-muted-foreground mb-4">No groups yet</p>
-            <Button
-              variant="outline"
-              onClick={() => router.push('/groups/new')}
-            >
-              Create First Group
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 text-slate-200 shadow-[0_25px_70px_-55px_rgba(79,70,229,0.85)] backdrop-blur-2xl">
+        <div className="flex items-center justify-between">
+          <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.35em] text-slate-300/80">
+            <Users className="h-4 w-4" />
+            Groups overview
+          </h2>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => router.push("/groups")}
+            className="rounded-full border-white/20 bg-white/10 text-xs text-white hover:border-white/35 hover:bg-white/15"
+          >
+            Browse
+          </Button>
+        </div>
+        <div className="py-10 text-center text-sm text-slate-300/80">
+          <Users className="mx-auto mb-4 h-10 w-10 opacity-50" />
+          <p>No groups yet. Create your first cohort to fast-track new bills.</p>
+          <Button
+            variant="outline"
+            onClick={() => router.push("/groups")}
+            className="mt-4 rounded-full border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/15"
+          >
+            Create first group
+          </Button>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between">
-        <CardTitle className="flex items-center gap-2">
-          👥 Groups Overview
-        </CardTitle>
+    <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-6 text-slate-200 shadow-[0_25px_70px_-55px_rgba(79,70,229,0.85)] backdrop-blur-2xl">
+      <div className="flex items-center justify-between pb-4">
+        <h2 className="flex items-center gap-2 text-sm font-semibold uppercase tracking-[0.35em] text-slate-300/80">
+          <Users className="h-4 w-4" />
+          Groups overview
+        </h2>
         <Button
           variant="ghost"
           size="sm"
-          onClick={() => router.push('/groups')}
-          className="text-xs"
+          onClick={() => router.push("/groups")}
+          className="rounded-full text-xs text-slate-300 hover:text-white"
         >
-          View All
-          <ExternalLink className="h-3 w-3 ml-1" />
+          View all
+          <ExternalLink className="ml-1 h-3 w-3" />
         </Button>
-      </CardHeader>
-      <CardContent>
-        <div className="space-y-3">
-          {groups.slice(0, 5).map((group) => {
-            const pendingBills = getPendingBillsCount(group);
-            const colorClass = getGroupColor(group.name);
-            
-            return (
+      </div>
+      <div className="space-y-3">
+        {groups.slice(0, 5).map((group) => {
+          const pendingBills = getPendingBillsCount(group);
+          const colorClass = getGroupColor(group.name);
+
+          return (
+            <div
+              key={group.id}
+              className="flex cursor-pointer items-center gap-3 rounded-2xl border border-white/10 bg-white/5 p-4 transition hover:border-white/20 hover:bg-white/10"
+              onClick={() => router.push(`/groups/${group.id}`)}
+            >
               <div
-                key={group.id}
-                className="flex items-center gap-3 p-3 rounded-lg border hover:bg-accent/50 transition-colors cursor-pointer"
-                onClick={() => router.push(`/groups/${group.id}`)}
+                className={`flex h-10 w-10 items-center justify-center rounded-full text-sm font-semibold ${colorClass}`}
               >
-                {/* Group Avatar */}
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-semibold ${colorClass}`}>
-                  {getGroupInitials(group.name)}
+                {getGroupInitials(group.name)}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="truncate text-sm font-medium text-white">
+                  {group.name}
                 </div>
-
-                {/* Group Info */}
-                <div className="flex-1 min-w-0">
-                  <div className="font-medium truncate">{group.name}</div>
-                  <div className="text-xs text-muted-foreground flex items-center gap-2">
-                    <span>{group._count.members} members</span>
-                    <span>•</span>
-                    <span>{group._count.bills} bills</span>
-                  </div>
-                </div>
-
-                {/* Badges */}
-                <div className="flex items-center gap-2">
-                  {pendingBills > 0 && (
-                    <Badge variant="secondary" className="text-xs">
-                      {pendingBills} pending
-                    </Badge>
-                  )}
-                  {group._count.bills === 0 && (
-                    <Badge variant="outline" className="text-xs text-muted-foreground">
-                      No bills
-                    </Badge>
-                  )}
+                <div className="text-xs text-slate-300/80">
+                  {group._count.members} members • {group._count.bills} bills
                 </div>
               </div>
-            );
-          })}
-
-          {groups.length > 5 && (
-            <div className="text-center pt-2">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => router.push('/groups')}
-                className="text-xs"
-              >
-                View {groups.length - 5} more groups
-              </Button>
+              <div className="flex items-center gap-2">
+                {pendingBills > 0 && (
+                  <Badge className="rounded-full bg-white/10 text-[10px] uppercase tracking-[0.28em] text-amber-300">
+                    {pendingBills} pending
+                  </Badge>
+                )}
+                {group._count.bills === 0 && (
+                  <Badge variant="outline" className="rounded-full text-[10px] uppercase tracking-[0.28em] text-slate-400">
+                    No bills
+                  </Badge>
+                )}
+              </div>
             </div>
-          )}
-        </div>
+          );
+        })}
 
-        {/* Quick Create Button */}
-        <div className="mt-4 pt-4 border-t">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => router.push('/groups/new')}
-            className="w-full"
-          >
-            <Users className="h-4 w-4 mr-2" />
-            Create New Group
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
+        {groups.length > 5 && (
+          <div className="text-center pt-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => router.push("/groups")}
+              className="rounded-full text-xs text-slate-300 hover:text-white"
+            >
+              View {groups.length - 5} more groups
+            </Button>
+          </div>
+        )}
+      </div>
+
+      <div className="mt-6 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-slate-300/80">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => router.push("/groups")}
+          className="w-full rounded-full border-white/20 bg-white/10 text-white hover:border-white/35 hover:bg-white/15"
+        >
+          <Users className="mr-2 h-4 w-4" />
+          Create new group
+        </Button>
+      </div>
+    </div>
   );
 }

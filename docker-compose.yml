@@ -45,6 +45,8 @@ services:
       - app
     networks:
       - splitbill-net
+    profiles:
+      - with-caddy
 
 volumes:
   db_data:

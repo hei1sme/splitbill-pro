@@ -110,6 +110,28 @@ export default function BillDetails({ bill }: { bill: any }) {
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const [isChangingStatus, setIsChangingStatus] = useState(false);
 
+  const displayDescription = useMemo(() => {
+    if (!bill?.description) return null;
+    const trimmed = bill.description.trim();
+    if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
+      return null;
+    }
+    return trimmed;
+  }, [bill?.description]);
+
+  const fallbackDescription = useMemo(() => {
+    if (displayDescription) return null;
+    const participantCount = participants.length;
+    const itemCount = items.filter(item => item.type === "NORMAL").length;
+    if (participantCount === 0 && itemCount === 0) return null;
+
+    const participantLabel = `${participantCount} participant${participantCount === 1 ? "" : "s"}`;
+    const itemLabel = `${itemCount} shared item${itemCount === 1 ? "" : "s"}`;
+    return `${participantLabel} • ${itemLabel}`;
+  }, [displayDescription, participants, items]);
+
+  const tableColumnSpan = useMemo(() => 3 + participants.length + 1, [participants.length]);
+
   // Load groups and people for edit form
   useEffect(() => {
     const fetchGroupsAndPeople = async () => {
@@ -702,7 +724,7 @@ export default function BillDetails({ bill }: { bill: any }) {
   ];
 
   const getParticipantColor = (index: number, isPayer: boolean = false) => {
-    if (isPayer) return 'bg-gradient-to-r from-purple-700 to-indigo-700 text-white border-purple-500';
+    if (isPayer) return 'bg-purple-600 text-purple-100 border-purple-400';
     return participantColors[index % participantColors.length];
   };
 
@@ -790,6 +812,46 @@ export default function BillDetails({ bill }: { bill: any }) {
       };
     });
   }, [participants, items]);
+
+  const summaryHighlights = useMemo(() => {
+    const normalItemCount = items.filter(item => item.type === "NORMAL").length;
+    const settledAmount = participantTotals.reduce(
+      (sum, entry) => sum + (entry.paidAmount || 0),
+      0
+    );
+    const outstandingAmount = participantTotals.reduce(
+      (sum, entry) => sum + Math.max(entry.outstanding || 0, 0),
+      0
+    );
+    const fullySettled = participantTotals.filter(
+      entry => entry.total > 0 && entry.outstanding <= 0
+    ).length;
+    const settlementProgress = grandTotal > 0
+      ? Math.min(
+          100,
+          Math.max(
+            0,
+            Math.round(((grandTotal - outstandingAmount) / grandTotal) * 100)
+          )
+        )
+      : 0;
+
+    return {
+      normalItemCount,
+      settledAmount,
+      outstandingAmount,
+      fullySettled,
+      settlementProgress,
+    };
+  }, [items, participantTotals, grandTotal]);
+
+  const {
+    normalItemCount,
+    settledAmount,
+    outstandingAmount,
+    fullySettled,
+    settlementProgress,
+  } = summaryHighlights;
 
   // Validation
   useEffect(() => {
@@ -1457,89 +1519,170 @@ export default function BillDetails({ bill }: { bill: any }) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Header with Actions */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <Button 
-              variant="ghost"
-              size="sm"
-              onClick={() => window.history.back()}
-              className="text-gray-400 hover:text-white"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back
-            </Button>
-            <div>
-              <h1 className="text-3xl font-bold text-white mb-2">
-                {bill?.title || 'CHIA TIỀN MUA ĐỒ'}
+    <div className="relative min-h-screen pb-16 text-slate-100">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -top-32 right-[-25%] h-[420px] w-[420px] rounded-full bg-purple-500/30 blur-[160px]" />
+        <div className="absolute bottom-[-20%] left-[-10%] h-[360px] w-[360px] rounded-full bg-indigo-500/20 blur-[140px]" />
+      </div>
+      <div className="relative mx-auto w-full max-w-[1680px] space-y-12 pb-12 pt-12 pb-32">
+        <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.06] p-8 shadow-[0_40px_80px_-60px_rgba(59,130,246,0.65)] backdrop-blur-xl">
+          <div className="pointer-events-none absolute inset-0">
+            <div className="absolute -top-24 -right-24 h-64 w-64 rounded-full bg-purple-400/20 blur-3xl" />
+            <div className="absolute bottom-0 right-10 h-40 w-40 rounded-full bg-indigo-500/20 blur-2xl" />
+          </div>
+          <div className="relative flex flex-col gap-6">
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => window.history.back()}
+                className="group inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-slate-100 transition hover:bg-white/20"
+              >
+                <ArrowLeft className="h-4 w-4 transition-transform duration-200 group-hover:-translate-x-1" />
+                Back
+              </Button>
+              <Badge className="rounded-full border border-white/20 bg-white/10 px-4 py-1 text-xs uppercase tracking-[0.2em] text-slate-200">
+                {bill?.status || 'DRAFT'}
+              </Badge>
+            </div>
+            <div className="space-y-4">
+              <p className="text-sm uppercase tracking-[0.28em] text-slate-300/80">Split overview</p>
+              <h1 className="text-4xl font-bold leading-tight text-white sm:text-5xl">
+                <span className="bg-gradient-to-r from-purple-300 via-indigo-200 to-blue-300 bg-clip-text text-transparent">
+                  {bill?.title || 'CHIA TIỀN MUA ĐỒ'}
+                </span>
               </h1>
-              <div className="flex items-center gap-6 text-sm text-gray-400">
-                <span>📅 {new Date(bill?.date || Date.now()).toLocaleDateString('vi-VN')}</span>
-                <span>👥 Group: {bill?.group?.name || 'Manual'}</span>
-                <span>💰 Total: {formatCurrency(grandTotal)}</span>
+              {displayDescription ? (
+                <p className="max-w-2xl text-base text-slate-200/80">
+                  {displayDescription}
+                </p>
+              ) : fallbackDescription ? (
+                <p className="max-w-2xl text-sm uppercase tracking-[0.35em] text-slate-300/70">
+                  {fallbackDescription}
+                </p>
+              ) : null}
+              <div className="flex flex-wrap items-center gap-3 text-sm text-slate-200/90">
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2">
+                  <span className="text-lg">📅</span>
+                  {new Date(bill?.date || Date.now()).toLocaleDateString('vi-VN')}
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2">
+                  <Users className="h-4 w-4" />
+                  {bill?.group?.name || 'Manual group'}
+                </span>
+                <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2">
+                  <Calculator className="h-4 w-4" />
+                  {formatCurrency(grandTotal)}
+                </span>
               </div>
             </div>
           </div>
-          
-          {/* Header Actions */}
-          <div className="flex items-center gap-3">
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => setShowEditDialog(true)}
-              title="Edit bill details"
-            >
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={handleRefreshBankData}
-              title="Refresh bank logos and QR codes"
-            >
-              <RefreshCw className="h-4 w-4 mr-2" />
-              Refresh
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => setShowSettings(!showSettings)}
-            >
-              <Settings className="h-4 w-4 mr-2" />
-              Settings
-            </Button>
-            <Button 
-              variant="outline" 
-              size="sm"
-              onClick={() => setShowParticipantsModal(true)}
-            >
-              <Users className="h-4 w-4 mr-2" />
-              Participants
-            </Button>
-            <Badge 
-              variant={bill?.status === 'OPEN' ? 'default' : 'secondary'}
-              className="px-3 py-1"
-            >
-              {bill?.status || 'DRAFT'}
-            </Badge>
+        </section>
+
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <Button
+            size="lg"
+            onClick={() => setShowEditDialog(true)}
+            className="group flex h-auto justify-between rounded-2xl border border-purple-400/30 bg-gradient-to-r from-purple-500/15 via-indigo-500/15 to-purple-500/15 px-6 py-5 text-left text-base font-semibold text-white shadow-lg shadow-purple-500/10 transition hover:border-purple-400/50 hover:from-purple-500/25 hover:via-indigo-500/25 hover:to-purple-500/25 hover:shadow-purple-500/20"
+            title="Edit bill details"
+          >
+            <span className="flex items-center gap-2">
+              <Pencil className="h-5 w-5" />
+              Edit Bill
+            </span>
+          </Button>
+          <Button
+            size="lg"
+            onClick={handleRefreshBankData}
+            className="flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-6 py-5 text-left text-base font-semibold text-slate-100 transition hover:border-white/20 hover:bg-white/10"
+            title="Refresh bank logos and QR codes"
+          >
+            <span className="flex items-center gap-2">
+              <RefreshCw className="h-5 w-5" />
+              Refresh Data
+            </span>
+          </Button>
+          <Button
+            size="lg"
+            onClick={() => setShowSettings(!showSettings)}
+            className="flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-6 py-5 text-left text-base font-semibold text-slate-100 transition hover:border-white/20 hover:bg-white/10"
+          >
+            <span className="flex items-center gap-2">
+              <Settings className="h-5 w-5" />
+              {showSettings ? 'Hide settings' : 'Bill settings'}
+            </span>
+          </Button>
+          <Button
+            size="lg"
+            onClick={() => setShowParticipantsModal(true)}
+            className="flex h-auto items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-6 py-5 text-left text-base font-semibold text-slate-100 transition hover:border-white/20 hover:bg-white/10"
+          >
+            <span className="flex items-center gap-2">
+              <Users className="h-5 w-5" />
+              Manage participants
+            </span>
+            <span className="text-sm font-normal text-slate-300/80">{participants.length}</span>
+          </Button>
+        </div>
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-lg backdrop-blur">
+            <p className="text-sm text-slate-300/80">Total to settle</p>
+            <p className="mt-2 text-2xl font-semibold text-white">{formatCurrency(grandTotal)}</p>
+            <p className="mt-2 text-xs text-slate-400">Across {normalItemCount} shared item{normalItemCount === 1 ? '' : 's'}</p>
+          </div>
+          <div className="rounded-2xl border border-emerald-400/20 bg-emerald-400/5 p-5 shadow-lg backdrop-blur">
+            <p className="text-sm text-emerald-200">Settled amount</p>
+            <p className="mt-2 text-2xl font-semibold text-white">{formatCurrency(settledAmount)}</p>
+            <div className="mt-3">
+              <div className="h-2 w-full overflow-hidden rounded-full bg-white/10">
+                <div
+                  className="h-full rounded-full bg-gradient-to-r from-emerald-300 via-emerald-400 to-emerald-500"
+                  style={{ width: `${settlementProgress}%` }}
+                />
+              </div>
+              <p className="mt-2 text-xs text-emerald-200/80">{settlementProgress}% complete</p>
+            </div>
+          </div>
+          <div className="rounded-2xl border border-pink-400/20 bg-pink-400/5 p-5 shadow-lg backdrop-blur">
+            <p className="text-sm text-pink-200">Outstanding balance</p>
+            <p className="mt-2 text-2xl font-semibold text-white">
+              {formatCurrency(outstandingAmount)}
+            </p>
+            <p className="mt-2 text-xs text-pink-200/80">
+              {fullySettled} of {participants.length} participants fully settled
+            </p>
+          </div>
+          <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5 shadow-lg backdrop-blur">
+            <p className="text-sm text-slate-300/80">Active participants</p>
+            <p className="mt-2 flex items-baseline gap-2 text-2xl font-semibold text-white">
+              {participants.length}
+              <span className="text-xs font-normal uppercase tracking-[0.3em] text-slate-400">people</span>
+            </p>
+            <p className="mt-2 text-xs text-slate-400">
+              Default currency - {billSettings.currency}
+            </p>
           </div>
         </div>
 
         {/* Validation Warnings */}
         {validationErrors.length > 0 && (
-          <div className="bg-yellow-900/50 border border-yellow-600 rounded-lg p-4">
-            <div className="flex items-start gap-3">
-              <AlertTriangle className="h-5 w-5 text-yellow-400 mt-0.5" />
-              <div>
-                <h3 className="font-medium text-yellow-200">Validation Warnings</h3>
-                <ul className="mt-2 text-sm text-yellow-300 space-y-1">
-                  {validationErrors.map((error, index) => (
-                    <li key={index}>• {error}</li>
-                  ))}
-                </ul>
+          <div className="rounded-2xl border border-yellow-300/40 bg-yellow-500/10 p-5 shadow-lg shadow-yellow-900/20">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+              <div className="flex items-start gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-yellow-400/20 text-yellow-100">
+                  <AlertTriangle className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-yellow-50">Heads up before sharing</h3>
+                  <ul className="mt-3 space-y-2 text-sm text-yellow-50/80">
+                    {validationErrors.map((error, index) => (
+                      <li key={index} className="flex items-start gap-2">
+                        <span className="mt-0.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-yellow-300" />
+                        <span>{error}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
@@ -1547,9 +1690,9 @@ export default function BillDetails({ bill }: { bill: any }) {
 
         {/* Per-Bill Settings Panel */}
         {showSettings && (
-          <Card className="border-blue-600 bg-gray-800">
-            <CardHeader>
-              <CardTitle className="text-lg flex items-center gap-2 text-white">
+          <Card className="rounded-3xl border border-white/10 bg-white/[0.05] shadow-[0_24px_70px_-50px_rgba(79,70,229,0.8)] backdrop-blur-xl">
+            <CardHeader className="flex flex-col gap-3 border-b border-white/10 pb-4">
+              <CardTitle className="text-lg font-semibold text-slate-100 flex items-center gap-2">
                 <Settings className="h-5 w-5" />
                 Bill Settings
               </CardTitle>
@@ -1558,18 +1701,18 @@ export default function BillDetails({ bill }: { bill: any }) {
               {/* Basic Settings */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Split Configuration - Basic */}
-                <div className="space-y-4">
-                  <h4 className="font-medium text-white">Split Configuration</h4>
+                <div className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm">
+                  <h4 className="text-base font-semibold text-slate-100">Split Configuration</h4>
                   <div className="space-y-3">
                     <div>
-                      <label className="text-sm font-medium text-gray-300">Default Split Method</label>
+                      <label className="text-sm font-medium text-slate-200">Default Split Method</label>
                       <Select 
                         value={billSettings.defaultSplitMethod}
                         onValueChange={(value: "EQUAL" | "PERCENT") => 
                           setBillSettings(prev => ({ ...prev, defaultSplitMethod: value }))
                         }
                       >
-                        <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                        <SelectTrigger className="bg-white/5 border-white/10 text-slate-100 transition focus:border-purple-300 focus:ring-0">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -1579,14 +1722,14 @@ export default function BillDetails({ bill }: { bill: any }) {
                       </Select>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-300">Rounding Rule</label>
+                      <label className="text-sm font-medium text-slate-200">Rounding Rule</label>
                       <Select 
                         value={billSettings.roundingRule}
                         onValueChange={(value: "UP" | "DOWN" | "NEAREST") => 
                           setBillSettings(prev => ({ ...prev, roundingRule: value }))
                         }
                       >
-                        <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                        <SelectTrigger className="bg-white/5 border-white/10 text-slate-100 transition focus:border-purple-300 focus:ring-0">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -1597,14 +1740,14 @@ export default function BillDetails({ bill }: { bill: any }) {
                       </Select>
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-300">Currency</label>
+                      <label className="text-sm font-medium text-slate-200">Currency</label>
                       <Select 
                         value={billSettings.currency}
                         onValueChange={(value) => 
                           setBillSettings(prev => ({ ...prev, currency: value }))
                         }
                       >
-                        <SelectTrigger className="bg-gray-700 border-gray-600 text-white">
+                        <SelectTrigger className="bg-white/5 border-white/10 text-slate-100 transition focus:border-purple-300 focus:ring-0">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -1618,11 +1761,11 @@ export default function BillDetails({ bill }: { bill: any }) {
                 </div>
 
                 {/* Participant Rules - Basic */}
-                <div className="space-y-4">
-                  <h4 className="font-medium text-white">Participant Rules</h4>
+                <div className="space-y-4 rounded-2xl border border-white/10 bg-white/[0.04] p-5 backdrop-blur-sm">
+                  <h4 className="text-base font-semibold text-slate-100">Participant Rules</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
-                      <label className="text-sm font-medium text-gray-300">Allow Partial Participation</label>
+                      <label className="text-sm font-medium text-slate-200">Allow Partial Participation</label>
                       <Switch
                         checked={billSettings.allowPartialParticipation}
                         onCheckedChange={(checked) => 
@@ -1631,7 +1774,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                       />
                     </div>
                     <div>
-                      <label className="text-sm font-medium text-gray-300">Minimum Participants per Item</label>
+                      <label className="text-sm font-medium text-slate-200">Minimum Participants per Item</label>
                       <Input
                         type="number"
                         min="1"
@@ -1639,11 +1782,11 @@ export default function BillDetails({ bill }: { bill: any }) {
                         onChange={(e) => 
                           setBillSettings(prev => ({ ...prev, minParticipantsPerItem: parseInt(e.target.value) || 1 }))
                         }
-                        className="bg-gray-700 border-gray-600 text-white"
+                        className="bg-white/5 border-white/10 text-slate-100 focus:border-purple-300 focus-visible:ring-0"
                       />
                     </div>
                     <div className="flex items-center justify-between">
-                      <label className="text-sm font-medium text-gray-300">Auto-validate Percentages</label>
+                      <label className="text-sm font-medium text-slate-200">Auto-validate Percentages</label>
                       <Switch
                         checked={billSettings.autoValidatePercentages || false}
                         onCheckedChange={(checked) => 
@@ -1656,11 +1799,11 @@ export default function BillDetails({ bill }: { bill: any }) {
               </div>
 
               {/* Advanced Settings Toggle Button */}
-              <div className="border-t border-gray-600 pt-4">
+              <div className="border-t border-white/10 pt-4">
                 <Button
                   variant="outline"
                   onClick={() => setShowAdvancedSettings(!showAdvancedSettings)}
-                  className="w-full flex items-center justify-center gap-2 bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+                  className="w-full flex items-center justify-center gap-2 rounded-2xl border border-white/10 bg-white/5 py-3 text-slate-100 transition hover:border-white/20 hover:bg-white/10"
                 >
                   <Settings className="h-4 w-4" />
                   <span>{showAdvancedSettings ? 'Hide Advanced Settings' : 'Show Advanced Settings'}</span>
@@ -1672,33 +1815,43 @@ export default function BillDetails({ bill }: { bill: any }) {
 
               {/* Advanced Settings - Collapsible */}
               {showAdvancedSettings && (
-                <div className="space-y-4 animate-in slide-in-from-top-1 duration-200">
-                  {/* Payment & Export Settings */}
-                  <div className="border-t border-gray-600 pt-4">
-                    <h4 className="font-medium text-white mb-4">Payment & Export</h4>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="flex items-center justify-between">
-                        <label className="text-sm font-medium text-gray-300">Require Payment Confirmation</label>
-                        <Switch
-                          checked={billSettings.requirePaymentConfirmation || false}
-                          onCheckedChange={(checked) => 
-                            setBillSettings(prev => ({ ...prev, requirePaymentConfirmation: checked }))
-                          }
-                        />
+                <div className="space-y-6 rounded-2xl border border-white/10 bg-white/[0.04] p-6 backdrop-blur-sm animate-in slide-in-from-top-1 duration-200">
+                  <div className="flex flex-col gap-2">
+                    <h4 className="text-base font-semibold text-slate-100">Payment & Export Controls</h4>
+                    <p className="text-sm text-slate-300/80">
+                      Fine tune how participants confirm settlements and how exports appear in snapshots.
+                    </p>
+                  </div>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                    <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-slate-100">Require Payment Confirmation</p>
+                        <p className="text-xs text-slate-300/80">
+                          Trigger confirmation prompts before marking balances as settled.
+                        </p>
                       </div>
-                      <div className="flex items-center justify-between">
-                        <label className="text-sm font-medium text-gray-300">Include QR in Export</label>
-                        <Switch
-                          checked={billSettings.includeQRInExport || true}
-                          onCheckedChange={(checked) => 
-                            setBillSettings(prev => ({ ...prev, includeQRInExport: checked }))
-                          }
-                        />
+                      <Switch
+                        checked={billSettings.requirePaymentConfirmation || false}
+                        onCheckedChange={(checked) => 
+                          setBillSettings(prev => ({ ...prev, requirePaymentConfirmation: checked }))
+                        }
+                      />
+                    </div>
+                    <div className="flex items-center justify-between rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
+                      <div className="space-y-1">
+                        <p className="text-sm font-medium text-slate-100">Include QR in Export</p>
+                        <p className="text-xs text-slate-300/80">
+                          Attach QR payment codes to shared recaps and downloads.
+                        </p>
                       </div>
+                      <Switch
+                        checked={billSettings.includeQRInExport || true}
+                        onCheckedChange={(checked) => 
+                          setBillSettings(prev => ({ ...prev, includeQRInExport: checked }))
+                        }
+                      />
                     </div>
                   </div>
-
-                  {/* Bill Status Management removed from advanced settings - moved to sidebar */}
                 </div>
               )}
             </CardContent>
@@ -1706,54 +1859,55 @@ export default function BillDetails({ bill }: { bill: any }) {
         )}
 
         {/* Main Layout */}
-        <div className="grid grid-cols-1 xl:grid-cols-4 gap-6">
+        <div className="space-y-6">
           {/* Main Content - Interactive Items Table */}
-          <div className="xl:col-span-3">
-            <Card className="bg-gray-800 border-gray-700">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div>
-                      <h2 className="text-xl font-bold text-white">
-                        📋 Expense Distribution Details
-                      </h2>
-                      <div className="flex items-center gap-4 text-sm text-gray-400 mt-1">
-                        <span>🛒 {items.filter(i => i.type === "NORMAL").length} items</span>
-                        <span>👥 {participants.length} participants</span>
-                        {lastSaved && !isSaving && (
-                          <span className="text-green-400">
-                            ✓ Last saved {lastSaved.toLocaleTimeString()}
-                          </span>
-                        )}
-                        {isSaving && (
-                          <span className="text-yellow-400 flex items-center gap-1">
-                            <div className="w-3 h-3 border border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
-                            Saving...
-                          </span>
-                        )}
-                      </div>
+          <Card className="rounded-3xl border border-white/10 bg-white/[0.04] shadow-[0_50px_90px_-60px_rgba(99,102,241,0.8)] backdrop-blur-xl">
+            <CardHeader className="flex flex-col gap-4 border-b border-white/10 pb-6">
+              <div className="flex flex-wrap items-center justify-between gap-6">
+                <div className="space-y-3">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-slate-300/90">
+                    Live workspace
+                  </div>
+                  <div>
+                    <h2 className="text-2xl font-semibold text-white sm:text-3xl">
+                      Expense distribution
+                    </h2>
+                    <div className="mt-2 flex flex-wrap items-center gap-4 text-sm text-slate-300/80">
+                      <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1">
+                        🛒 {items.filter(i => i.type === "NORMAL").length} items
+                      </span>
+                      <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1">
+                        👥 {participants.length} participants
+                      </span>
+                      {lastSaved && !isSaving && (
+                        <span className="inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-emerald-400/10 px-3 py-1 text-emerald-100">
+                          <Check className="h-4 w-4" />
+                          Last saved {lastSaved.toLocaleTimeString()}
+                        </span>
+                      )}
+                      {isSaving && (
+                        <span className="inline-flex items-center gap-2 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-3 py-1 text-yellow-100">
+                          <div className="h-3 w-3 rounded-full border border-yellow-200 border-t-transparent animate-spin" />
+                          Saving...
+                        </span>
+                      )}
                     </div>
                   </div>
-                  <div className="flex gap-2">
-                    <Button onClick={handleAddItem} size="sm" variant="outline">
-                      <Plus className="h-4 w-4 mr-2" />
-                      Add Item
-                    </Button>
-                  </div>
                 </div>
-              </CardHeader>
-              <CardContent className="p-6">
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-6 p-6">
                 {/* PAID/UNPAID Tokens for Drag & Drop (Desktop Only) */}
-                <div className="hidden sm:block mb-4 p-3 bg-gray-800/50 border border-gray-600 rounded-lg">
-                  <div className="flex items-center gap-4">
-                    <span className="text-sm font-medium text-gray-200">💰 Payment Tokens:</span>
+                <div className="hidden sm:block rounded-2xl border border-white/10 bg-gradient-to-r from-emerald-500/10 via-slate-900/40 to-purple-600/10 px-5 py-4 shadow-inner">
+                  <div className="flex flex-wrap items-center gap-4">
+                    <span className="text-sm font-medium text-slate-100">💰 Quick status tokens</span>
                     <div
                       draggable
                       onDragStart={(e) => {
                         setDraggedPayment("PAID");
                         e.dataTransfer.effectAllowed = "move";
                       }}
-                      className="px-3 py-1 bg-green-600 text-white rounded-full text-xs font-bold cursor-move hover:bg-green-500 transition-colors"
+                      className="cursor-move rounded-full bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 px-4 py-1.5 text-xs font-semibold text-emerald-50 shadow-lg transition hover:brightness-110"
                     >
                       PAID
                     </div>
@@ -1763,64 +1917,72 @@ export default function BillDetails({ bill }: { bill: any }) {
                         setDraggedPayment("UNPAID");
                         e.dataTransfer.effectAllowed = "move";
                       }}
-                      className="px-3 py-1 bg-red-600 text-white rounded-full text-xs font-bold cursor-move hover:bg-red-500 transition-colors"
+                      className="cursor-move rounded-full bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600 px-4 py-1.5 text-xs font-semibold text-rose-50 shadow-lg transition hover:brightness-110"
                     >
                       UNPAID
                     </div>
-                    <span className="text-xs text-gray-300">Drag tokens onto table cells to update payment status</span>
+                    <span className="text-xs text-slate-300/80">
+                      Drag onto participants or individual cells to update status instantly.
+                    </span>
                   </div>
                 </div>
 
                 {/* Items Table */}
-                <div className="border border-gray-600 rounded-lg overflow-hidden">
-                  <div className="overflow-x-auto">
-                    <table className="w-full bg-gray-800">
+                <div className="overflow-hidden rounded-3xl border border-white/10 bg-slate-950/60 shadow-[inset_0_1px_0_rgba(148,163,184,0.05)]">
+                  <div className="overflow-x-auto xl:overflow-visible">
+                    <table className="w-full min-w-[1100px] text-sm text-slate-100/90 xl:min-w-full">
                       {/* Header */}
-                      <thead className="bg-gradient-to-r from-purple-700 to-blue-700">
+                      <thead className="bg-white/5 text-xs uppercase tracking-[0.2em] text-slate-300/80 backdrop-blur">
                         <tr>
-                          <th className="text-left p-3 font-semibold min-w-[200px] border-r border-gray-500 text-white">
+                          <th className="min-w-[200px] border-r border-white/10 p-4 text-left font-semibold text-slate-200">
                             Item Name
                           </th>
-                          <th className="text-right p-3 font-semibold min-w-[120px] border-r border-gray-500 text-white">
+                          <th className="min-w-[120px] border-r border-white/10 p-4 text-right font-semibold text-slate-200">
                             Fee (VND)
                           </th>
-                          <th className="text-center p-3 font-semibold min-w-[100px] border-r border-gray-500 text-white">
+                          <th className="min-w-[100px] border-r border-white/10 p-4 text-center font-semibold text-slate-200">
                             Split Method
                           </th>
-                          {participants.map((participant, index) => (
-                            <th
-                              key={participant.id}
-                              className={`text-center p-3 font-semibold min-w-[100px] border-r border-gray-500 ${
-                                getParticipantColor(index, participant.isPayer)
-                              } transition-all duration-200`}
-                              onDragOver={(e) => {
-                                handleDragOver(e);
-                                if (draggedPayment) {
-                                  e.currentTarget.classList.add('ring-4', 'ring-yellow-400', 'bg-yellow-900/30', 'scale-105');
-                                }
-                              }}
-                              onDragLeave={(e) => {
-                                e.currentTarget.classList.remove('ring-4', 'ring-yellow-400', 'bg-yellow-900/30', 'scale-105');
-                              }}
-                              onDrop={(e) => {
-                                handleParticipantDrop(e, participant.id);
-                                e.currentTarget.classList.remove('ring-4', 'ring-yellow-400', 'bg-yellow-900/30', 'scale-105');
-                              }}
-                              title="Drag PAID/UNPAID tokens here to mark ALL items for this participant"
-                            >
-                              <div className="flex flex-col items-center gap-1">
-                                <span className="text-xs">{participant.displayName}</span>
-                                {participant.isPayer && (
-                                  <Badge variant="secondary" className="text-xs bg-indigo-800 text-indigo-100">PAYER</Badge>
-                                )}
-                                {draggedPayment && (
-                                  <div className="text-xs text-yellow-300 font-medium animate-pulse">
-                                    Drop to mark ALL
-                                  </div>
-                                )}
-                              </div>
-                            </th>
-                          ))}
+                          {participants.map((participant, index) => {
+                            const headerColorClass = getParticipantColor(index, participant.isPayer)
+                              .replace('bg-', 'bg-opacity-20 bg-')
+                              .replace('text-', 'text-opacity-90 text-')
+                              .replace('border-', 'border-opacity-40 border-');
+                            return (
+                              <th
+                                key={participant.id}
+                                className={`relative min-w-[100px] border-r border-white/10 p-4 text-center font-semibold transition-all duration-200 ${headerColorClass}`}
+                                onDragOver={(e) => {
+                                  handleDragOver(e);
+                                  if (draggedPayment) {
+                                    e.currentTarget.classList.add('ring-4', 'ring-yellow-400', 'bg-yellow-900/30', 'scale-105');
+                                  }
+                                }}
+                                onDragLeave={(e) => {
+                                  e.currentTarget.classList.remove('ring-4', 'ring-yellow-400', 'bg-yellow-900/30', 'scale-105');
+                                }}
+                                onDrop={(e) => {
+                                  handleParticipantDrop(e, participant.id);
+                                  e.currentTarget.classList.remove('ring-4', 'ring-yellow-400', 'bg-yellow-900/30', 'scale-105');
+                                }}
+                                title="Drag PAID/UNPAID tokens here to mark ALL items for this participant"
+                              >
+                                <div className="flex flex-col items-center gap-1">
+                                  <span className="text-xs font-semibold tracking-wide">{participant.displayName}</span>
+                                  {participant.isPayer && (
+                                    <Badge variant="secondary" className="bg-indigo-500/80 text-[10px] uppercase tracking-[0.2em] text-indigo-50">
+                                      Payer
+                                    </Badge>
+                                  )}
+                                  {draggedPayment && (
+                                    <div className="text-[10px] font-medium text-yellow-200 animate-pulse">
+                                      Drop to mark ALL
+                                    </div>
+                                  )}
+                                </div>
+                              </th>
+                            );
+                          })}
                           <th className="text-center p-3 font-semibold min-w-[80px]">
                             Actions
                           </th>
@@ -1830,36 +1992,36 @@ export default function BillDetails({ bill }: { bill: any }) {
                       <tbody>
                         {/* Normal Items */}
                         {items.filter(item => item.type === "NORMAL").map((item) => (
-                          <tr key={item.id} className="border-b border-gray-600 hover:bg-gray-700">
+                          <tr key={item.id} className="border-b border-white/5 transition-colors hover:bg-white/5">
                             {/* Item Name */}
-                            <td className="p-3 border-r border-gray-600">
+                            <td className="border-r border-white/5 p-3">
                               <Input
                                 value={item.name}
                                 onChange={(e) => handleItemUpdate(item.id, { name: e.target.value })}
-                                className="border-none p-0 h-auto text-sm font-medium focus:ring-0 bg-transparent text-white"
+                                className="h-auto border-none bg-transparent p-0 text-sm font-medium text-white focus-visible:ring-0"
                               />
                             </td>
 
                             {/* Fee */}
-                            <td className="p-3 text-right border-r border-gray-600">
+                            <td className="border-r border-white/5 p-3 text-right">
                               <Input
                                 type="number"
                                 value={item.fee || ""}
                                 onChange={(e) => handleItemUpdate(item.id, { fee: parseFloat(e.target.value) || 0 })}
-                                className="text-right border-none p-0 h-auto text-sm focus:ring-0 bg-transparent text-white"
+                                className="h-auto border-none bg-transparent p-0 text-right text-sm text-white focus-visible:ring-0"
                                 placeholder="0"
                               />
                             </td>
 
                             {/* Split Method */}
-                            <td className="p-3 border-r border-gray-600">
+                            <td className="border-r border-white/5 p-3">
                               <Select
                                 value={item.splitMethod}
                                 onValueChange={(value: "EQUAL" | "PERCENT") =>
                                   handleItemUpdate(item.id, { splitMethod: value })
                                 }
                               >
-                                <SelectTrigger className="h-6 text-xs border-none bg-transparent text-white">
+                                <SelectTrigger className="h-7 border border-white/15 bg-white/5 px-2 text-xs text-white focus:border-purple-300 focus:ring-0">
                                   <SelectValue />
                                 </SelectTrigger>
                                 <SelectContent>
@@ -1879,23 +2041,26 @@ export default function BillDetails({ bill }: { bill: any }) {
                               return (
                                 <td 
                                   key={`${item.id}-${participant.id}`}
-                                  className={`relative p-2 text-center min-w-[100px] border-r border-gray-600 ${
-                                    colorClass.replace('bg-', 'bg-opacity-20 bg-').replace('text-', 'text-opacity-90 text-')
-                                  } ${!share.include ? "opacity-50" : ""} ${share.paid ? "ring-2 ring-green-400" : ""} ${
-                                    share.include ? "hover:bg-gray-600/50 transition-colors" : ""
+                                  className={`relative min-w-[110px] border-r border-white/5 p-3 text-center transition-all duration-200 ${
+                                    colorClass
+                                      .replace('bg-', 'bg-opacity-15 bg-')
+                                      .replace('text-', 'text-opacity-95 text-')
+                                      .replace('border-', 'border-opacity-30 border-')
+                                  } ${!share.include ? "opacity-50 grayscale" : ""} ${share.paid ? "ring-2 ring-emerald-400/80" : ""} ${
+                                    share.include ? "hover:bg-white/10" : ""
                                   }`}
                                   onDragOver={(e) => {
                                     handleDragOver(e);
                                     if (share.include && draggedPayment) {
-                                      e.currentTarget.classList.add('ring-2', 'ring-blue-400', 'bg-blue-900/30');
+                                      e.currentTarget.classList.add('ring-2', 'ring-blue-300', 'bg-blue-900/20');
                                     }
                                   }}
                                   onDragLeave={(e) => {
-                                    e.currentTarget.classList.remove('ring-2', 'ring-blue-400', 'bg-blue-900/30');
+                                    e.currentTarget.classList.remove('ring-2', 'ring-blue-300', 'bg-blue-900/20');
                                   }}
                                   onDrop={(e) => {
                                     handleDrop(e, item.id, participant.id);
-                                    e.currentTarget.classList.remove('ring-2', 'ring-blue-400', 'bg-blue-900/30');
+                                    e.currentTarget.classList.remove('ring-2', 'ring-blue-300', 'bg-blue-900/20');
                                   }}
                                 >
                                   <div className="flex flex-col items-center gap-1">
@@ -2006,14 +2171,14 @@ export default function BillDetails({ bill }: { bill: any }) {
                                             }
                                           }
                                         }}
-                                        className={`w-12 h-6 text-xs text-center border rounded bg-gray-700 text-white p-1 ${
+                                        className={`h-9 w-16 rounded-lg border bg-white/10 px-2 text-xs font-semibold text-white text-center transition focus:border-purple-300 focus-visible:ring-0 ${
                                           (() => {
                                             const currentTotal = item.shares
                                               .filter(s => s.include && s.rawInput)
                                               .reduce((sum, s) => sum + (parseFloat(s.rawInput || '0') || 0), 0);
-                                            if (currentTotal > 100) return 'border-red-500';
-                                            if (currentTotal === 100) return 'border-green-500';
-                                            return 'border-gray-500';
+                                            if (currentTotal > 100) return 'border-rose-400/70';
+                                            if (currentTotal === 100) return 'border-emerald-400/70';
+                                            return 'border-white/20';
                                           })()
                                         }`}
                                         placeholder="%"
@@ -2025,7 +2190,7 @@ export default function BillDetails({ bill }: { bill: any }) {
 
                                     {/* Amount Display */}
                                     {!share.include ? (
-                                      <span className="text-gray-500 text-lg">–</span>
+                                      <span className="text-lg text-slate-500/70">–</span>
                                     ) : (
                                       <div className="text-xs">
                                         <span className={`font-medium ${share.paid ? "text-green-400" : "text-white"}`}>
@@ -2051,7 +2216,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                                             }
                                           >
                                             {share.paid ? (
-                                              <Check className="h-3 w-3 text-green-400" />
+                                              <Check className="h-3 w-3 text-emerald-300" />
                                             ) : (
                                               <X className="h-3 w-3 text-gray-500" />
                                             )}
@@ -2098,6 +2263,18 @@ export default function BillDetails({ bill }: { bill: any }) {
                           </tr>
                         ))}
 
+                        <tr>
+                          <td colSpan={tableColumnSpan} className="p-4 text-center">
+                            <button
+                              type="button"
+                              onClick={handleAddItem}
+                              className="text-[11px] font-semibold uppercase tracking-[0.5em] text-amber-200 transition hover:text-amber-100 focus:outline-none"
+                            >
+                              + Add Item
+                            </button>
+                          </td>
+                        </tr>
+
                         {/* Percentage Summary Rows */}
                         {items.filter(item => item.type === "NORMAL" && item.splitMethod === "PERCENT").map((item) => {
                           const totalPercentage = item.shares
@@ -2105,14 +2282,14 @@ export default function BillDetails({ bill }: { bill: any }) {
                             .reduce((sum, s) => sum + (parseFloat(s.rawInput || '0') || 0), 0);
                           
                           return (
-                            <tr key={`${item.id}-summary`} className="border-b border-gray-600 bg-gray-750">
-                              <td className="p-2 text-xs text-gray-400 border-r border-gray-600">
+                            <tr key={`${item.id}-summary`} className="border-b border-white/5 bg-white/5 backdrop-blur-sm">
+                              <td className="border-r border-white/5 p-2 text-xs text-slate-300/80">
                                 <span className="italic">↳ {item.name} total:</span>
                               </td>
-                              <td className="p-2 border-r border-gray-600"></td>
-                              <td className="p-2 border-r border-gray-600 text-center">
+                              <td className="border-r border-white/5 p-2"></td>
+                              <td className="border-r border-white/5 p-2 text-center">
                                 <div className={`text-xs font-bold ${
-                                  totalPercentage > 100 ? 'text-red-400' :
+                                  totalPercentage > 100 ? 'text-rose-400' :
                                   totalPercentage === 100 ? 'text-green-400' :
                                   'text-yellow-400'
                                 }`}>
@@ -2122,9 +2299,9 @@ export default function BillDetails({ bill }: { bill: any }) {
                               {participants.map((participant) => {
                                 const share = item.shares.find(s => s.participantId === participant.id);
                                 return (
-                                  <td key={participant.id} className="p-2 border-r border-gray-600 text-center">
+                                  <td key={participant.id} className="border-r border-white/5 p-2 text-center">
                                     {share?.include && share?.rawInput && (
-                                      <span className="text-xs text-gray-400">
+                                      <span className="text-xs text-slate-300/80">
                                         {share.rawInput}%
                                       </span>
                                     )}
@@ -2133,7 +2310,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                               })}
                               <td className="p-2">
                                 {totalPercentage > 100 && (
-                                  <span className="text-xs text-red-400">Over 100%!</span>
+                                  <span className="text-xs text-rose-400">Over 100%!</span>
                                 )}
                                 {totalPercentage === 100 && (
                                   <span className="text-xs text-green-400">✓ Perfect</span>
@@ -2149,32 +2326,34 @@ export default function BillDetails({ bill }: { bill: any }) {
                         })}
 
                         {/* Separator for Adjustments */}
-                        <tr className="bg-gray-700">
-                          <td colSpan={3 + participants.length + 1} className="p-2 text-center text-sm text-gray-300">
-                            <div className="border-t border-dashed border-gray-500 w-full"></div>
-                            <span className="bg-gray-700 px-2 text-xs text-yellow-400 font-semibold">⚡ ADJUSTMENTS</span>
+                        <tr className="bg-white/5 backdrop-blur-sm">
+                          <td colSpan={3 + participants.length + 1} className="p-3 text-center text-sm text-slate-200">
+                            <div className="w-full border-t border-dashed border-white/10"></div>
+                            <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-yellow-300">
+                              ⚡ Adjustments
+                            </span>
                           </td>
                         </tr>
 
                         {/* Adjustment Items */}
                         {items.filter(item => item.type !== "NORMAL").map((item) => (
-                          <tr key={item.id} className="border-b border-gray-600 bg-yellow-900/20 hover:bg-yellow-900/30">
-                            <td className="p-3 border-r border-gray-600">
+                          <tr key={item.id} className="border-b border-white/5 bg-yellow-900/15 transition-colors hover:bg-yellow-900/25">
+                            <td className="border-r border-white/5 p-3">
                               <div className="flex items-center gap-2">
-                                <Badge variant="outline" className="text-xs border-yellow-600 text-yellow-400">
+                                <Badge variant="outline" className="rounded-full border border-yellow-300/40 bg-yellow-400/10 text-[10px] font-semibold uppercase tracking-[0.2em] text-yellow-200">
                                   {item.type === "CARRY_OVER" ? "💰 Previous" : "🎁 Discount"}
                                 </Badge>
                                 <Input
                                   value={item.name}
                                   onChange={(e) => handleItemUpdate(item.id, { name: e.target.value })}
-                                  className="border-none p-0 h-auto text-sm font-medium focus:ring-0 bg-transparent text-yellow-100"
+                                  className="h-auto border-none bg-transparent p-0 text-sm font-medium text-yellow-100 focus-visible:ring-0"
                                 />
                               </div>
                             </td>
-                            <td className="p-3 text-center border-r border-gray-600">
+                            <td className="border-r border-white/5 p-3 text-center">
                               <span className="text-xs text-yellow-300 italic">Individual Amounts →</span>
                             </td>
-                            <td className="p-3 border-r border-gray-600">
+                            <td className="border-r border-white/5 p-3">
                               <span className="text-xs text-yellow-300">No Split</span>
                             </td>
 
@@ -2188,7 +2367,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                               return (
                                 <td 
                                   key={`${item.id}-${participant.id}`} 
-                                  className={`p-2 text-center border-r border-gray-600 ${
+                                  className={`border-r border-white/5 p-2 text-center ${
                                     colorClass.replace('bg-', 'bg-opacity-10 bg-').replace('text-', 'text-opacity-90 text-')
                                   }`}
                                 >
@@ -2201,7 +2380,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                                         include: (parseFloat(e.target.value) || 0) !== 0 
                                       })
                                     }
-                                    className="w-full text-center border border-gray-600 rounded text-xs p-1 bg-gray-800 text-white"
+                                    className="w-full rounded-lg border border-white/15 bg-white/10 p-2 text-center text-xs font-semibold text-white transition focus:border-purple-300 focus-visible:ring-0"
                                     placeholder="0"
                                   />
                                 </td>
@@ -2215,7 +2394,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                                 }}
                                 size="sm"
                                 variant="ghost"
-                                className="h-6 text-xs text-red-400 hover:text-red-300"
+                                className="h-6 text-xs text-rose-400 hover:text-red-300"
                               >
                                 <X className="h-3 w-3" />
                               </Button>
@@ -2224,12 +2403,14 @@ export default function BillDetails({ bill }: { bill: any }) {
                         ))}
 
                         {/* Totals Row */}
-                        <tr className="bg-purple-800 font-semibold text-white">
-                          <td className="p-3 border-r border-gray-500 font-bold">TOTAL</td>
-                          <td className="p-3 text-right border-r border-gray-500 font-bold">
+                        <tr className="bg-purple-500/10 border-t-2 border-purple-400/30 font-semibold text-white backdrop-blur">
+                          <td className="border-r border-white/10 p-3 font-bold uppercase tracking-[0.2em] text-purple-100">
+                            Total
+                          </td>
+                          <td className="border-r border-white/10 p-3 text-right font-bold text-purple-100">
                             {formatCurrency(grandTotal)}
                           </td>
-                          <td className="p-3 border-r border-gray-500"></td>
+                          <td className="border-r border-white/10 p-3"></td>
                           {participants.map((participant, participantIndex) => {
                             const total = participantTotals.find(t => t.participant.id === participant.id)?.total || 0;
                             const colorClass = getParticipantColor(participantIndex, participant.isPayer);
@@ -2237,8 +2418,8 @@ export default function BillDetails({ bill }: { bill: any }) {
                             return (
                               <td
                                 key={participant.id}
-                                className={`p-3 text-center border-r border-gray-500 font-bold ${
-                                  colorClass
+                                className={`p-3 text-center border-r border-white/10 font-bold ${
+                                  colorClass.replace('bg-', 'bg-opacity-20 bg-').replace('text-', 'text-')
                                 }`}
                               >
                                 {formatCurrency(total)}
@@ -2253,25 +2434,25 @@ export default function BillDetails({ bill }: { bill: any }) {
                 </div>
 
                 {/* Legend */}
-                <div className="mt-4 flex flex-wrap gap-4 text-xs text-gray-300 bg-gray-700 p-3 rounded-lg">
+                <div className="mt-4 flex flex-wrap gap-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-xs text-slate-200">
                   <div className="flex items-center gap-2">
-                    <Checkbox checked className="h-3 w-3" />
-                    <span>Include in item</span>
+                    <Checkbox checked className="h-3 w-3 border-white/40 data-[state=checked]:bg-white/80 data-[state=checked]:text-black" />
+                    <span className="text-slate-200/90">Include in item</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Check className="h-3 w-3 text-green-400" />
-                    <span>Payment received</span>
+                    <Check className="h-3 w-3 text-emerald-300" />
+                    <span className="text-slate-200/90">Payment received</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="text-gray-500 text-lg">–</span>
-                    <span>Not participating</span>
+                    <span className="text-lg text-slate-500/70">–</span>
+                    <span className="text-slate-200/90">Not participating</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="px-2 py-1 bg-green-600 text-white rounded text-xs">PAID</div>
-                    <span>Drag to mark payment (desktop)</span>
+                    <div className="rounded-full bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-emerald-50">Paid</div>
+                    <span className="text-slate-200/70">Drag to mark payment (desktop)</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-blue-600 rounded"></div>
+                    <div className="h-4 w-4 rounded border border-white/20 bg-white/10 shadow-inner"></div>
                     <div className="w-4 h-4 bg-green-600 rounded"></div>
                     <div className="w-4 h-4 bg-purple-600 rounded"></div>
                     <span>Color coded participants</span>
@@ -2285,90 +2466,110 @@ export default function BillDetails({ bill }: { bill: any }) {
                     <span>Percent mode: Auto-distributes remaining % to others in real-time</span>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </div>
+            </CardContent>
+          </Card>
 
-          {/* Right Sidebar */}
-          <div className="xl:col-span-1 space-y-4">
-            {/* Compact Bill Status Card - moved here from advanced settings */}
-            <Card className="bg-slate-800 text-white border border-slate-700 shadow-sm">
-              <CardHeader>
-                <CardTitle className="text-sm flex items-center gap-3">
-                  <div className="inline-flex items-center px-2 py-0.5 rounded-md bg-indigo-700 text-white text-xs font-medium">Status</div>
-                  <span className="font-semibold">Bill Status</span>
+          {/* Status & Summary */}
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-2">
+            <Card className="rounded-3xl border border-white/10 bg-white/[0.04] shadow-[0_30px_80px_-60px_rgba(79,70,229,0.8)] backdrop-blur-xl">
+              <CardHeader className="flex flex-col gap-3 border-b border-white/10 pb-4">
+                <CardTitle className="flex items-center gap-3 text-base font-semibold text-slate-100">
+                  <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-indigo-500/20 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.25em] text-indigo-100">Status</div>
+                  Bill Status
                 </CardTitle>
               </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <div className="text-sm text-slate-300">Current</div>
-                    <div className="mt-2">
-                      <Badge className={`px-2 py-0.5 text-xs ${bill?.status === 'SETTLED' ? 'bg-green-600 text-white' : 'bg-orange-600 text-white'}`}>
-                        {bill?.status || 'DRAFT'}
-                      </Badge>
-                    </div>
+              <CardContent className="space-y-4 pt-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="text-xs text-slate-400 uppercase tracking-wider mb-2">Current Status</div>
+                    <Badge className={`rounded-full px-4 py-1.5 text-xs font-bold uppercase tracking-[0.2em] ${
+                      bill?.status === 'SETTLED'
+                        ? 'bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 text-emerald-50'
+                        : bill?.status === 'COMPLETED'
+                        ? 'bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 text-blue-50'
+                        : bill?.status === 'ACTIVE'
+                        ? 'bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 text-slate-900'
+                        : 'bg-gradient-to-r from-slate-400 via-slate-500 to-slate-600 text-slate-50'
+                    }`}>
+                      {bill?.status || 'DRAFT'}
+                    </Badge>
                   </div>
 
-                  <div className="flex-shrink-0">
-                    {getNextStatus(bill?.status || 'DRAFT') && (
-                      <Button
-                        onClick={() => changeBillStatus(getNextStatus(bill?.status || 'DRAFT') as any)}
-                        disabled={!canAdvanceStatus(bill?.status || 'DRAFT') || isChangingStatus}
-                        variant={canAdvanceStatus(bill?.status || 'DRAFT') ? 'default' : 'secondary'}
-                        size="sm"
-                        className="whitespace-nowrap"
-                      >
-                        {isChangingStatus ? 'Updating...' : `Advance to ${getNextStatus(bill?.status || 'DRAFT')}`}
-                      </Button>
-                    )}
+                  {getNextStatus(bill?.status || 'DRAFT') && (
+                    <Button
+                      onClick={() => changeBillStatus(getNextStatus(bill?.status || 'DRAFT') as any)}
+                      disabled={!canAdvanceStatus(bill?.status || 'DRAFT') || isChangingStatus}
+                      size="sm"
+                      className="whitespace-nowrap rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 px-4 py-2 text-xs font-semibold text-white shadow-lg hover:brightness-110 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isChangingStatus ? 'Updating...' : `→ ${getNextStatus(bill?.status || 'DRAFT')}`}
+                    </Button>
+                  )}
+                </div>
+
+                {/* Progress Stats */}
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="rounded-xl border border-white/10 bg-white/5 p-3">
+                    <div className="text-xs text-slate-400 mb-1">Items Allocated</div>
+                    <div className="text-lg font-bold text-white">
+                      {items.filter(i => i.type === 'NORMAL' && i.shares.some(s => s.amount > 0)).length}/{items.filter(i => i.type === 'NORMAL').length}
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-white/10 bg-white/5 p-3">
+                    <div className="text-xs text-slate-400 mb-1">Payments</div>
+                    <div className="text-lg font-bold text-white">
+                      {participantTotals.filter(p => p.outstanding === 0 && p.total > 0).length}/{participantTotals.filter(p => p.total > 0).length}
+                    </div>
                   </div>
                 </div>
 
-                <div className="text-xs text-gray-400 space-y-1">
-                  {bill?.status === 'DRAFT' && <div>💡 Add items with prices and participants to activate.</div>}
-                  {bill?.status === 'ACTIVE' && <div>💡 Ensure all items are fully allocated to proceed.</div>}
-                  {bill?.status === 'COMPLETED' && <div>💡 Mark payments as received to settle.</div>}
-                  {bill?.status === 'SETTLED' && <div>✅ This bill is fully settled.</div>}
+                {/* Status Tips */}
+                <div className="rounded-xl border border-white/5 bg-gradient-to-br from-slate-900/50 to-slate-800/30 p-3">
+                  <div className="text-xs text-slate-300 leading-relaxed">
+                    {bill?.status === 'DRAFT' && <><span className="text-yellow-400">💡</span> Add items with prices and participants to activate this bill.</>}
+                    {bill?.status === 'ACTIVE' && <><span className="text-blue-400">⚡</span> Calculate amounts and ensure all items are properly allocated.</>}
+                    {bill?.status === 'COMPLETED' && <><span className="text-orange-400">�</span> Mark payments as received to complete settlement.</>}
+                    {bill?.status === 'SETTLED' && <><span className="text-emerald-400">✅</span> This bill is fully settled and completed.</>}
+                  </div>
                 </div>
               </CardContent>
             </Card>
 
-            <Card className="bg-slate-800 text-white">
-              <CardHeader>
-                <CardTitle className="text-lg flex items-center gap-2">
+            <Card className="rounded-3xl border border-white/10 bg-white/[0.04] backdrop-blur-xl">
+              <CardHeader className="flex flex-col gap-3 border-b border-white/10 pb-4">
+                <CardTitle className="flex items-center gap-3 text-base font-semibold text-slate-100">
                   <Calculator className="h-5 w-5" />
                   Bill Summary
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-slate-300">Items Total:</span>
+                  <span className="text-slate-300/80">Items Total:</span>
                   <span className="font-bold">{formatCurrency(totalNormalFee)}</span>
                 </div>
                 {totalAdjustments !== 0 && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-slate-300">Adjustments:</span>
-                    <span className={`font-bold ${totalAdjustments < 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    <span className="text-slate-300/80">Adjustments:</span>
+                    <span className={`font-bold ${totalAdjustments < 0 ? 'text-green-400' : 'text-rose-400'}`}>
                       {formatCurrency(totalAdjustments)}
                     </span>
                   </div>
                 )}
-                <div className="border-t border-slate-600 pt-2 flex justify-between">
-                  <span className="text-white font-bold">Grand Total:</span>
+                <div className="border-t border-white/10 pt-2 flex justify-between">
+                  <span className="text-slate-100 font-semibold">Grand Total:</span>
                   <span className="font-bold text-lg">{formatCurrency(grandTotal)}</span>
                 </div>
                 
-                <div className="border-t border-slate-600 pt-3 space-y-3">
+                <div className="border-t border-white/10 pt-3 space-y-3">
                   {/* Payment Progress Bar */}
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-300">Payment Progress:</span>
-                      <span className="text-white font-medium">
+                      <span className="text-slate-300/80">Payment Progress:</span>
+                      <span className="text-slate-100 font-semibold">
                         {Math.round((participantTotals.reduce((acc, { total, outstanding }) => acc + (total - outstanding), 0) / participantTotals.reduce((acc, { total }) => acc + total, 0)) * 100) || 0}%
                       </span>
                     </div>
-                    <div className="w-full bg-slate-700 rounded-full h-2">
+                    <div className="w-full overflow-hidden rounded-full bg-white/10 h-2">
                       <div 
                         className="bg-gradient-to-r from-green-500 to-green-400 h-2 rounded-full transition-all duration-300"
                         style={{ 
@@ -2380,21 +2581,21 @@ export default function BillDetails({ bill }: { bill: any }) {
                   
                   {/* Individual Payment Status */}
                   <div>
-                    <div className="text-sm text-slate-300 mb-2">Individual Status:</div>
+                    <div className="text-sm text-slate-300/80 mb-2">Individual Status:</div>
                     {participantTotals.map(({ participant, total, outstanding }) => (
-                      <div key={participant.id} className="flex justify-between items-center text-xs mb-2">
-                        <span className="text-slate-300 truncate max-w-[100px]">
+                      <div key={participant.id} className="mb-2 flex items-center justify-between rounded-xl border border-white/5 bg-white/[0.05] px-3 py-2 text-xs text-slate-200">
+                        <span className="text-slate-200/80 truncate max-w-[100px]">
                           {participant.displayName}:
                         </span>
-                        <div className="text-right flex items-center gap-2">
+                        <div className="flex items-center gap-3 text-right text-slate-100">
                           <div>
                             <div className="text-white">{formatCurrency(total)}</div>
                             {outstanding > 0 && (
-                              <div className="text-red-400">-{formatCurrency(outstanding)}</div>
+                              <div className="text-rose-400">-{formatCurrency(outstanding)}</div>
                             )}
                           </div>
                           {outstanding === 0 && total > 0 && (
-                            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                            <div className="h-2 w-2 rounded-full bg-emerald-400/90 shadow-[0_0_0_3px_rgba(16,185,129,0.35)]"></div>
                           )}
                         </div>
                       </div>
@@ -2403,80 +2604,90 @@ export default function BillDetails({ bill }: { bill: any }) {
                 </div>
               </CardContent>
             </Card>
-
-
           </div>
         </div>
+        </div>
 
-        {/* Sticky Action Bar */}
-        <div className="sticky bottom-4 bg-gray-800 border border-gray-600 rounded-lg p-4 shadow-lg">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <Button 
-                onClick={handleDistributeAll} 
-                className="bg-blue-600 hover:bg-blue-700"
-                disabled={isCalculating}
-              >
-                <Calculator className="h-4 w-4 mr-2" />
-                {isCalculating ? 'Calculating...' : 'Calculate All'}
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={() => {
-                  setItems(prev => prev.map(item => ({
-                    ...item,
-                    shares: item.shares.map(share => ({ ...share, paid: false, amount: 0 }))
-                  })));
-                  toast.success("Reset complete!");
-                }}
-              >
-                Reset All
-              </Button>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <Button 
-                variant="outline"
-                onClick={() => setShowPaymentInfoModal(true)}
-              >
-                <QrCode className="h-4 w-4 mr-2" />
-                Show Payment Info
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={handleSnapshotPreview}
-              >
-                <Camera className="h-4 w-4 mr-2" />
-                Snapshot Preview
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={handleCopyAsImage}
-              >
-                <Copy className="h-4 w-4 mr-2" />
-                Copy as Image
-              </Button>
-              <Button 
-                variant="outline"
-                onClick={handleDownloadPDF}
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Download PDF
-              </Button>
+        {/* Fixed Action Bar - Stays visible at bottom while scrolling */}
+        <div className="fixed bottom-4 left-0 lg:left-[18rem] right-0 z-40 hidden lg:block">
+          <div className="mx-auto w-full max-w-[1680px] px-4">
+            <div className="rounded-2xl border border-white/10 bg-slate-950/95 px-5 py-3 shadow-[0_-8px_32px_-8px_rgba(99,102,241,0.4)] backdrop-blur-xl">
+              <div className="flex items-center justify-between gap-4">
+                {/* Left Side - Primary Actions */}
+                <div className="flex items-center gap-3">
+                  <Button 
+                    onClick={handleDistributeAll} 
+                    className="group rounded-full bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 px-5 py-2 text-sm font-semibold text-white shadow-lg transition hover:brightness-105 disabled:cursor-not-allowed disabled:opacity-60 disabled:shadow-none"
+                    disabled={isCalculating}
+                  >
+                    <Calculator className="h-4 w-4 mr-2" />
+                    {isCalculating ? 'Calculating...' : 'Calculate All'}
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-medium text-slate-100 transition hover:border-white/40 hover:bg-white/10"
+                    onClick={() => {
+                      setItems(prev => prev.map(item => ({
+                        ...item,
+                        shares: item.shares.map(share => ({ ...share, paid: false, amount: 0 }))
+                      })));
+                      toast.success("Reset complete!");
+                    }}
+                  >
+                    Reset All
+                  </Button>
+                </div>
+                
+                {/* Right Side - Export Actions */}
+                <div className="flex items-center gap-3">
+                  <Button 
+                    variant="outline"
+                    className="rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-medium text-slate-100 transition hover:border-white/40 hover:bg-white/10"
+                    onClick={() => setShowPaymentInfoModal(true)}
+                  >
+                    <QrCode className="h-4 w-4 mr-2" />
+                    Payment Info
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-medium text-slate-100 transition hover:border-white/40 hover:bg-white/10"
+                    onClick={handleSnapshotPreview}
+                  >
+                    <Camera className="h-4 w-4 mr-2" />
+                    Snapshot
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-medium text-slate-100 transition hover:border-white/40 hover:bg-white/10"
+                    onClick={handleCopyAsImage}
+                  >
+                    <Copy className="h-4 w-4 mr-2" />
+                    Copy Image
+                  </Button>
+                  <Button 
+                    variant="outline"
+                    className="rounded-full border border-white/20 bg-white/5 px-5 py-2 text-sm font-medium text-slate-100 transition hover:border-white/40 hover:bg-white/10"
+                    onClick={handleDownloadPDF}
+                  >
+                    <Download className="h-4 w-4 mr-2" />
+                    PDF
+                  </Button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Mobile Action Bar - Visible on small screens */}
         <div className="lg:hidden">
-          <Card className="bg-slate-800 border-slate-700">
+          <Card className="rounded-3xl border border-white/10 bg-white/[0.05] backdrop-blur-xl">
             <CardContent className="p-4">
               <div className="grid grid-cols-2 gap-3">
                 <Button 
                   variant="outline" 
                   size="sm"
                   onClick={() => setShowEditDialog(true)}
-                  className="flex items-center justify-center gap-2"
+                  className="flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 text-slate-100 transition hover:border-white/30 hover:bg-white/10"
                 >
                   <Pencil className="h-4 w-4" />
                   Edit Bill
@@ -2485,7 +2696,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                   variant="outline" 
                   size="sm"
                   onClick={handleRefreshBankData}
-                  className="flex items-center justify-center gap-2"
+                  className="flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 text-slate-100 transition hover:border-white/30 hover:bg-white/10"
                 >
                   <RefreshCw className="h-4 w-4" />
                   Refresh
@@ -2494,7 +2705,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                   variant="outline" 
                   size="sm"
                   onClick={handleSnapshotPreview}
-                  className="flex items-center justify-center gap-2"
+                  className="flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 text-slate-100 transition hover:border-white/30 hover:bg-white/10"
                 >
                   <Camera className="h-4 w-4" />
                   Snapshot
@@ -2503,7 +2714,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                   variant="outline" 
                   size="sm"
                   onClick={handleCopyAsImage}
-                  className="flex items-center justify-center gap-2"
+                  className="flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 text-slate-100 transition hover:border-white/30 hover:bg-white/10"
                 >
                   <Copy className="h-4 w-4" />
                   Export
@@ -2683,7 +2894,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                             const total = participantTotals.find(t => t.participant.id === p.id)?.total || 0;
                             return (
                               <td key={p.id} style={{ backgroundColor: '#f1e8fe' }} className="p-2 text-center">
-                                <div className={`rounded-lg p-1 text-white font-bold ${getParticipantColor(pIndex)}`}>
+                                <div className={`rounded-lg p-1 text-slate-100 font-semibold ${getParticipantColor(pIndex)}`}>
                                   {formatCurrency(total)}
                                 </div>
                               </td>
@@ -2812,7 +3023,7 @@ export default function BillDetails({ bill }: { bill: any }) {
             </div>
 
             {/* Action Buttons - Outside the scrollable frame */}
-            <div className="flex justify-end gap-3 pt-4 flex-shrink-0 border-t border-gray-200">
+            <div className="flex justify-end gap-3 pt-4 flex-shrink-0 border-t border-white/10">
               <Button variant="outline" onClick={() => setShowSnapshot(false)}>
                 Close
               </Button>
@@ -2837,20 +3048,20 @@ export default function BillDetails({ bill }: { bill: any }) {
 
         {/* Delete Item Confirmation Dialog */}
         <AlertDialog open={!!deleteItemId} onOpenChange={() => setDeleteItemId(null)}>
-          <AlertDialogContent className="bg-gray-800 border-gray-700">
+          <AlertDialogContent className="bg-slate-950/90 border-white/10 backdrop-blur-xl">
             <AlertDialogHeader>
-              <AlertDialogTitle className="text-white">Delete Item</AlertDialogTitle>
-              <AlertDialogDescription className="text-gray-300">
+              <AlertDialogTitle className="text-lg font-semibold text-slate-100">Delete Item</AlertDialogTitle>
+              <AlertDialogDescription className="text-sm text-slate-300/80">
                 Are you sure you want to delete this item? This action cannot be undone and will remove all associated splits.
               </AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel className="bg-gray-700 text-white border-gray-600 hover:bg-gray-600">
+              <AlertDialogCancel className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-slate-100 transition hover:border-white/30 hover:bg-white/15">
                 Cancel
               </AlertDialogCancel>
               <AlertDialogAction 
                 onClick={() => deleteItemId && handleDeleteItem(deleteItemId)}
-                className="bg-red-600 hover:bg-red-700"
+                className="rounded-full bg-gradient-to-r from-rose-500 via-red-500 to-amber-500 px-4 py-2 text-sm font-semibold text-white shadow-lg transition hover:brightness-105"
               >
                 Delete Item
               </AlertDialogAction>
@@ -2860,7 +3071,7 @@ export default function BillDetails({ bill }: { bill: any }) {
 
         {/* Edit Bill Dialog */}
         <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>
-          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-gray-800 border-gray-700">
+          <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-slate-950/90 border-white/10 backdrop-blur-xl">
             <DialogHeader>
               <DialogTitle className="text-white flex items-center gap-2">
                 <Pencil className="h-5 w-5" />
@@ -2899,7 +3110,7 @@ export default function BillDetails({ bill }: { bill: any }) {
 
         {/* Participants Management Modal */}
         <Dialog open={showParticipantsModal} onOpenChange={setShowParticipantsModal}>
-          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-gray-800 border-gray-700">
+          <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto bg-slate-950/90 border-white/10 backdrop-blur-xl">
             <DialogHeader>
               <DialogTitle className="text-white flex items-center gap-2">
                 <Users className="h-5 w-5" />
@@ -2918,7 +3129,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                       const total = participantTotals.find(t => t.participant.id === participant.id)?.total || 0;
                       
                       return (
-                        <div key={participant.id} className={`flex items-center justify-between p-2 rounded border border-gray-600 ${colorClass.replace('bg-', 'bg-opacity-20 bg-')}`}>
+                        <div key={participant.id} className={`flex items-center justify-between p-3 rounded-2xl border border-white/10 bg-white/[0.04] ${colorClass.replace('bg-', 'bg-opacity-20 bg-')}`}>
                           <div className="flex items-center gap-2">
                             <Avatar className="h-6 w-6">
                               <AvatarFallback className={`text-xs ${colorClass}`}>
@@ -2951,7 +3162,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                                 
                                 toast.success(`Removed ${participant.displayName}`);
                               }}
-                              className="h-6 w-6 p-0 text-red-400 hover:text-red-300"
+                              className="h-6 w-6 p-0 text-rose-400 hover:text-red-300"
                             >
                               <X className="h-3 w-3" />
                             </Button>
@@ -2973,10 +3184,10 @@ export default function BillDetails({ bill }: { bill: any }) {
                         placeholder="Search people..."
                         value={participantSearchQuery}
                         onChange={(e) => setParticipantSearchQuery(e.target.value)}
-                        className="flex-1 bg-gray-700 border-gray-600 text-white text-sm"
+                        className="flex-1 rounded-2xl border border-white/10 bg-white/[0.05] p-3 text-sm text-slate-100"
                       />
                       {participantSearchQuery && (
-                        <div className="mt-2 max-h-32 overflow-y-auto bg-gray-700 border border-gray-600 rounded">
+                        <div className="mt-2 max-h-32 overflow-y-auto rounded-2xl border border-white/10 bg-white/[0.05]">
                           {(Array.isArray(availablePeople) ? availablePeople : [])
                             .filter(person => {
                               const searchTerm = participantSearchQuery.toLowerCase().trim();
@@ -3044,7 +3255,7 @@ export default function BillDetails({ bill }: { bill: any }) {
 
         {/* Payment Info Modal */}
         <Dialog open={showPaymentInfoModal} onOpenChange={setShowPaymentInfoModal}>
-          <DialogContent className="max-w-2xl bg-gray-800 border-gray-700">
+          <DialogContent className="max-w-2xl bg-slate-950/90 border-white/10 backdrop-blur-xl">
             <DialogHeader>
               <DialogTitle className="text-white flex items-center gap-2">
                 <QrCode className="h-5 w-5" />
@@ -3118,7 +3329,6 @@ export default function BillDetails({ bill }: { bill: any }) {
             </div>
           </DialogContent>
         </Dialog>
-      </div>
     </div>
   );
 }
