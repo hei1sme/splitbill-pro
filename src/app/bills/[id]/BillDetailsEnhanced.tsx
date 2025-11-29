@@ -62,14 +62,14 @@ interface Item {
   id: string;
   name: string;
   fee?: number;
-  splitMethod: "EQUAL" | "PERCENT"; // Removed CUSTOM per requirements
+  splitMethod: "EQUAL" | "PERCENT" | "CUSTOM"; // Added CUSTOM for manual amount entry
   type: "NORMAL" | "CARRY_OVER" | "SPECIAL";
   order: number;
   shares: ItemShare[];
 }
 
 interface BillSettings {
-  defaultSplitMethod: "EQUAL" | "PERCENT";
+  defaultSplitMethod: "EQUAL" | "PERCENT" | "CUSTOM";
   roundingRule: "UP" | "DOWN" | "NEAREST";
   currency: string;
   allowPartialParticipation: boolean;
@@ -740,6 +740,15 @@ export default function BillDetails({ bill }: { bill: any }) {
   // Find the payer
   const payer = participants.find(p => p.isPayer);
 
+  // Sort participants with payer last
+  const sortedParticipants = useMemo(() => {
+    return [...participants].sort((a, b) => {
+      if (a.isPayer && !b.isPayer) return 1;  // Payer goes last
+      if (!a.isPayer && b.isPayer) return -1;
+      return a.order - b.order;
+    });
+  }, [participants]);
+
   // Calculations - keeping grand total method that works correctly
   const totalNormalFee = useMemo(() => {
     const total = items
@@ -930,6 +939,23 @@ export default function BillDetails({ bill }: { bill: any }) {
             if (!share.include) return { ...share, amount: 0 };
             const percentage = parseFloat(share.rawInput || "0");
             return { ...share, amount: (item.fee || 0) * (percentage / 100) };
+          }),
+        };
+      } else if (item.splitMethod === "CUSTOM") {
+        // CUSTOM: Manual amounts + auto-distribute remainder
+        const manualShares = item.shares.filter(s => s.include && s.isManualEntry && s.amount > 0);
+        const autoShares = item.shares.filter(s => s.include && !s.isManualEntry);
+        
+        const manualTotal = manualShares.reduce((sum, s) => sum + (s.amount || 0), 0);
+        const remainingAmount = Math.max(0, (item.fee || 0) - manualTotal);
+        const amountPerAuto = autoShares.length > 0 ? remainingAmount / autoShares.length : 0;
+        
+        return {
+          ...item,
+          shares: item.shares.map(share => {
+            if (!share.include) return { ...share, amount: 0 };
+            if (share.isManualEntry) return share; // Keep manual entry as-is
+            return { ...share, amount: amountPerAuto }; // Auto-distribute remainder
           }),
         };
       }
@@ -1708,7 +1734,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                       <label className="text-sm font-medium text-slate-200">Default Split Method</label>
                       <Select 
                         value={billSettings.defaultSplitMethod}
-                        onValueChange={(value: "EQUAL" | "PERCENT") => 
+                        onValueChange={(value: "EQUAL" | "PERCENT" | "CUSTOM") => 
                           setBillSettings(prev => ({ ...prev, defaultSplitMethod: value }))
                         }
                       >
@@ -1718,6 +1744,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                         <SelectContent>
                           <SelectItem value="EQUAL">Equal Split</SelectItem>
                           <SelectItem value="PERCENT">Percentage Split</SelectItem>
+                          <SelectItem value="CUSTOM">Custom Amount</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
@@ -1897,33 +1924,45 @@ export default function BillDetails({ bill }: { bill: any }) {
               </div>
             </CardHeader>
             <CardContent className="space-y-6 p-6">
-                {/* PAID/UNPAID Tokens for Drag & Drop (Desktop Only) */}
-                <div className="hidden sm:block rounded-2xl border border-white/10 bg-gradient-to-r from-emerald-500/10 via-slate-900/40 to-purple-600/10 px-5 py-4 shadow-inner">
-                  <div className="flex flex-wrap items-center gap-4">
-                    <span className="text-sm font-medium text-slate-100">💰 Quick status tokens</span>
-                    <div
-                      draggable
-                      onDragStart={(e) => {
-                        setDraggedPayment("PAID");
-                        e.dataTransfer.effectAllowed = "move";
-                      }}
-                      className="cursor-move rounded-full bg-gradient-to-r from-emerald-400 via-emerald-500 to-emerald-600 px-4 py-1.5 text-xs font-semibold text-emerald-50 shadow-lg transition hover:brightness-110"
-                    >
-                      PAID
+                {/* PAID/UNPAID Tokens - Sticky Bar for Desktop, Info for Mobile */}
+                <div className="sticky top-0 z-20 py-2">
+                  {/* Desktop: Drag & Drop Tokens */}
+                  <div className="hidden sm:block rounded-2xl border border-slate-700 bg-slate-900/80 px-5 py-4 shadow-inner">
+                    <div className="flex flex-wrap items-center gap-4">
+                      <span className="text-sm font-medium text-slate-100">💰 Quick status tokens</span>
+                      <div
+                        draggable
+                        onDragStart={(e) => {
+                          setDraggedPayment("PAID");
+                          e.dataTransfer.effectAllowed = "move";
+                        }}
+                        className="cursor-move rounded-full bg-emerald-600 hover:bg-emerald-500 px-4 py-1.5 text-xs font-bold text-white shadow-lg transition-all"
+                      >
+                        PAID
+                      </div>
+                      <div
+                        draggable
+                        onDragStart={(e) => {
+                          setDraggedPayment("UNPAID");
+                          e.dataTransfer.effectAllowed = "move";
+                        }}
+                        className="cursor-move rounded-full bg-red-600 hover:bg-red-500 px-4 py-1.5 text-xs font-bold text-white shadow-lg transition-all"
+                      >
+                        UNPAID
+                      </div>
+                      <span className="text-xs text-slate-400">
+                        Drag onto participants or individual cells to update status instantly.
+                      </span>
                     </div>
-                    <div
-                      draggable
-                      onDragStart={(e) => {
-                        setDraggedPayment("UNPAID");
-                        e.dataTransfer.effectAllowed = "move";
-                      }}
-                      className="cursor-move rounded-full bg-gradient-to-r from-rose-400 via-rose-500 to-rose-600 px-4 py-1.5 text-xs font-semibold text-rose-50 shadow-lg transition hover:brightness-110"
-                    >
-                      UNPAID
+                  </div>
+                  {/* Mobile: Tap Instructions */}
+                  <div className="sm:hidden rounded-2xl border border-white/10 bg-gradient-to-r from-emerald-500/10 via-slate-900/40 to-purple-600/10 px-4 py-3 shadow-inner">
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-medium text-slate-100">💰 Payment Status</span>
+                      <span className="text-xs text-slate-300/80">
+                        Tap on any amount to toggle PAID/UNPAID
+                      </span>
                     </div>
-                    <span className="text-xs text-slate-300/80">
-                      Drag onto participants or individual cells to update status instantly.
-                    </span>
                   </div>
                 </div>
 
@@ -1943,7 +1982,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                           <th className="min-w-[100px] border-r border-white/10 p-4 text-center font-semibold text-slate-200">
                             Split Method
                           </th>
-                          {participants.map((participant, index) => {
+                          {sortedParticipants.map((participant, index) => {
                             const headerColorClass = getParticipantColor(index, participant.isPayer)
                               .replace('bg-', 'bg-opacity-20 bg-')
                               .replace('text-', 'text-opacity-90 text-')
@@ -2017,9 +2056,17 @@ export default function BillDetails({ bill }: { bill: any }) {
                             <td className="border-r border-white/5 p-3">
                               <Select
                                 value={item.splitMethod}
-                                onValueChange={(value: "EQUAL" | "PERCENT") =>
-                                  handleItemUpdate(item.id, { splitMethod: value })
-                                }
+                                onValueChange={(value: "EQUAL" | "PERCENT" | "CUSTOM") => {
+                                  // When switching to CUSTOM, reset manual entries
+                                  if (value === "CUSTOM") {
+                                    handleItemUpdate(item.id, { 
+                                      splitMethod: value,
+                                      shares: item.shares.map(s => ({ ...s, isManualEntry: false, rawInput: '' }))
+                                    });
+                                  } else {
+                                    handleItemUpdate(item.id, { splitMethod: value });
+                                  }
+                                }}
                               >
                                 <SelectTrigger className="h-7 border border-white/15 bg-white/5 px-2 text-xs text-white focus:border-purple-300 focus:ring-0">
                                   <SelectValue />
@@ -2027,12 +2074,13 @@ export default function BillDetails({ bill }: { bill: any }) {
                                 <SelectContent>
                                   <SelectItem value="EQUAL">Equal</SelectItem>
                                   <SelectItem value="PERCENT">Percent</SelectItem>
+                                  <SelectItem value="CUSTOM">Custom</SelectItem>
                                 </SelectContent>
                               </Select>
                             </td>
 
                             {/* Participant Shares */}
-                            {participants.map((participant, participantIndex) => {
+                            {sortedParticipants.map((participant, participantIndex) => {
                               const share = item.shares.find(s => s.participantId === participant.id);
                               if (!share) return <td key={participant.id} className="p-3"></td>;
 
@@ -2064,7 +2112,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                                   }}
                                 >
                                   <div className="flex flex-col items-center gap-1">
-                                    {/* Include Checkbox for Equal Split OR Percentage Input for Percent Split */}
+                                    {/* Split Method Input - EQUAL, PERCENT, or CUSTOM */}
                                     {item.splitMethod === "EQUAL" ? (
                                       <Checkbox
                                         checked={share.include}
@@ -2073,6 +2121,103 @@ export default function BillDetails({ bill }: { bill: any }) {
                                         }
                                         className="h-3 w-3"
                                       />
+                                    ) : item.splitMethod === "CUSTOM" ? (
+                                      /* CUSTOM: Amount input with auto-distribute for remaining */
+                                      <div className="flex flex-col items-center gap-0.5">
+                                        <div className="flex items-center gap-1">
+                                          <Checkbox
+                                            checked={share.include}
+                                            onCheckedChange={(checked) => {
+                                              handleShareUpdate(item.id, participant.id, { 
+                                                include: !!checked,
+                                                isManualEntry: false,
+                                                amount: 0,
+                                                rawInput: ''
+                                              });
+                                              // Re-distribute after toggling
+                                              setTimeout(() => handleDistributeItem(item.id), 100);
+                                            }}
+                                            className="h-3 w-3"
+                                          />
+                                          {share.include && (
+                                            <span className={`text-[9px] px-1 py-0.5 rounded ${share.isManualEntry ? 'bg-amber-500/30 text-amber-300' : 'bg-blue-500/30 text-blue-300'}`}>
+                                              {share.isManualEntry ? '🔒' : 'AUTO'}
+                                            </span>
+                                          )}
+                                        </div>
+                                        {share.include && (
+                                          <Input
+                                            type="number"
+                                            value={share.isManualEntry ? (share.rawInput || '') : ''}
+                                            onChange={(e) => {
+                                              const inputValue = e.target.value;
+                                              const amount = parseFloat(inputValue) || 0;
+                                              
+                                              // Calculate total manual amounts for this item (excluding current)
+                                              const otherManualTotal = item.shares
+                                                .filter(s => s.participantId !== participant.id && s.include && s.isManualEntry)
+                                                .reduce((sum, s) => sum + (s.amount || 0), 0);
+                                              
+                                              const maxAmount = (item.fee || 0) - otherManualTotal;
+                                              
+                                              if (amount > maxAmount) {
+                                                toast.warning(`Max available: ${formatCurrency(maxAmount)}`);
+                                                handleShareUpdate(item.id, participant.id, {
+                                                  rawInput: maxAmount.toString(),
+                                                  amount: maxAmount,
+                                                  isManualEntry: true,
+                                                  include: true
+                                                });
+                                              } else {
+                                                handleShareUpdate(item.id, participant.id, {
+                                                  rawInput: inputValue,
+                                                  amount: amount,
+                                                  isManualEntry: amount > 0,
+                                                  include: true
+                                                });
+                                              }
+                                              
+                                              // Auto-distribute remaining to non-manual participants
+                                              setTimeout(() => {
+                                                setItems(prevItems => prevItems.map(prevItem => {
+                                                  if (prevItem.id !== item.id) return prevItem;
+                                                  
+                                                  const manualTotal = prevItem.shares
+                                                    .filter(s => s.include && s.isManualEntry)
+                                                    .reduce((sum, s) => sum + (s.amount || 0), 0);
+                                                  const remaining = Math.max(0, (prevItem.fee || 0) - manualTotal);
+                                                  const autoShares = prevItem.shares.filter(s => s.include && !s.isManualEntry);
+                                                  const perAuto = autoShares.length > 0 ? remaining / autoShares.length : 0;
+                                                  
+                                                  return {
+                                                    ...prevItem,
+                                                    shares: prevItem.shares.map(s => {
+                                                      if (s.include && !s.isManualEntry) {
+                                                        return { ...s, amount: perAuto };
+                                                      }
+                                                      return s;
+                                                    })
+                                                  };
+                                                }));
+                                              }, 100);
+                                            }}
+                                            onBlur={() => {
+                                              // Clear rawInput if amount is 0, making it auto again
+                                              if (!share.rawInput || parseFloat(share.rawInput) === 0) {
+                                                handleShareUpdate(item.id, participant.id, {
+                                                  isManualEntry: false,
+                                                  rawInput: ''
+                                                });
+                                                setTimeout(() => handleDistributeItem(item.id), 100);
+                                              }
+                                            }}
+                                            className="h-7 w-20 rounded-lg border bg-white/10 px-1 text-xs font-semibold text-white text-center transition focus:border-amber-400 focus-visible:ring-0 border-white/20"
+                                            placeholder={share.isManualEntry ? '' : 'Auto'}
+                                            min="0"
+                                            title="Enter specific amount (leave empty for auto-split)"
+                                          />
+                                        )}
+                                      </div>
                                     ) : (
                                       <Input
                                         type="number"
@@ -2188,50 +2333,35 @@ export default function BillDetails({ bill }: { bill: any }) {
                                       />
                                     )}
 
-                                    {/* Amount Display */}
+                                    {/* Amount Display - Tappable to toggle payment */}
                                     {!share.include ? (
                                       <span className="text-lg text-slate-500/70">–</span>
                                     ) : (
-                                      <div className="text-xs">
+                                      <div 
+                                        className={`text-xs cursor-pointer rounded-lg px-2 py-1 transition-all active:scale-95 ${
+                                          share.paid 
+                                            ? "bg-emerald-500/20 ring-1 ring-emerald-400/50 hover:bg-emerald-500/30" 
+                                            : "hover:bg-white/10 active:bg-white/20"
+                                        }`}
+                                        onClick={() => {
+                                          handleShareUpdate(item.id, participant.id, { paid: !share.paid });
+                                          toast.success(share.paid ? "Marked as UNPAID" : "Marked as PAID");
+                                        }}
+                                        title={share.paid ? "Click to mark as UNPAID" : "Click to mark as PAID"}
+                                      >
                                         <span className={`font-medium ${share.paid ? "text-green-400" : "text-white"}`}>
                                           {formatCurrency(share.amount)}
                                         </span>
                                         {item.splitMethod === "PERCENT" && share.rawInput && (
                                           <div className="text-xs text-gray-400">({share.rawInput}%)</div>
                                         )}
-                                      </div>
-                                    )}
-
-                                    {/* Payment Status */}
-                                    {share.include && (
-                                      <div className="flex items-center gap-1">
-                                        {/* Mobile: Keep tick boxes for touch interaction */}
-                                        <div className="block sm:hidden">
-                                          <Button
-                                            variant="ghost"
-                                            size="sm"
-                                            className="h-4 w-4 p-0"
-                                            onClick={() =>
-                                              handleShareUpdate(item.id, participant.id, { paid: !share.paid })
-                                            }
-                                          >
-                                            {share.paid ? (
-                                              <Check className="h-3 w-3 text-emerald-300" />
-                                            ) : (
-                                              <X className="h-3 w-3 text-gray-500" />
-                                            )}
-                                          </Button>
-                                          {share.paid && (
-                                            <span className="text-xs text-green-400 font-bold">✓</span>
-                                          )}
-                                        </div>
-
-                                        {/* Desktop: Show payment status for drag-drop target */}
-                                        <div className="hidden sm:block">
-                                          {share.paid && (
-                                            <span className="text-xs bg-green-600 text-white px-2 py-1 rounded font-semibold">PAID</span>
-                                          )}
-                                        </div>
+                                        {/* Payment Status Badge */}
+                                        {share.paid && (
+                                          <div className="mt-0.5 text-[10px] font-bold text-emerald-400 flex items-center justify-center gap-0.5">
+                                            <Check className="h-2.5 w-2.5" />
+                                            PAID
+                                          </div>
+                                        )}
                                       </div>
                                     )}
                                   </div>
@@ -2296,7 +2426,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                                   {totalPercentage.toFixed(1)}%
                                 </div>
                               </td>
-                              {participants.map((participant) => {
+                              {sortedParticipants.map((participant) => {
                                 const share = item.shares.find(s => s.participantId === participant.id);
                                 return (
                                   <td key={participant.id} className="border-r border-white/5 p-2 text-center">
@@ -2358,7 +2488,7 @@ export default function BillDetails({ bill }: { bill: any }) {
                             </td>
 
                             {/* Individual amounts per participant */}
-                            {participants.map((participant, participantIndex) => {
+                            {sortedParticipants.map((participant, participantIndex) => {
                               const share = item.shares.find(s => s.participantId === participant.id);
                               if (!share) return <td key={participant.id} className="p-3"></td>;
 
@@ -2411,18 +2541,39 @@ export default function BillDetails({ bill }: { bill: any }) {
                             {formatCurrency(grandTotal)}
                           </td>
                           <td className="border-r border-white/10 p-3"></td>
-                          {participants.map((participant, participantIndex) => {
-                            const total = participantTotals.find(t => t.participant.id === participant.id)?.total || 0;
+                          {sortedParticipants.map((participant, participantIndex) => {
+                            const participantData = participantTotals.find(t => t.participant.id === participant.id);
+                            const total = participantData?.total || 0;
+                            const outstanding = participantData?.outstanding || 0;
+                            const paidAmount = participantData?.paidAmount || 0;
                             const colorClass = getParticipantColor(participantIndex, participant.isPayer);
+                            const isFullyPaid = outstanding <= 0 && total > 0;
                             
                             return (
                               <td
                                 key={participant.id}
-                                className={`p-3 text-center border-r border-white/10 font-bold ${
+                                className={`p-3 text-center border-r border-white/10 ${
                                   colorClass.replace('bg-', 'bg-opacity-20 bg-').replace('text-', 'text-')
                                 }`}
                               >
-                                {formatCurrency(total)}
+                                <div className="flex flex-col items-center gap-0.5">
+                                  {/* Total Amount */}
+                                  <span className="font-bold">{formatCurrency(total)}</span>
+                                  
+                                  {/* Outstanding/Paid Status */}
+                                  {total > 0 && (
+                                    isFullyPaid ? (
+                                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/30 text-emerald-300 font-medium flex items-center gap-0.5">
+                                        <Check className="h-2.5 w-2.5" />
+                                        PAID
+                                      </span>
+                                    ) : (
+                                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-rose-500/30 text-rose-300 font-medium">
+                                        Left: {formatCurrency(outstanding)}
+                                      </span>
+                                    )
+                                  )}
+                                </div>
                               </td>
                             );
                           })}
@@ -2726,50 +2877,57 @@ export default function BillDetails({ bill }: { bill: any }) {
 
         {/* Snapshot Preview Modal */}
         <Dialog open={showSnapshot} onOpenChange={setShowSnapshot}>
-          <DialogContent className="!max-w-[95vw] !w-[95vw] !h-[90vh] !max-h-[90vh] overflow-hidden flex flex-col p-4" style={{ width: '95vw', height: '90vh', maxWidth: '95vw', maxHeight: '90vh' }}>
+          <DialogContent className="!max-w-[95vw] !w-[95vw] !h-[90vh] !max-h-[90vh] overflow-hidden flex flex-col border border-white/10 bg-slate-950/95 backdrop-blur-xl p-6" style={{ width: '95vw', height: '90vh', maxWidth: '95vw', maxHeight: '90vh' }}>
             <DialogHeader className="pb-4 flex-shrink-0">
-              <DialogTitle className="flex items-center gap-2 text-lg">
-                <Camera className="h-5 w-5 text-purple-600" />
+              <DialogTitle className="flex items-center gap-3 text-xl font-semibold text-white">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20 border border-purple-400/30">
+                  <Camera className="h-5 w-5 text-purple-300" />
+                </div>
                 Bill Snapshot Preview
               </DialogTitle>
+              <p className="mt-2 text-sm text-slate-300/70">Review and export your bill summary</p>
             </DialogHeader>
             
             {/* Scrollable Bill Content Frame */}
-            <div className="flex-1 overflow-y-auto border-2 border-purple-200 rounded-xl bg-white shadow-inner">
-              <div id="snapshot-content" className="bg-gradient-to-br from-slate-50 to-purple-50 p-8 min-h-full">
-              <div className="max-w-4xl mx-auto space-y-6">
+            <div className="flex-1 overflow-y-auto rounded-2xl border-2 border-purple-400/30 bg-white shadow-[0_20px_60px_-15px_rgba(147,51,234,0.3)]">
+              <div id="snapshot-content" className="bg-white p-6 min-h-full">
+              <div className="w-full mx-auto space-y-6">
                 
                 {/* Hero Header Card */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-purple-100 p-6">
+                <div className="bg-gradient-to-br from-purple-50 via-white to-indigo-50 rounded-3xl shadow-lg border-2 border-purple-200/50 p-8">
                   <div className="text-center">
                     <div className="export-safe-title">
-                      <h1 className="text-3xl font-bold mb-2 text-purple-600">{bill?.title || 'EXPENSE REPORT'}</h1>
+                      <h1 className="text-4xl font-bold mb-3 bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">{bill?.title || 'EXPENSE REPORT'}</h1>
                     </div>
-                    <div className="flex items-center justify-center gap-4 text-gray-600">
-                      <span className="flex items-center gap-1">
+                    <div className="flex items-center justify-center gap-6 text-gray-600 mt-4">
+                      <span className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-sm font-medium shadow-sm">
                         📅 {new Date(bill?.date || Date.now()).toLocaleDateString('vi-VN')}
                       </span>
-                      <Badge className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white">
+                      <Badge className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-2 text-sm font-semibold shadow-md">
                         {bill?.status || 'ACTIVE'}
                       </Badge>
                     </div>
                   </div>
                 </div>
 
-                {/* Items Overview Card */}
-                <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-purple-100 overflow-hidden">
-                  <div className="bg-gradient-to-r from-purple-600 to-indigo-600 p-4">
-                    <h2 className="text-xl font-semibold text-white flex items-center gap-2">
-                      📊 Expense Breakdown
-                    </h2>
-                  </div>
-                  
-                  <div className="w-full">
-                    <table className="w-full table-auto">
-                      <thead className="bg-purple-50">
+                {/* Main Content Grid: Expense Table (Left) + Payment Info (Right) */}
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                  {/* Expense Breakdown Table - Takes 2 columns */}
+                  <div className="lg:col-span-2">
+                    <div className="bg-white rounded-3xl shadow-xl border-2 border-purple-100/50 overflow-hidden">
+                      <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 p-5">
+                        <h2 className="text-2xl font-bold text-white flex items-center gap-3">
+                          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-white/20">📊</span>
+                          Expense Breakdown
+                        </h2>
+                      </div>
+                      
+                      <div className="w-full">
+                        <table className="w-full table-auto">
+                      <thead className="bg-gradient-to-r from-purple-50 to-indigo-50">
                         <tr>
-                          <th className="p-3 text-left font-semibold text-gray-800" style={{ width: 'auto' }}>Item</th>
-                          <th className="p-3 text-right font-semibold text-gray-800" style={{ width: '100px' }}>Price</th>
+                          <th className="p-4 text-left font-bold text-gray-800 border-b-2 border-purple-200" style={{ width: 'auto' }}>Item</th>
+                          <th className="p-4 text-right font-bold text-gray-800 border-b-2 border-purple-200" style={{ width: '120px' }}>Price</th>
                           {participants.map((p, index) => {
                             const lightBackgroundColors = [
                               'bg-purple-50', 'bg-indigo-50', 'bg-pink-50', 'bg-blue-50', 
@@ -2784,9 +2942,9 @@ export default function BillDetails({ bill }: { bill: any }) {
                             const lightBgClass = lightBackgroundColors[index % lightBackgroundColors.length];
                             const chipClass = strongChipColors[index % strongChipColors.length];
                             return (
-                              <th key={p.id} className={`p-2 text-center ${lightBgClass}`} style={{ minWidth: '80px' }}>
-                                <div className={`${chipClass} rounded-md px-2 py-1 mx-1`}>
-                                  <span className="font-semibold text-white text-sm">
+                              <th key={p.id} className={`p-3 text-center border-b-2 border-purple-200 ${lightBgClass}`} style={{ minWidth: '90px' }}>
+                                <div className={`${chipClass} rounded-xl px-3 py-2 mx-1 shadow-sm`}>
+                                  <span className="font-bold text-white text-sm">
                                     {p.displayName}
                                   </span>
                                 </div>
@@ -2797,9 +2955,9 @@ export default function BillDetails({ bill }: { bill: any }) {
                       </thead>
                       <tbody>
                         {items.filter(i => i.type === "NORMAL").map((item, itemIndex) => (
-                          <tr key={item.id} className={itemIndex % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
-                            <td className="p-3 font-medium text-gray-800 text-sm">{item.name}</td>
-                            <td className="p-3 text-right font-semibold text-gray-800 text-sm">{formatCurrency(item.fee || 0)}</td>
+                          <tr key={item.id} className={`border-b border-purple-100/50 transition-colors hover:bg-purple-50/30 ${itemIndex % 2 === 0 ? 'bg-gray-50/50' : 'bg-white'}`}>
+                            <td className="p-4 font-semibold text-gray-800">{item.name}</td>
+                            <td className="p-4 text-right font-bold text-gray-900">{formatCurrency(item.fee || 0)}</td>
                             {participants.map((p, pIndex) => {
                               const share = item.shares.find(s => s.participantId === p.id);
                               const lightBackgroundColors = [
@@ -2809,18 +2967,18 @@ export default function BillDetails({ bill }: { bill: any }) {
                               ];
                               const lightBgClass = lightBackgroundColors[pIndex % lightBackgroundColors.length];
                               return (
-                                <td key={p.id} className={`p-2 text-center ${lightBgClass}`}>
+                                <td key={p.id} className={`p-3 text-center border-l border-purple-100/30 ${lightBgClass}`}>
                                   {!share?.include ? (
-                                    <span className="text-gray-400 text-2xl">–</span>
+                                    <span className="text-gray-300 text-2xl">–</span>
                                   ) : (
-                                    <div className="flex flex-col items-center gap-1">
-                                      <span className="font-semibold text-gray-800 text-sm">
+                                    <div className="flex flex-col items-center gap-1.5">
+                                      <span className="font-bold text-gray-900">
                                         {formatCurrency(share.amount)}
                                       </span>
                                       {share.paid && (
-                                        <div className="flex items-center gap-1">
-                                          <Check className="h-3 w-3 text-green-600" />
-                                          <span className="text-xs text-green-600 font-medium">PAID</span>
+                                        <div className="flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5">
+                                          <Check className="h-3 w-3 text-emerald-600" />
+                                          <span className="text-xs text-emerald-700 font-bold">PAID</span>
                                         </div>
                                       )}
                                     </div>
@@ -2834,19 +2992,21 @@ export default function BillDetails({ bill }: { bill: any }) {
                         {/* Adjustments Section - Only show if there are non-normal items */}
                         {items.filter(i => i.type !== "NORMAL").length > 0 && (
                           <>
-                            <tr className="bg-yellow-50 border-t-2 border-yellow-200">
-                              <td colSpan={participants.length + 2} className="p-3 text-center">
-                                <div className="flex items-center justify-center gap-2 text-yellow-700 font-semibold text-sm">
-                                  <span>⚡</span>
-                                  <span>ADJUSTMENTS</span>
+                            <tr className="bg-gradient-to-r from-amber-50 to-yellow-50 border-t-2 border-amber-300">
+                              <td colSpan={participants.length + 2} className="p-4 text-center">
+                                <div className="flex items-center justify-center gap-2">
+                                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-400/20">
+                                    <span className="text-lg">⚡</span>
+                                  </div>
+                                  <span className="text-amber-800 font-bold text-base uppercase tracking-wider">Adjustments</span>
                                 </div>
                               </td>
                             </tr>
                             {items.filter(i => i.type !== "NORMAL").map((item, itemIndex) => (
-                              <tr key={item.id} className="bg-yellow-25 border-l-4 border-yellow-300">
-                                <td colSpan={2} className="p-3 font-medium text-gray-800 text-sm">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-orange-500">
+                              <tr key={item.id} className="bg-amber-50/40 border-l-4 border-amber-400 hover:bg-amber-50/60 transition-colors">
+                                <td colSpan={2} className="p-4 font-semibold text-gray-800">
+                                  <div className="flex items-center gap-3">
+                                    <span className="text-xl">
                                       {item.name.includes('Previous') ? '🔄' : item.name.includes('Discount') ? '💸' : '⚡'}
                                     </span>
                                     <span>{item.name}</span>
@@ -2861,18 +3021,18 @@ export default function BillDetails({ bill }: { bill: any }) {
                                   ];
                                   const lightBgClass = lightBackgroundColors[pIndex % lightBackgroundColors.length];
                                   return (
-                                    <td key={p.id} className={`p-2 text-center ${lightBgClass}`}>
+                                    <td key={p.id} className={`p-3 text-center border-l border-purple-100/30 ${lightBgClass}`}>
                                       {!share?.include || (share.amount === 0 && (item.type !== "NORMAL")) ? (
-                                        <span className="text-gray-400 text-2xl">–</span>
+                                        <span className="text-gray-300 text-2xl">–</span>
                                       ) : (
-                                        <div className="flex flex-col items-center gap-1">
-                                          <span className={`font-semibold text-sm ${share.amount < 0 ? 'text-red-600' : 'text-gray-800'}`}>
+                                        <div className="flex flex-col items-center gap-1.5">
+                                          <span className={`font-bold ${share.amount < 0 ? 'text-red-600' : 'text-gray-900'}`}>
                                             {formatCurrency(share.amount)}
                                           </span>
                                           {share.paid && (
-                                            <div className="flex items-center gap-1">
-                                              <Check className="h-3 w-3 text-green-600" />
-                                              <span className="text-xs text-green-600 font-medium">PAID</span>
+                                            <div className="flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5">
+                                              <Check className="h-3 w-3 text-emerald-600" />
+                                              <span className="text-xs text-emerald-700 font-bold">PAID</span>
                                             </div>
                                           )}
                                         </div>
@@ -2885,16 +3045,16 @@ export default function BillDetails({ bill }: { bill: any }) {
                           </>
                         )}
                         
-                        <tr style={{ backgroundColor: '#f1e8fe' }} className="border-t-2 border-purple-200">
-                          <td className="p-2 font-bold text-purple-800">TOTAL</td>
-                          <td className="p-2 text-right font-bold text-purple-800">
+                        <tr className="bg-gradient-to-r from-purple-100 via-indigo-100 to-purple-100 border-t-4 border-purple-300">
+                          <td className="p-4 font-black text-purple-900 uppercase tracking-wider text-base">Total</td>
+                          <td className="p-4 text-right font-black text-purple-900 text-lg">
                             {formatCurrency(grandTotal)}
                           </td>
                           {participants.map((p, pIndex) => {
                             const total = participantTotals.find(t => t.participant.id === p.id)?.total || 0;
                             return (
-                              <td key={p.id} style={{ backgroundColor: '#f1e8fe' }} className="p-2 text-center">
-                                <div className={`rounded-lg p-1 text-slate-100 font-semibold ${getParticipantColor(pIndex)}`}>
+                              <td key={p.id} className="p-3 text-center border-l border-purple-200">
+                                <div className={`rounded-xl p-2.5 text-white font-bold text-base shadow-md ${getParticipantColor(pIndex)}`}>
                                   {formatCurrency(total)}
                                 </div>
                               </td>
@@ -2905,140 +3065,157 @@ export default function BillDetails({ bill }: { bill: any }) {
                     </table>
                   </div>
                 </div>
+              </div>
 
-                {/* Bottom Section: Summary (Left) + Payment Information (Right) */}
-                <div className="grid grid-cols-2 gap-6">
-                  {/* Summary Statistics Card - LEFT SIDE */}
-                  <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-lg border border-purple-100 p-6">
-                    <div className="export-safe-title">
-                      <h3 className="text-xl font-bold mb-4 text-left text-purple-600">
-                        <span className="inline-flex items-center gap-2">
-                          <span>📈</span>
-                          <span>Summary</span>
-                        </span>
-                      </h3>
+              {/* Payment Information Card - Takes 1 column on desktop (right side) */}
+              <div className="lg:col-span-1">
+                {payer && (
+                  <div className="bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 rounded-3xl shadow-xl border-2 border-amber-300 p-8 relative overflow-hidden h-full">
+                    {/* Decorative background elements */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-yellow-300/20 to-orange-300/20 rounded-full blur-3xl"></div>
+                    
+                    {/* Header Row: Payment Information (Left) + PAYER Badge (Right) */}
+                    <div className="relative flex items-center justify-between mb-8">
+                      <div className="export-safe-title">
+                        <h3 className="text-2xl font-bold text-amber-900 flex items-center gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400/30">
+                            <span className="text-xl">💳</span>
+                          </div>
+                          <span>Payment Info</span>
+                        </h3>
+                      </div>
+                      <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-black shadow-lg flex items-center gap-2">
+                        <span>👑</span>
+                        <span>PAYER</span>
+                      </div>
                     </div>
                     
-                    <div className="grid grid-cols-1 gap-4">
-                      <div className="text-center p-4 bg-purple-50 rounded-xl">
-                        <div className="text-2xl font-bold text-purple-600">{items.filter(i => i.type === "NORMAL").length}</div>
-                        <div className="text-sm text-gray-600">Items</div>
-                        {items.filter(i => i.type !== "NORMAL").length > 0 && (
-                          <div className="text-xs text-yellow-600 mt-1">
-                            +{items.filter(i => i.type !== "NORMAL").length} adjustments
+                    {/* 1-Column Content Layout */}
+                    <div className="relative space-y-5">
+                      {/* 1. Bank Name and Logo */}
+                      {payer.bankName && (
+                        <div className="text-center bg-white/60 rounded-2xl p-4 shadow-sm border border-amber-200/50">
+                          <div className="flex items-center justify-center gap-3 text-gray-800 font-semibold">
+                            {payer.bankLogoUrl && (
+                              <Image 
+                                src={payer.bankLogoUrl} 
+                                alt={`${payer.bankName} logo`}
+                                width={36} 
+                                height={36} 
+                                className="rounded-lg shadow-sm"
+                              />
+                            )}
+                            <span className="font-black text-xl text-gray-900">{payer.bankName}</span>
                           </div>
-                        )}
-                      </div>
-                      <div className="text-center p-4 bg-indigo-50 rounded-xl">
-                        <div className="text-2xl font-bold text-indigo-600">{participants.length}</div>
-                        <div className="text-sm text-gray-600">Participants</div>
-                      </div>
-                      <div className="text-center p-4 bg-pink-50 rounded-xl">
-                        <div className="text-2xl font-bold text-pink-600">{formatCurrency(grandTotal)}</div>
-                        <div className="text-sm text-gray-600">Total Amount</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Payer Information Card - RIGHT SIDE */}
-                  {payer && (
-                    <div className="bg-gradient-to-br from-yellow-50 to-orange-50 backdrop-blur-sm rounded-2xl shadow-lg border-2 border-yellow-300 p-6 relative overflow-hidden">
-                      {/* Header Row: Payment Information (Left) + PAYER Badge (Right) */}
-                      <div className="flex items-center justify-between mb-6">
-                        <div className="export-safe-title">
-                          <h3 className="text-xl font-bold text-yellow-700">
-                            <span className="inline-flex items-center gap-2">
-                              <span>💳</span>
-                              <span>Payment Information</span>
-                            </span>
-                          </h3>
                         </div>
-                        <div className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
-                          👑 PAYER
+                      )}
+                      
+                      {/* 2. QR Code */}
+                      {payer.qrUrl && (
+                        <div className="flex justify-center">
+                          <div className="bg-white p-4 rounded-2xl shadow-lg border-2 border-amber-300">
+                            <Image 
+                              src={payer.qrUrl} 
+                              alt="Payment QR Code" 
+                              width={140} 
+                              height={140} 
+                              className="rounded-xl"
+                            />
+                            <p className="text-xs text-gray-700 mt-3 text-center font-bold bg-amber-100 rounded-full px-3 py-1">Scan to Pay</p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* 3. Account Holder */}
+                      <div className="text-center">
+                        <div className="font-black text-gray-900 text-xl bg-gradient-to-r from-amber-100 to-yellow-100 px-4 py-3 rounded-2xl inline-block shadow-sm border border-amber-200">
+                          {payer.accountHolder || payer.displayName}
                         </div>
                       </div>
                       
-                      {/* 1-Column Content Layout */}
-                      <div className="space-y-4">
-                        {/* 1. Bank Name and Logo */}
-                        {payer.bankName && (
-                          <div className="text-center">
-                            <div className="flex items-center justify-center gap-3 text-gray-700 font-medium">
-                              {payer.bankLogoUrl && (
-                                <Image 
-                                  src={payer.bankLogoUrl} 
-                                  alt={`${payer.bankName} logo`}
-                                  width={32} 
-                                  height={32} 
-                                  className="rounded"
-                                />
-                              )}
-                              <span className="font-bold text-lg text-gray-800">{payer.bankName}</span>
-                            </div>
-                          </div>
-                        )}
-                        
-                        {/* 2. QR Code */}
-                        {payer.qrUrl && (
-                          <div className="flex justify-center">
-                            <div className="bg-white p-3 rounded-xl shadow-md border-2 border-yellow-300">
-                              <Image 
-                                src={payer.qrUrl} 
-                                alt="Payment QR Code" 
-                                width={120} 
-                                height={120} 
-                                className="rounded-lg"
-                              />
-                              <p className="text-xs text-gray-600 mt-2 text-center font-medium">Scan to Pay</p>
-                            </div>
-                          </div>
-                        )}
-                        
-                        {/* 3. Account Holder */}
+                      {/* 4. Account Number */}
+                      {payer.accountNumber && (
                         <div className="text-center">
-                          <div className="font-bold text-gray-900 text-lg bg-yellow-100 px-3 py-2 rounded-lg inline-block">
-                            {payer.accountHolder || payer.displayName}
+                          <div className="text-gray-800 font-bold text-xl font-mono bg-white/60 rounded-2xl px-4 py-3 shadow-sm border border-amber-200/50">
+                            {payer.accountNumber}
                           </div>
                         </div>
-                        
-                        {/* 4. Account Number */}
-                        {payer.accountNumber && (
-                          <div className="text-center">
-                            <div className="text-gray-700 font-medium text-lg">
-                              {payer.accountNumber}
-                            </div>
-                          </div>
-                        )}
-                      </div>
+                      )}
                     </div>
-                  )}
+                  </div>
+                )}
+              </div>
+            </div>
+
+                {/* Summary Statistics Card - Full Width Below */}
+                <div className="bg-white rounded-3xl shadow-xl border-2 border-purple-100/50 p-8">
+                  <div className="export-safe-title mb-6">
+                    <h3 className="text-2xl font-bold text-left flex items-center gap-3">
+                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-r from-purple-500/20 to-indigo-500/20">
+                        <span className="text-xl">📈</span>
+                      </div>
+                      <span className="bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">Summary</span>
+                    </h3>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
+                        <div className="text-center p-5 bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl border border-purple-200/50 shadow-sm">
+                          <div className="text-3xl font-black text-purple-700">{items.filter(i => i.type === "NORMAL").length}</div>
+                          <div className="text-sm font-semibold text-gray-700 mt-1">Items</div>
+                          {items.filter(i => i.type !== "NORMAL").length > 0 && (
+                            <div className="text-xs text-amber-700 font-medium mt-2 bg-amber-100 rounded-full px-2 py-1 inline-block">
+                              +{items.filter(i => i.type !== "NORMAL").length} adjustments
+                            </div>
+                          )}
+                        </div>
+                        <div className="text-center p-5 bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl border border-indigo-200/50 shadow-sm">
+                          <div className="text-3xl font-black text-indigo-700">{participants.length}</div>
+                          <div className="text-sm font-semibold text-gray-700 mt-1">Participants</div>
+                        </div>
+                    <div className="text-center p-5 bg-gradient-to-br from-pink-50 to-pink-100 rounded-2xl border border-pink-200/50 shadow-sm">
+                      <div className="text-3xl font-black text-pink-700">{formatCurrency(grandTotal)}</div>
+                      <div className="text-sm font-semibold text-gray-700 mt-1">Total Amount</div>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Footer */}
-                <div className="text-center text-gray-500 text-sm">
-                  Generated by SplitBill Pro • {new Date().toLocaleString('vi-VN')}
+                <div className="text-center text-gray-500 text-sm pt-4 border-t-2 border-purple-100">
+                  <p className="font-medium">Generated by <span className="font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">SplitBill Pro</span></p>
+                  <p className="text-xs mt-1">{new Date().toLocaleString('vi-VN')}</p>
                 </div>
               </div>
-            </div>
+              </div>
             </div>
 
             {/* Action Buttons - Outside the scrollable frame */}
-            <div className="flex justify-end gap-3 pt-4 flex-shrink-0 border-t border-white/10">
-              <Button variant="outline" onClick={() => setShowSnapshot(false)}>
+            <div className="flex justify-end gap-3 pt-6 flex-shrink-0 border-t border-white/20">
+              <Button 
+                variant="outline" 
+                onClick={() => setShowSnapshot(false)}
+                className="rounded-full border-white/20 bg-white/10 text-white hover:border-white/30 hover:bg-white/15"
+              >
                 Close
               </Button>
               <Button 
                 variant="outline" 
                 onClick={() => window.open(`/bills/${bill?.id}/snapshot`, '_blank')}
-                className="flex items-center gap-2"
+                className="flex items-center gap-2 rounded-full border-white/20 bg-white/10 text-white hover:border-white/30 hover:bg-white/15"
               >
-                📸 Open Snapshot View
+                <Camera className="h-4 w-4" />
+                Open Snapshot View
               </Button>
-              <Button onClick={handleCopyAsImage} className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700">
+              <Button 
+                onClick={handleCopyAsImage} 
+                className="rounded-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white shadow-lg hover:from-purple-600 hover:to-indigo-600"
+              >
                 <Copy className="h-4 w-4 mr-2" />
                 Copy as Image
               </Button>
-              <Button onClick={handleDownloadPDF} className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700">
+              <Button 
+                onClick={handleDownloadPDF} 
+                className="rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-lg hover:from-indigo-600 hover:to-purple-600"
+              >
                 <Download className="h-4 w-4 mr-2" />
                 Download PDF
               </Button>

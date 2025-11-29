@@ -14,7 +14,7 @@ Quick steps
 3. Start the stack:
 
 ```bash
-docker compose up -d --build
+docker compose up -d --build app
 ```
 
 What the compose stack includes
