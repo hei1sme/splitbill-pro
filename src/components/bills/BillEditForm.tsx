@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/select";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Person } from "@prisma/client/dev";
+import type { Person } from "@prisma/client";
 import * as React from "react";
 
 // Schema for editing existing bills - more restrictive than creation

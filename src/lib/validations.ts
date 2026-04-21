@@ -113,31 +113,31 @@ export const BillEditSchema = z.object({
   isEditMode: z.boolean().optional(),
 });
 
-// Bill Item Management
-export const BillItemSchema = z.object({
-  description: z.string().min(1, "Description is required").max(100, "Description is too long"),
-  amount: z.number().positive("Amount must be a positive number"),
+// Item Management
+export const ItemSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name is too long"),
+  fee: z.number().positive("Fee must be a positive number"),
 });
 
-export const BillItemCreateSchema = z.object({
-  description: z.string().min(1, "Description is required").max(100, "Description is too long"),
-  amount: z.preprocess(
+export const ItemCreateSchema = z.object({
+  name: z.string().min(1, "Name is required").max(100, "Name is too long"),
+  fee: z.preprocess(
     (val) => (val === "" || val === undefined || val === null) ? 0 : Number(val),
-    z.number().positive("Amount must be a positive number")
+    z.number().positive("Fee must be a positive number")
   ),
 });
-export const BillItemUpdateSchema = BillItemSchema.partial();
+export const ItemUpdateSchema = ItemSchema.partial();
 
-// Bill Split Management
-export const BillSplitSchema = z.object({
-  billItemId: z.string().cuid("Invalid bill item ID"),
-  personId: z.string().cuid("Invalid person ID"),
+// Item Share Management
+export const ItemShareSchema = z.object({
+  itemId: z.string().cuid("Invalid item ID"),
+  participantId: z.string().cuid("Invalid participant ID"),
   amount: z.number().positive("Amount must be positive"),
-  splitMode: z.enum(["EVENLY", "BY_QUANTITY", "BY_PERCENTAGE", "BY_AMOUNT"]).default("EVENLY"),
+  include: z.boolean().default(true),
 });
 
-export const BillSplitCreateSchema = BillSplitSchema;
-export const BillSplitUpdateSchema = BillSplitSchema.partial();
+export const ItemShareCreateSchema = ItemShareSchema;
+export const ItemShareUpdateSchema = ItemShareSchema.partial();
 
 // Settlement Management
 export const SettlementSchema = z.object({

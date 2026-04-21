@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Toaster } from "@/components/ui/sonner";
 import { PersonCreateSchema } from "@/lib/validations";
-import { Bank, Person } from "../../../node_modules/.prisma/client-dev";
+import type { Bank, Person } from "@prisma/client";
 import { z } from "zod";
 import { toast } from "sonner";
 import { useDebounce } from "use-debounce";

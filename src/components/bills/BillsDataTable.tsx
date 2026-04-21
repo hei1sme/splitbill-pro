@@ -33,7 +33,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Group, Person } from "@prisma/client/dev";
+import type { Group, Person } from "@prisma/client";
 import { BillFormEnhanced } from "./BillFormEnhanced";
 import { z } from "zod";
 import { BillFormSchema, BillFormEnhancedSchema } from "@/lib/validations";

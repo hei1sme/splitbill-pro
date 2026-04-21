@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BankCreateSchema } from "@/lib/validations";
-import { Bank } from "../../../node_modules/.prisma/client-dev";
+import type { Bank } from "@prisma/client";
 import Image from "next/image";
 import { useState } from "react";
 

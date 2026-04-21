@@ -1,6 +1,6 @@
 "use client";
 
-import type { BillItem } from ".prisma/client-dev";
+import type { Item } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
@@ -15,23 +15,23 @@ import {
 import { MoreHorizontal } from "lucide-react";
 
 interface ColumnsProps {
-  onBillItemEdit: (billItem: BillItem) => void;
-  onBillItemDelete: (billItem: BillItem) => void;
+  onItemEdit: (billItem: Item) => void;
+  onItemDelete: (billItem: Item) => void;
 }
 
 export const columns = ({
-  onBillItemEdit,
-  onBillItemDelete,
-}: ColumnsProps): ColumnDef<BillItem>[] => [
+  onItemEdit,
+  onItemDelete,
+}: ColumnsProps): ColumnDef<Item>[] => [
   {
-    accessorKey: "description",
+    accessorKey: "name",
     header: "Description",
   },
   {
-    accessorKey: "amount",
+    accessorKey: "fee",
     header: "Amount",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const amount = parseFloat(row.getValue("fee"));
       const formatted = new Intl.NumberFormat("vi-VN", {
         style: "currency",
         currency: "VND",
@@ -55,11 +55,11 @@ export const columns = ({
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem onClick={() => onBillItemEdit(billItem)}>
+            <DropdownMenuItem onClick={() => onItemEdit(billItem)}>
               Edit
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => onBillItemDelete(billItem)}>
+            <DropdownMenuItem onClick={() => onItemDelete(billItem)}>
               Delete
             </DropdownMenuItem>
           </DropdownMenuContent>

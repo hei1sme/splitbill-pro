@@ -29,7 +29,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Group, Person } from "../../../node_modules/.prisma/client-dev";
+import type { Group, Person } from "@prisma/client";
 import { GroupForm } from "./GroupForm";
 import { z } from "zod";
 import { GroupCreateSchema } from "@/lib/validations";

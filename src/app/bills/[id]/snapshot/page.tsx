@@ -1,44 +1,43 @@
-import { PrismaClient } from '@prisma/client/dev';
+import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import { unstable_noStore as noStore } from 'next/cache';
 import SnapshotView from './SnapshotView';
 
-const prisma = new PrismaClient();
 
 async function getBill(id: string) {
   noStore();
   const bill = await prisma.bill.findUnique({
     where: { id },
     include: {
-      group: {
+      participants: {
         include: {
-          members: {
+          person: {
             include: {
-              person: {
-                include: {
-                  bank: true
-                }
-              }
-            }
-          }
-        }
+              bank: true,
+            },
+          },
+        },
       },
       payer: {
         include: {
-          bank: true
-        }
+          bank: true,
+        },
       },
       items: {
         include: {
-          splits: {
+          shares: {
             include: {
-              person: {
+              participant: {
                 include: {
-                  bank: true
-                }
-              }
-            }
-          }
+                  person: {
+                    include: {
+                      bank: true,
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         orderBy: {
           createdAt: 'asc',

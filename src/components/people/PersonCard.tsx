@@ -11,7 +11,7 @@ import {
   AvatarFallback,
   AvatarImage,
 } from "@/components/ui/avatar";
-import { Bank, Person } from "../../../node_modules/.prisma/client-dev";
+import type { Bank, Person } from "@prisma/client";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { Pencil, QrCode, Trash2 } from "lucide-react";

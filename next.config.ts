@@ -14,23 +14,21 @@ const nextConfig: NextConfig = {
   // This is a pragmatic, temporary measure — please fix the lint/type issues for
   // long-term quality and safety.
   eslint: {
-    // skip ESLint during builds inside Docker to avoid failing the image build
-    ignoreDuringBuilds: true,
+    ignoreDuringBuilds: false,
   },
   typescript: {
-    // skip TypeScript type-checking during builds (allow the app to build)
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
   // Configure external image domains - allow any domain for flexibility
   images: {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: '**',
+        hostname: '*.supabase.co',
       },
       {
-        protocol: 'http',
-        hostname: '**',
+        protocol: 'https',
+        hostname: '*.supabase.in',
       },
     ],
   },

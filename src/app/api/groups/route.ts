@@ -1,8 +1,6 @@
-import { PrismaClient } from '../../../../node_modules/.prisma/client-dev';
 import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 import { GroupCreateSchema } from '@/lib/validations';
-
-const prisma = new PrismaClient();
 
 export async function GET() {
   try {
@@ -43,7 +41,11 @@ export async function POST(request: Request) {
 
     const { name, personIds } = validation.data;
 
-    const existingGroup = await prisma.group.findUnique({ where: { name } });
+    // Hardcoded default user ID for now until Auth is fully integrated
+    const userId = "default-org-user-id";
+
+    // Find first instead of findUnique because unique is compound
+    const existingGroup = await prisma.group.findFirst({ where: { name, userId } });
     if (existingGroup) {
       return NextResponse.json({ success: false, error: { message: 'Group with this name already exists.' } }, { status: 409 });
     }
@@ -51,6 +53,7 @@ export async function POST(request: Request) {
     const newGroup = await prisma.group.create({
       data: {
         name,
+        userId,
         members: {
           create: personIds.map((personId) => ({
             person: { connect: { id: personId } },

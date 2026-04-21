@@ -93,7 +93,7 @@ export default function SnapshotView({ bill }: SnapshotViewProps) {
   });
 
   // Calculate grand total from participant totals (this accounts for actual splits and adjustments)
-  const grandTotal = participantTotals.reduce((sum: any, pt: any) => sum + pt.total, 0);
+  const grandTotal = participantTotals.reduce((sum: number, pt: any) => sum + pt.total, 0);
 
   // Camera capture function
   const handleCameraCapture = async () => {

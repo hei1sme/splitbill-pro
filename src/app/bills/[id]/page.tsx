@@ -1,25 +1,19 @@
-import { PrismaClient } from '@prisma/client/dev';
+import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
 import BillDetails from './BillDetailsEnhanced';
-
-const prisma = new PrismaClient();
 
 async function getBill(id: string) {
   const bill = await prisma.bill.findUnique({
     where: { id },
     include: {
-      group: {
+      participants: {
         include: {
-          members: {
+          person: {
             include: {
-              person: {
-                include: {
-                  bank: true
-                }
-              }
-            }
-          }
-        }
+              bank: true,
+            },
+          },
+        },
       },
       payer: {
         include: {
@@ -35,31 +29,8 @@ async function getBill(id: string) {
   });
   
   if (!bill) return null;
-  
-  // Fetch custom participants data if needed
-  let customParticipantsData = null;
-  if ((bill as any).customParticipants) {
-    try {
-      const customParticipantIds = JSON.parse((bill as any).customParticipants);
-      if (customParticipantIds.length > 0) {
-        customParticipantsData = await prisma.person.findMany({
-          where: {
-            id: { in: customParticipantIds }
-          },
-          include: {
-            bank: true
-          }
-        });
-      }
-    } catch (error) {
-      console.error('[getBill] Error parsing custom participants:', error);
-    }
-  }
-  
-  return {
-    ...bill,
-    customParticipantsData
-  };
+
+  return bill;
 }
 
 export default async function BillDetailsPage({ params }: { params: { id: string } }) {

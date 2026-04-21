@@ -1,8 +1,6 @@
-import { PrismaClient } from '../../../../../node_modules/.prisma/client-dev';
 import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 import { PersonUpdateSchema } from '@/lib/validations';
-
-const prisma = new PrismaClient();
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -14,9 +12,12 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ success: false, error: { message: 'Invalid data', details: validation.error.flatten().fieldErrors } }, { status: 400 });
     }
     
+    // Hardcoded default user ID for now until Auth is fully integrated
+    const userId = "default-org-user-id";
+
     // Check for unique display name if it's being changed
     if (validation.data.displayName) {
-        const existingPerson = await prisma.person.findFirst({ where: { displayName: validation.data.displayName, NOT: { id } } });
+        const existingPerson = await prisma.person.findFirst({ where: { displayName: validation.data.displayName, userId, NOT: { id } } });
         if (existingPerson) {
           return NextResponse.json({ success: false, error: { message: 'Person with this display name already exists.' } }, { status: 409 });
         }
@@ -39,11 +40,11 @@ export async function DELETE(request: Request, { params }: { params: Promise<{ i
     const { id } = await params;
 
     // Check if the person is part of any bills
-    const billSplit = await prisma.billSplit.findFirst({
+    const billParticipant = await prisma.billParticipant.findFirst({
         where: { personId: id }
     });
 
-    if (billSplit) {
+    if (billParticipant) {
         return NextResponse.json({ success: false, error: { message: 'Cannot delete person. They are part of one or more bills.' } }, { status: 409 });
     }
 

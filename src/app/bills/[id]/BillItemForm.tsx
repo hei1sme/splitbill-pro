@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { BillItem } from "@prisma/client/dev";
+import type { Item } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -16,27 +16,27 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { BillItemCreateSchema } from "@/lib/validations";
+import { ItemCreateSchema } from "@/lib/validations";
 
-const formSchema = BillItemCreateSchema;
+const formSchema = ItemCreateSchema;
 
-interface BillItemFormProps {
+interface ItemFormProps {
   billId: string;
   onSave: () => void;
-  billItem?: BillItem;
+  billItem?: Item;
 }
 
-export function BillItemForm({
+export function ItemForm({
   billId,
   onSave,
   billItem,
-}: BillItemFormProps) {
+}: ItemFormProps) {
   const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema) as any, // Next.js 15 type compatibility
     defaultValues: {
-      description: billItem?.description || "",
-      amount: billItem?.amount || 0,
+      name: billItem?.name || "",
+      fee: billItem?.fee ? Number(billItem.fee) : 0,
     },
   });
 
@@ -62,7 +62,7 @@ export function BillItemForm({
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="description"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Description</FormLabel>
@@ -75,7 +75,7 @@ export function BillItemForm({
         />
         <FormField
           control={form.control}
-          name="amount"
+          name="fee"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Amount</FormLabel>

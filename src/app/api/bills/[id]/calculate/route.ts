@@ -7,18 +7,14 @@ export async function POST(
 ) {
   try {
     const { id } = await params;
-    // Get the bill with all its items and group members
+    // Get the bill with all its items and participants
     const bill = await prisma.bill.findUnique({
       where: { id },
       include: {
         items: true,
-        group: {
+        participants: {
           include: {
-            members: {
-              include: {
-                person: true,
-              },
-            },
+            person: true,
           },
         },
         payer: true,
@@ -29,12 +25,12 @@ export async function POST(
       return new NextResponse("Bill not found", { status: 404 });
     }
 
-    const groupMembers = bill.group.members.map(member => member.person);
-    const totalAmount = bill.items.reduce((sum, item) => sum + item.amount, 0);
-    const splitAmount = totalAmount / groupMembers.length;
+    const participants = bill.participants.map(p => p.person);
+    const totalAmount = bill.items.reduce((sum, item) => sum + (Number(item.fee) || 0), 0);
+    const splitAmount = participants.length > 0 ? totalAmount / participants.length : 0;
 
     // Calculate what each person owes
-    const balances = groupMembers.map(person => ({
+    const balances = participants.map(person => ({
       personId: person.id,
       name: person.displayName,
       owes: person.id === bill.payerId ? 0 : splitAmount,

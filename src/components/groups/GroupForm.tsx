@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { GroupCreateSchema } from "@/lib/validations";
-import { Group, Person } from "../../../node_modules/.prisma/client-dev";
+import type { Group, Person } from "@prisma/client";
 import { MultiSelect } from "./MultiSelect";
 import { Badge } from "../ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";

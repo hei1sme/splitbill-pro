@@ -1,8 +1,6 @@
-import { PrismaClient } from '../../../../node_modules/.prisma/client-dev';
 import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 import { PersonCreateSchema } from '@/lib/validations';
-
-const prisma = new PrismaClient();
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -52,14 +50,21 @@ export async function POST(request: Request) {
     }
 
     const { displayName } = validation.data;
+    
+    // Hardcoded default user ID for now until Auth is fully integrated
+    const userId = "default-org-user-id";
 
-    const existingPerson = await prisma.person.findUnique({ where: { displayName } });
+    const existingPerson = await prisma.person.findFirst({ where: { displayName, userId } });
     if (existingPerson) {
       return NextResponse.json({ success: false, error: { message: 'Person with this display name already exists.' } }, { status: 409 });
     }
 
     const newPerson = await prisma.person.create({
-      data: validation.data,
+      data: {
+        ...validation.data,
+        bankCode: validation.data.bankCode || null,
+        userId
+      },
     });
 
     return NextResponse.json({ success: true, data: newPerson }, { status: 201 });

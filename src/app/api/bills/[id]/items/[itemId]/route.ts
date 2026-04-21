@@ -1,8 +1,11 @@
-import { PrismaClient } from '@prisma/client/dev';
 import { NextResponse } from 'next/server';
-import { BillItemUpdateSchema } from '@/lib/validations';
+import { prisma } from '@/lib/prisma';
+import { z } from 'zod';
 
-const prisma = new PrismaClient();
+const BillItemUpdateSchema = z.object({
+  description: z.string().min(1).optional(),
+  amount: z.number().optional()
+});
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string, itemId: string }> }) {
   try {
@@ -14,20 +17,24 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ message: 'Invalid data', errors: validation.error.flatten().fieldErrors }, { status: 400 });
     }
 
-    const billItem = await prisma.billItem.findUnique({
+    const existingItem = await prisma.item.findFirst({
       where: { id: itemId, billId: id },
     });
 
-    if (!billItem) {
-      return NextResponse.json({ message: 'Bill item not found' }, { status: 404 });
+    if (!existingItem) {
+      return NextResponse.json({ message: 'Item not found' }, { status: 404 });
     }
 
-    const updatedBillItem = await prisma.billItem.update({
+    const updateData: Record<string, unknown> = {};
+    if (validation.data.description !== undefined) updateData.name = validation.data.description;
+    if (validation.data.amount !== undefined) updateData.fee = validation.data.amount;
+
+    const updatedItem = await prisma.item.update({
       where: { id: itemId },
-      data: validation.data,
+      data: updateData,
     });
 
-    return NextResponse.json(updatedBillItem);
+    return NextResponse.json(updatedItem);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'An unexpected error occurred.' }, { status: 500 });
@@ -37,15 +44,15 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
 export async function DELETE(request: Request, { params }: { params: Promise<{ id: string, itemId: string }> }) {
   try {
     const { id, itemId } = await params;
-    const billItem = await prisma.billItem.findUnique({
+    const existingItem = await prisma.item.findFirst({
       where: { id: itemId, billId: id },
     });
 
-    if (!billItem) {
-      return NextResponse.json({ message: 'Bill item not found' }, { status: 404 });
+    if (!existingItem) {
+      return NextResponse.json({ message: 'Item not found' }, { status: 404 });
     }
 
-    await prisma.billItem.delete({
+    await prisma.item.delete({
       where: { id: itemId },
     });
 

@@ -1,8 +1,6 @@
-import { PrismaClient } from '@prisma/client/dev';
+import { prisma } from '@/lib/prisma';
 import DashboardClient from '@/app/dashboard/DashboardClient';
 import { unstable_noStore as noStore } from 'next/cache';
-
-const prisma = new PrismaClient();
 
 async function getDashboardData() {
   noStore();
@@ -12,8 +10,8 @@ async function getDashboardData() {
     prisma.bill.findMany({
       include: {
         items: true,
-        group: true,
         payer: true,
+        participants: { include: { person: true } },
         _count: {
           select: {
             items: true,
@@ -29,7 +27,6 @@ async function getDashboardData() {
     prisma.bill.findMany({
       take: 10,
       include: {
-        group: true,
         payer: true,
         items: true,
       },
@@ -44,7 +41,6 @@ async function getDashboardData() {
         _count: {
           select: {
             members: true,
-            bills: true,
           },
         },
       },

@@ -1,4 +1,4 @@
-import { PrismaClient, BankType } from '../node_modules/.prisma/client-dev';
+import { PrismaClient, BankType } from '@prisma/client';
 const prisma = new PrismaClient();
 
 const vietnameseBanks = [

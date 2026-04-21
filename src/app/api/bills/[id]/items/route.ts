@@ -1,8 +1,11 @@
-import { PrismaClient } from '@prisma/client/dev';
 import { NextResponse } from 'next/server';
-import { BillItemCreateSchema } from '@/lib/validations';
+import { prisma } from '@/lib/prisma';
+import { z } from 'zod';
 
-const prisma = new PrismaClient();
+const BillItemCreateSchema = z.object({
+  description: z.string().min(1),
+  amount: z.number().nullable()
+});
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
@@ -20,15 +23,18 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
         return NextResponse.json({ message: 'Amount is required' }, { status: 400 });
     }
 
-    const billItem = await prisma.billItem.create({
+    const item = await prisma.item.create({
       data: {
-        description,
-        amount,
+        name: description,
+        fee: amount,
         billId: id,
+        type: 'NORMAL',
+        order: 0,
+        splitMethod: 'EQUAL'
       },
     });
 
-    return NextResponse.json(billItem, { status: 201 });
+    return NextResponse.json(item, { status: 201 });
   } catch (error) {
     console.error(error);
     return NextResponse.json({ message: 'An unexpected error occurred.' }, { status: 500 });

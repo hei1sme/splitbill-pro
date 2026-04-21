@@ -2,7 +2,7 @@
 
 import { BanksDataTable } from "@/components/banks/BanksDataTable";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Bank } from "../../../node_modules/.prisma/client-dev";
+import type { Bank } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { Toaster } from "@/components/ui/sonner";
 import { PageHero } from "@/components/layout/PageHero";

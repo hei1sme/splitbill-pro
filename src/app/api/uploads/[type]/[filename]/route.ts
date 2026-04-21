@@ -5,10 +5,10 @@ import mime from 'mime';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { type: string; filename: string } }
+  { params }: { params: Promise<{ type: string; filename: string }> }
 ) {
   try {
-    const { type, filename } = params;
+    const { type, filename } = await params;
 
     // Validate type to prevent directory traversal
     const validTypes = ['qr', 'avatar', 'general'];

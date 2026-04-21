@@ -27,7 +27,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { BillFormSchema } from "@/lib/validations";
-import { Group, Person } from "@prisma/client/dev";
+import type { Group, Person } from "@prisma/client";
 import * as React from "react";
 
 export type BillFormValues = z.infer<typeof BillFormSchema>;

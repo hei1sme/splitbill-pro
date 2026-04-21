@@ -1,13 +1,12 @@
-import { PrismaClient } from '../../../../../node_modules/.prisma/client-dev';
 import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 import { BankUpdateSchema } from '@/lib/validations';
 
-const prisma = new PrismaClient();
-
-export async function PUT(request: Request, { params }: { params: { code: string } }) {
+export async function PUT(request: Request, { params }: { params: Promise<{ code: string }> }) {
   try {
+    const { code: paramCode } = await params;
     const body = await request.json();
-    const validation = BankUpdateSchema.safeParse({ ...body, code: params.code });
+    const validation = BankUpdateSchema.safeParse({ ...body, code: paramCode });
 
     if (!validation.success) {
       return NextResponse.json({ success: false, error: { message: 'Invalid data', details: validation.error.flatten().fieldErrors } }, { status: 400 });

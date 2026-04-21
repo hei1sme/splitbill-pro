@@ -32,7 +32,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { BillFormEnhancedSchema } from "@/lib/validations";
-import { Group, Person } from "@prisma/client/dev";
+import type { Group, Person } from "@prisma/client";
 import * as React from "react";
 
 export type BillFormValues = z.infer<typeof BillFormEnhancedSchema>;

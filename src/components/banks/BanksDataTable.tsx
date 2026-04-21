@@ -29,7 +29,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { BankForm } from "./BankForm";
-import { Bank } from "../../../node_modules/.prisma/client-dev";
+import type { Bank } from "@prisma/client";
 import { BankCreateSchema } from "@/lib/validations";
 import { z } from "zod";
 import { toast } from "sonner";

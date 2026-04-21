@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { BillsDataTable } from "./BillsDataTable";
 import { StatusQuickActions } from "./StatusQuickActions";
 import { FileText, Clock, CheckCircle, Archive } from "lucide-react";
-import { Group, Person } from "@prisma/client/dev";
+import type { Group, Person } from "@prisma/client";
 import { toast } from "sonner";
 
 type BillForTable = {

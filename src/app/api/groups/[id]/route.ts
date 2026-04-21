@@ -1,8 +1,6 @@
-import { PrismaClient } from '../../../../../node_modules/.prisma/client-dev';
 import { NextResponse } from 'next/server';
+import { prisma } from '@/lib/prisma';
 import { GroupUpdateSchema } from '@/lib/validations';
-
-const prisma = new PrismaClient();
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {

@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { PersonCreateSchema } from "@/lib/validations";
-import { Bank } from "../../../node_modules/.prisma/client-dev";
+import type { Bank } from "@prisma/client";
 import { useState } from "react";
 import { toast } from "sonner";
 
