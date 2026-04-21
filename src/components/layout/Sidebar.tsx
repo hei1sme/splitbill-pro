@@ -1,149 +1,112 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { Fragment } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import type { User } from "@supabase/supabase-js";
 import {
   Home,
   Banknote,
   Users,
-  User,
+  User as UserIcon,
   FileText,
   Plus,
-  Sparkles,
+  LogOut,
 } from "lucide-react";
-import {
-  NotificationCenter,
-  useSmartNotifications,
-} from "@/components/notifications/NotificationCenter";
-import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/dashboard", label: "Dashboard", icon: Home, hint: "Pulse" },
-  { href: "/banks", label: "Banks", icon: Banknote, hint: "Directory" },
-  { href: "/people", label: "People", icon: User, hint: "Contacts" },
-  { href: "/groups", label: "Groups", icon: Users, hint: "Teams" },
-  { href: "/bills", label: "Bills Archive", icon: FileText, hint: "History" },
+  { href: "/dashboard", label: "Dashboard", icon: Home },
+  { href: "/banks", label: "Banks", icon: Banknote },
+  { href: "/people", label: "People", icon: UserIcon },
+  { href: "/groups", label: "Groups", icon: Users },
+  { href: "/bills", label: "Bills", icon: FileText },
 ];
 
-export function Sidebar() {
-  const pathname = usePathname();
-  const {
-    notifications,
-    markAsRead,
-    markAllAsRead,
-    deleteNotification,
-  } = useSmartNotifications();
+interface SidebarProps {
+  user: User;
+}
 
-  const handleNotificationClick = (notification: any) => {
-    if (notification.actionUrl) {
-      window.location.href = notification.actionUrl;
-    }
+export function Sidebar({ user }: SidebarProps) {
+  const pathname = usePathname();
+  const router = useRouter();
+
+  const handleSignOut = async () => {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/");
+    router.refresh();
   };
 
+  const userInitial = user.email?.[0]?.toUpperCase() ?? "U";
+  const userEmail = user.email ?? "Unknown";
+
   return (
-    <aside
-      className="relative hidden min-h-screen w-[18rem] flex-col border-r border-white/10 bg-gradient-to-b from-slate-950/90 via-slate-950/70 to-slate-950/60 px-6 py-8 shadow-[0_40px_120px_-60px_rgba(59,130,246,0.65)] backdrop-blur-3xl lg:flex"
-      suppressHydrationWarning
-    >
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -left-16 top-20 h-48 w-48 rounded-full bg-indigo-500/30 blur-[80px]" />
-        <div className="absolute bottom-12 left-1/3 h-40 w-40 rounded-full bg-purple-500/25 blur-[80px]" />
-      </div>
+    <aside className="hidden lg:flex flex-col min-h-screen w-64 border-r border-border bg-card px-4 py-6 flex-shrink-0">
+      {/* Brand */}
+      <Link href="/dashboard" className="flex items-center gap-3 px-2 mb-8 group">
+        <div className="w-8 h-8 bg-primary flex items-center justify-center text-primary-foreground text-xs font-black tracking-tight transition-all group-hover:scale-110">
+          SB
+        </div>
+        <div>
+          <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest">
+            SplitBill
+          </p>
+          <p className="text-sm font-semibold text-foreground leading-tight">
+            Pro
+          </p>
+        </div>
+      </Link>
 
-      <div className="relative flex h-full flex-col gap-8">
-        <header className="flex items-center justify-between">
-          <Link href="/" className="group flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-2xl bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 text-sm font-semibold text-white shadow-lg transition group-hover:scale-[1.03]">
-              SB
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-[0.4em] text-slate-400">
-                SplitBill
-              </p>
-              <p className="text-base font-semibold text-slate-100">
-                Pro Control
-              </p>
-            </div>
-          </Link>
-          <NotificationCenter
-            notifications={notifications}
-            onMarkAsRead={markAsRead}
-            onMarkAllAsRead={markAllAsRead}
-            onDeleteNotification={deleteNotification}
-            onNotificationClick={handleNotificationClick}
-          />
-        </header>
+      {/* New Bill CTA */}
+      <Link
+        href="/bills?action=add"
+        className="flex items-center justify-center gap-2 mb-6 px-4 py-2.5 bg-primary text-primary-foreground text-sm font-semibold transition-all hover:brightness-110 active:scale-[0.98]"
+      >
+        <Plus className="w-4 h-4" />
+        New Bill
+      </Link>
 
-        <section className="space-y-5">
-          <Link href="/bills?action=add">
-            <Button className="group flex w-full items-center justify-between rounded-2xl border border-white/15 bg-gradient-to-r from-indigo-500/80 via-purple-500/80 to-blue-500/80 px-5 py-4 text-sm font-semibold text-white shadow-[0_25px_60px_-30px_rgba(79,70,229,0.9)] transition hover:shadow-[0_35px_80px_-40px_rgba(79,70,229,0.95)]">
-              <span className="inline-flex items-center gap-2">
-                <Plus className="h-4 w-4" />
-                New Bill
-              </span>
-              <Sparkles className="h-4 w-4 opacity-80 transition group-hover:rotate-[18deg]" />
-            </Button>
-          </Link>
+      {/* Navigation */}
+      <nav className="flex-1 space-y-0.5">
+        {navItems.map((item) => {
+          const isActive =
+            pathname === item.href || pathname?.startsWith(`${item.href}/`);
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={cn(
+                "flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors",
+                isActive
+                  ? "bg-primary/10 text-primary border-l-2 border-primary pl-[10px]"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
+              )}
+            >
+              <item.icon className="w-4 h-4 flex-shrink-0" />
+              {item.label}
+            </Link>
+          );
+        })}
+      </nav>
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-xs text-slate-300 shadow-inner shadow-slate-950/60">
-            <p className="font-medium text-slate-100">
-              Live portfolio snapshot
-            </p>
-            <div className="mt-2 flex flex-col gap-2 text-[0.72rem] text-slate-300/80">
-              <p>
-                • Monitor settlement pipelines and upcoming payment reminders
-              </p>
-              <p>• Personalize alerts to keep every split on pace</p>
-            </div>
+      {/* User + Sign out */}
+      <div className="border-t border-border pt-4 mt-4 space-y-2">
+        <div className="flex items-center gap-3 px-3 py-2">
+          <div className="w-7 h-7 bg-primary/20 border border-primary/30 flex items-center justify-center text-primary text-xs font-bold flex-shrink-0">
+            {userInitial}
           </div>
-        </section>
-
-        <nav className="flex-1 space-y-1">
-          {navItems.map((item) => {
-            const isActive =
-              pathname === item.href || pathname?.startsWith(`${item.href}/`);
-            return (
-              <Fragment key={item.href}>
-                <Link
-                  href={item.href}
-                  className={cn(
-                    "group relative flex items-center justify-between rounded-2xl border border-transparent px-4 py-3 text-sm font-medium transition",
-                    isActive
-                      ? "border-white/15 bg-white/10 text-white shadow-[0_20px_60px_-35px_rgba(99,102,241,0.9)]"
-                      : "text-slate-300 hover:border-white/10 hover:bg-white/5 hover:text-white"
-                  )}
-                >
-                  <span className="flex items-center gap-3">
-                    <span
-                      className={cn(
-                        "grid h-9 w-9 place-items-center rounded-xl border border-white/10 bg-white/5 transition group-hover:bg-white/10",
-                        isActive && "bg-white/15 text-white"
-                      )}
-                    >
-                      <item.icon className="h-4 w-4" />
-                    </span>
-                    <span>{item.label}</span>
-                  </span>
-                  <span className="text-xs uppercase tracking-[0.45em] text-slate-500">
-                    {item.hint}
-                  </span>
-                </Link>
-              </Fragment>
-            );
-          })}
-        </nav>
-
-        <footer className="rounded-2xl border border-white/10 bg-white/5 p-4 text-xs text-slate-300/80">
-          <p className="text-xs font-medium uppercase tracking-[0.4em] text-slate-400">
-            Premium mode
+          <p className="text-xs text-muted-foreground truncate flex-1">
+            {userEmail}
           </p>
-          <p className="mt-2 text-sm text-slate-200">
-            All analytics, settlement automation, and QR payment rails are
-            active.
-          </p>
-        </footer>
+        </div>
+        <button
+          onClick={handleSignOut}
+          className="w-full flex items-center gap-3 px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+        >
+          <LogOut className="w-4 h-4 flex-shrink-0" />
+          Sign out
+        </button>
       </div>
     </aside>
   );

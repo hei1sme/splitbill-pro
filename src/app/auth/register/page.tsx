@@ -1,12 +1,10 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
 
 export default function RegisterPage() {
-  const router = useRouter();
   const supabase = createClient();
 
   const [email, setEmail] = useState('');
@@ -52,105 +50,138 @@ export default function RegisterPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="w-full max-w-md p-8 bg-card border border-border rounded-xl shadow-sm text-center space-y-4">
-          <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-            <svg className="w-6 h-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h2 className="text-xl font-semibold text-foreground">Check your email</h2>
-          <p className="text-sm text-muted-foreground">
-            We sent a confirmation link to <strong>{email}</strong>. Click it to activate your account.
-          </p>
-          <Link href="/auth/login" className="text-sm text-primary hover:underline">
-            Back to login
+      <div className="min-h-screen bg-background flex flex-col">
+        <div className="flex items-center px-6 py-5 border-b border-border">
+          <Link href="/" className="flex items-center gap-3 group">
+            <div className="w-8 h-8 bg-primary flex items-center justify-center text-primary-foreground text-xs font-black transition-all group-hover:scale-110">
+              SB
+            </div>
+            <span className="text-sm font-semibold">SplitBill Pro</span>
           </Link>
+        </div>
+        <div className="flex-1 flex items-center justify-center px-4">
+          <div className="w-full max-w-sm text-center opacity-0 animate-slide-up">
+            <div className="w-12 h-12 bg-primary/10 border border-primary/30 flex items-center justify-center mx-auto mb-6">
+              <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-2xl font-black tracking-tight mb-3">Check your inbox.</h2>
+            <p className="text-sm text-muted-foreground mb-8">
+              We sent a confirmation link to{' '}
+              <span className="text-foreground font-medium">{email}</span>.
+              {' '}Click it to activate your account.
+            </p>
+            <Link
+              href="/auth/login"
+              className="text-sm text-primary hover:underline font-medium"
+            >
+              ← Back to sign in
+            </Link>
+          </div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="w-full max-w-md space-y-8 p-8 bg-card border border-border rounded-xl shadow-sm">
-        <div className="space-y-2">
-          <h1 className="text-2xl font-semibold tracking-tight text-foreground">
-            Create your account
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Get started with SplitBill Pro for free
-          </p>
-        </div>
-
-        {error && (
-          <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/20 text-destructive text-sm">
-            {error}
+    <div className="min-h-screen bg-background flex flex-col">
+      {/* Top bar */}
+      <div className="flex items-center justify-between px-6 py-5 border-b border-border">
+        <Link href="/" className="flex items-center gap-3 group">
+          <div className="w-8 h-8 bg-primary flex items-center justify-center text-primary-foreground text-xs font-black transition-all group-hover:scale-110">
+            SB
           </div>
-        )}
-
-        <form onSubmit={handleRegister} className="space-y-4">
-          <div className="space-y-1.5">
-            <label htmlFor="email" className="text-sm font-medium text-foreground">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              placeholder="you@example.com"
-              className="w-full px-3 py-2 bg-background border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label htmlFor="password" className="text-sm font-medium text-foreground">
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              placeholder="Min. 8 characters"
-              className="w-full px-3 py-2 bg-background border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label htmlFor="confirm-password" className="text-sm font-medium text-foreground">
-              Confirm Password
-            </label>
-            <input
-              id="confirm-password"
-              type="password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              required
-              placeholder="••••••••"
-              className="w-full px-3 py-2 bg-background border border-border rounded-md text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-            />
-          </div>
-
-          <button
-            id="btn-register"
-            type="submit"
-            disabled={loading}
-            className="w-full py-2 px-4 bg-primary text-primary-foreground rounded-md text-sm font-medium hover:bg-primary/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            {loading ? 'Creating account…' : 'Create account'}
-          </button>
-        </form>
-
-        <p className="text-center text-sm text-muted-foreground">
-          Already have an account?{' '}
+          <span className="text-sm font-semibold">SplitBill Pro</span>
+        </Link>
+        <p className="text-xs text-muted-foreground">
+          Have an account?{' '}
           <Link href="/auth/login" className="text-primary hover:underline font-medium">
             Sign in
           </Link>
         </p>
+      </div>
+
+      {/* Form */}
+      <div className="flex-1 flex items-center justify-center px-4 py-16">
+        <div className="w-full max-w-sm opacity-0 animate-slide-up">
+          {/* Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-black tracking-tight mb-2">
+              Create account.
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Free forever. No credit card required.
+            </p>
+          </div>
+
+          {/* Error */}
+          {error && (
+            <div className="mb-6 p-3 border border-destructive/40 bg-destructive/5 text-destructive text-xs">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleRegister} className="space-y-4">
+            <div className="space-y-1">
+              <label htmlFor="email" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+                placeholder="you@example.com"
+                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label htmlFor="password" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                placeholder="Min. 8 characters"
+                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label htmlFor="confirm-password" className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                Confirm Password
+              </label>
+              <input
+                id="confirm-password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                required
+                placeholder="••••••••"
+                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
+              />
+            </div>
+
+            <button
+              id="btn-register"
+              type="submit"
+              disabled={loading}
+              className="w-full py-3 px-4 bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Creating account…' : 'Create account →'}
+            </button>
+          </form>
+
+          <p className="mt-6 text-xs text-muted-foreground text-center">
+            By creating an account you agree to our terms of service.
+          </p>
+        </div>
       </div>
     </div>
   );
