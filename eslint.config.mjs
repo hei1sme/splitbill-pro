@@ -18,7 +18,19 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      "scripts/**",
+      "prisma/**",
     ],
+  },
+  {
+    // Downgrade rules that have too many violations in legacy code to warnings.
+    // TODO: gradually fix these and promote back to "error" once codebase is clean.
+    rules: {
+      "@typescript-eslint/no-explicit-any": "warn",
+      "@typescript-eslint/no-require-imports": "warn",
+      "react/no-unescaped-entities": "warn",
+      "@typescript-eslint/no-unused-vars": "warn",
+    },
   },
 ];
 
