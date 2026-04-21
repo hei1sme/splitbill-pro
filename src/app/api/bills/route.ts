@@ -2,21 +2,23 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { BillCreateSchema, BillFormEnhancedSchema } from "@/lib/validations";
+import { createClient } from "@/lib/supabase/server";
 
 export async function GET(request: Request) {
   try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get("status");
 
-    // In the new schema, there's no direct groupId on Bill. 
-    // If we need to filter by group later, we might need to filter participants.
-    
-    // Default user id for now until auth is added
-    const TEMP_USER_ID = "temp-user";
-
     const bills = await prisma.bill.findMany({
       where: {
-        userId: TEMP_USER_ID,
+        userId: user.id,
         ...(status && { status: status as any }),
       },
       include: {
@@ -47,14 +49,19 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const json = await request.json();
     console.log("[BILLS_POST] Received data:", JSON.stringify(json, null, 2));
-    
-    const TEMP_USER_ID = "temp-user";
-    
+
     let body: any;
     let isEnhanced = false;
-    
+
     try {
       body = BillFormEnhancedSchema.parse(json);
       isEnhanced = true;
@@ -96,15 +103,15 @@ export async function POST(request: Request) {
         participantIds = existingGroup.members.map(m => m.personId);
       }
     }
-    
-    // Ensure payer is in participants automatically
+
+    // Ensure payer is in participants
     if (!participantIds.includes(body.payerId)) {
-        participantIds.push(body.payerId);
+      participantIds.push(body.payerId);
     }
 
     const bill = await prisma.bill.create({
       data: {
-        userId: TEMP_USER_ID,
+        userId: user.id,
         title: body.title,
         description: body.description,
         date: body.date,
@@ -112,15 +119,15 @@ export async function POST(request: Request) {
         status: body.status,
         participants: {
           create: participantIds.map((personId, index) => ({
-             personId: personId,
-             isPayer: personId === body.payerId,
-             order: index
+            personId: personId,
+            isPayer: personId === body.payerId,
+            order: index
           }))
         }
       },
       include: {
         participants: {
-           include: { person: true }
+          include: { person: true }
         },
         payer: true,
       },

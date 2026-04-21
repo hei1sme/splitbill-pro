@@ -1,65 +1,60 @@
 import { prisma } from '@/lib/prisma';
+import { createClient } from '@/lib/supabase/server';
 import DashboardClient from '@/app/dashboard/DashboardClient';
 import { unstable_noStore as noStore } from 'next/cache';
+import { redirect } from 'next/navigation';
 
-async function getDashboardData() {
+async function getDashboardData(userId: string) {
   noStore();
-  
-  const [bills, recentBills, groups, people] = await Promise.all([
-    // All bills with basic stats
+
+  const [bills, recentBills, groups, peopleCount] = await Promise.all([
     prisma.bill.findMany({
+      where: { userId },
       include: {
         items: true,
         payer: true,
         participants: { include: { person: true } },
         _count: {
-          select: {
-            items: true,
-          },
+          select: { items: true },
         },
       },
-      orderBy: {
-        date: 'desc',
-      },
+      orderBy: { date: 'desc' },
     }),
-    
-    // Recent bills for activity feed
+
     prisma.bill.findMany({
+      where: { userId },
       take: 10,
       include: {
         payer: true,
         items: true,
       },
-      orderBy: {
-        updatedAt: 'desc',
-      },
+      orderBy: { updatedAt: 'desc' },
     }),
-    
-    // Groups with member counts
+
     prisma.group.findMany({
+      where: { userId },
       include: {
         _count: {
-          select: {
-            members: true,
-          },
+          select: { members: true },
         },
       },
     }),
-    
-    // Total people count
-    prisma.person.count(),
+
+    prisma.person.count({
+      where: { userId },
+    }),
   ]);
 
-  return {
-    bills,
-    recentBills,
-    groups,
-    peopleCount: people,
-  };
+  return { bills, recentBills, groups, peopleCount };
 }
 
 export default async function DashboardPage() {
-  const data = await getDashboardData();
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) redirect('/auth/login');
+
+  const data = await getDashboardData(user.id);
 
   return <DashboardClient data={data} />;
 }
