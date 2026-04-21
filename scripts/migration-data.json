@@ -1,0 +1,6340 @@
+{
+  "banks": [
+    {
+      "id": "cmf76l5130000ldcwpxm188as",
+      "code": "VCB",
+      "name": "Vietcombank",
+      "logoUrl": "/banks/vcb.svg",
+      "type": "BANK",
+      "createdAt": 1757097672375,
+      "updatedAt": 1757097672375
+    },
+    {
+      "id": "cmf76l51p0001ldcwv119b491",
+      "code": "ACB",
+      "name": "ACB",
+      "logoUrl": "/banks/acb.svg",
+      "type": "BANK",
+      "createdAt": 1757097672397,
+      "updatedAt": 1757097672397
+    },
+    {
+      "id": "cmf76l5220002ldcwl6ttggbb",
+      "code": "TCB",
+      "name": "Techcombank",
+      "logoUrl": "/banks/tcb.svg",
+      "type": "BANK",
+      "createdAt": 1757097672410,
+      "updatedAt": 1757097672410
+    },
+    {
+      "id": "cmf76l52f0003ldcw6kjepfm2",
+      "code": "VTB",
+      "name": "Vietinbank",
+      "logoUrl": "/banks/vtb.svg",
+      "type": "BANK",
+      "createdAt": 1757097672423,
+      "updatedAt": 1757097672423
+    },
+    {
+      "id": "cmf76l52q0004ldcwtrkjz6fi",
+      "code": "BIDV",
+      "name": "BIDV",
+      "logoUrl": "https://cdn.haitrieu.com/wp-content/uploads/2022/01/Icon-BIDV-.png",
+      "type": "BANK",
+      "createdAt": 1757097672435,
+      "updatedAt": 1759837508820
+    },
+    {
+      "id": "cmf76l5330005ldcwfxpabbs9",
+      "code": "MOMO",
+      "name": "MoMo",
+      "logoUrl": "/banks/momo.svg",
+      "type": "EWALLET",
+      "createdAt": 1757097672448,
+      "updatedAt": 1757097672448
+    },
+    {
+      "id": "cmf76l53f0006ldcwbm491kid",
+      "code": "ZALOPAY",
+      "name": "ZaloPay",
+      "logoUrl": "/banks/zalopay.svg",
+      "type": "EWALLET",
+      "createdAt": 1757097672459,
+      "updatedAt": 1757097672459
+    },
+    {
+      "id": "cmf76l53r0007ldcwsid99nka",
+      "code": "VIB",
+      "name": "VIB",
+      "logoUrl": "/banks/vib.svg",
+      "type": "BANK",
+      "createdAt": 1757097672472,
+      "updatedAt": 1757097672472
+    },
+    {
+      "id": "cmf76l5460008ldcw1cwkvkr7",
+      "code": "MB",
+      "name": "MB Bank",
+      "logoUrl": "https://cdn.haitrieu.com/wp-content/uploads/2022/02/Icon-MB-Bank-MBB.png",
+      "type": "BANK",
+      "createdAt": 1757097672486,
+      "updatedAt": 1757264070805
+    },
+    {
+      "id": "cmf76l54i0009ldcwxz999dlc",
+      "code": "TPB",
+      "name": "TPBank",
+      "logoUrl": "/banks/tpb.svg",
+      "type": "BANK",
+      "createdAt": 1757097672499,
+      "updatedAt": 1757097672499
+    },
+    {
+      "id": "cmf76l54t000aldcw02sx75y2",
+      "code": "VPB",
+      "name": "VPBank",
+      "logoUrl": "/banks/vpb.svg",
+      "type": "BANK",
+      "createdAt": 1757097672509,
+      "updatedAt": 1757097672509
+    },
+    {
+      "id": "cmf76l554000bldcwtb5aspu5",
+      "code": "STB",
+      "name": "Sacombank",
+      "logoUrl": "https://play-lh.googleusercontent.com/0DIgmMfEvk48LV-OOJc7QRAzjGHjIlhfxHiKERYjXOHN3IuioPuAM0PRFdNeqgIOMy0",
+      "type": "BANK",
+      "createdAt": 1757097672520,
+      "updatedAt": 1757434243139
+    },
+    {
+      "id": "cmf76l55g000cldcwtruf8ohq",
+      "code": "HDB",
+      "name": "HDBank",
+      "logoUrl": "/banks/hdb.svg",
+      "type": "BANK",
+      "createdAt": 1757097672532,
+      "updatedAt": 1757097672532
+    },
+    {
+      "id": "cmf76l55r000dldcwbk73b5fl",
+      "code": "OCB",
+      "name": "OCB",
+      "logoUrl": "/banks/ocb.svg",
+      "type": "BANK",
+      "createdAt": 1757097672543,
+      "updatedAt": 1757097672543
+    },
+    {
+      "id": "cmf76l563000eldcwrtblyhm2",
+      "code": "MSB",
+      "name": "MSB",
+      "logoUrl": "/banks/msb.svg",
+      "type": "BANK",
+      "createdAt": 1757097672555,
+      "updatedAt": 1757097672555
+    },
+    {
+      "id": "cmf76l56e000fldcwoamfv1tw",
+      "code": "SHB",
+      "name": "SHB",
+      "logoUrl": "/banks/shb.svg",
+      "type": "BANK",
+      "createdAt": 1757097672566,
+      "updatedAt": 1757097672566
+    },
+    {
+      "id": "cmj1ab6ph000bo50llhygsjlx",
+      "code": "AGRIBANK",
+      "name": "Agribank",
+      "logoUrl": "https://cdn.haitrieu.com/wp-content/uploads/2022/01/Icon-Agribank.png",
+      "type": "BANK",
+      "createdAt": 1765448258741,
+      "updatedAt": 1765448258741
+    }
+  ],
+  "people": [
+    {
+      "id": "cmf76svsw0001ldbk7nmf78u1",
+      "displayName": "Gia Hưng",
+      "bankCode": "MB",
+      "accountNumber": "086969767777",
+      "accountHolder": "LE NGUYEN GIA HUNG",
+      "qrUrl": "/uploads/qr/1757294542682-ebee08bbf4dc1681.png",
+      "active": 1,
+      "createdAt": 1757098033663,
+      "updatedAt": 1762410749713
+    },
+    {
+      "id": "cmf76t2jp0002ldbk0ta2ubb3",
+      "displayName": "Quỳnh Nga",
+      "bankCode": "MB",
+      "accountNumber": "33660012999",
+      "accountHolder": "NGUYEN THI QUYNH NGA",
+      "qrUrl": "/uploads/qr/1757434073676-92384f25f13f553a.png",
+      "active": 1,
+      "createdAt": 1757098042405,
+      "updatedAt": 1757434077827
+    },
+    {
+      "id": "cmf76t7u80003ldbkvtybvz3r",
+      "displayName": "Yến Nhi",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1757098049264,
+      "updatedAt": 1757098049264
+    },
+    {
+      "id": "cmf76td7n0004ldbkffm0gqfn",
+      "displayName": "Uyên Phương",
+      "bankCode": "STB",
+      "accountNumber": "0979380306",
+      "accountHolder": "NGUYEN DANG UYEN PHUONG",
+      "qrUrl": "/uploads/qr/1757434177137-c0256752fb30a010.png",
+      "active": 1,
+      "createdAt": 1757098056228,
+      "updatedAt": 1757434194729
+    },
+    {
+      "id": "cmfe1azq10002ldfkp92o6ces",
+      "displayName": "Tấn Phát",
+      "bankCode": "BIDV",
+      "accountNumber": "6802047639",
+      "accountHolder": "VO TAN PHAT",
+      "qrUrl": "/api/uploads/qr/1759838195777-1bfa7a26828b7178.jpg",
+      "active": 1,
+      "createdAt": 1757512064089,
+      "updatedAt": 1759838196702
+    },
+    {
+      "id": "cmiwrkdrt0006o50lrqsyi93j",
+      "displayName": "Hoàng Giang",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1765174910394,
+      "updatedAt": 1765174910394
+    },
+    {
+      "id": "cmj19qpls0007o50lr1t6om3j",
+      "displayName": "Nguyễn Khiêm",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1765447303457,
+      "updatedAt": 1765447303457
+    },
+    {
+      "id": "cmj19qw4e0008o50l1z3vm5tv",
+      "displayName": "Quỳnh Hương",
+      "bankCode": "AGRIBANK",
+      "accountNumber": "6180205133415",
+      "accountHolder": "LE NGUYEN QUYNH HUONG",
+      "qrUrl": "/api/uploads/qr/1767456814712-326c0c5c489d4e83.png",
+      "active": 1,
+      "createdAt": 1765447311902,
+      "updatedAt": 1767456816456
+    },
+    {
+      "id": "cmja79gs6000mo50lv61kk2y4",
+      "displayName": "Thành Trí",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1765987335223,
+      "updatedAt": 1765987335223
+    },
+    {
+      "id": "cmja79ogj000no50l155dbuxm",
+      "displayName": "Tuấn Nguyên",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1765987345171,
+      "updatedAt": 1765987345171
+    },
+    {
+      "id": "cmjygu3j20000le0lar8zmvrs",
+      "displayName": "Nguyễn Khương",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1767454602590,
+      "updatedAt": 1767454602590
+    },
+    {
+      "id": "cmjyguhmx0001le0lhb5q4skp",
+      "displayName": "Nhã Trúc",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1767454620873,
+      "updatedAt": 1767454620873
+    },
+    {
+      "id": "cmjyguok80002le0l29go9fdp",
+      "displayName": "Nhật Nam",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1767454629849,
+      "updatedAt": 1767454629849
+    },
+    {
+      "id": "cmjygv6440003le0lok6xitjh",
+      "displayName": "Đài Trang",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1767454652596,
+      "updatedAt": 1767454652596
+    },
+    {
+      "id": "cml3q3c0p0000le0lw9bz45xe",
+      "displayName": "Thiên Danh",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1769949263257,
+      "updatedAt": 1769949263257
+    },
+    {
+      "id": "cml3q3ftm0001le0l9dtx6bxq",
+      "displayName": "Gia Bảo",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1769949268187,
+      "updatedAt": 1769949268187
+    },
+    {
+      "id": "cml3q3lcj0002le0labgs7jxo",
+      "displayName": "Minh Thư",
+      "bankCode": null,
+      "accountNumber": null,
+      "accountHolder": null,
+      "qrUrl": null,
+      "active": 1,
+      "createdAt": 1769949275347,
+      "updatedAt": 1769949275347
+    }
+  ],
+  "groups": [
+    {
+      "id": "cmf76utuq0007ldbkkuvbskv3",
+      "name": "CĂN HỘ S901 - 0804",
+      "createdAt": 1757098124451,
+      "updatedAt": 1757098124451,
+      "members": [
+        {
+          "personId": "cmf76t7u80003ldbkvtybvz3r"
+        },
+        {
+          "personId": "cmf76td7n0004ldbkffm0gqfn"
+        },
+        {
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ]
+    },
+    {
+      "id": "cmkeubarr000ale0ljpsohej0",
+      "name": "mimi and bibi",
+      "createdAt": 1768444698951,
+      "updatedAt": 1768444698951,
+      "members": [
+        {
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ]
+    }
+  ],
+  "bills": [
+    {
+      "id": "cmfag1pe20001ldiof9cgequ0",
+      "title": "CHIA TIỀN MUA THẢM",
+      "date": 1757294944782,
+      "status": "SETTLED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76t7u80003ldbkvtybvz3r",
+          "personId": "cmf76t7u80003ldbkvtybvz3r"
+        },
+        {
+          "id": "cmf76td7n0004ldbkffm0gqfn",
+          "personId": "cmf76td7n0004ldbkffm0gqfn"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Thảm Silicon nhà bếp",
+          "fee": 117000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 29250,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 29250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 29250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 29250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmfcr0ah80001ldx4inhea38y",
+      "title": "Đi siêu thị mua đồ",
+      "date": 1757178000000,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Mayonnaise",
+          "fee": 71117,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 35558.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 35558.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757434315329",
+          "name": "Bánh Quy",
+          "fee": 24832,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 24832,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 12416,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1757434327126",
+          "name": "Bánh bao",
+          "fee": 22160,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 11080,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 22160,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757434334841",
+          "name": "Mì ngao",
+          "fee": 20589,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 10294.5,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 20589,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757434339848",
+          "name": "Kẹo cao su",
+          "fee": 20038,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 20038,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 10019,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1757434352322",
+          "name": "Phomai",
+          "fee": 56186,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 28093,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 56186,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757434359919",
+          "name": "Nước dừa",
+          "fee": 32219,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 6,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 16109.5,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 32219,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757434418277",
+          "name": "Aqua Soda",
+          "fee": 10844,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 7,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 5422,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 5422,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757434430682",
+          "name": "Tương cà",
+          "fee": 14381,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 8,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 7190.5,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 14381,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757434437885",
+          "name": "Trà xanh",
+          "fee": 7387,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 9,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 3693.5,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 7387,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757434447863",
+          "name": "Thanh long ruột đỏ",
+          "fee": 13768,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 10,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 6884,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 6884,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmfe1amfx0001ldfk27tqnopl",
+      "title": "Naga - Mì cay vcl",
+      "date": 1757511997789,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmfe1azq10002ldfkp92o6ces",
+          "personId": "cmfe1azq10002ldfkp92o6ces"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Bông Cải",
+          "fee": 20000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 20000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1757512149045",
+          "name": "Bánh Sữa Tươi Chiên Giòn",
+          "fee": 33000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 16500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 16500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757512175465",
+          "name": "Mì Bò Mỹ",
+          "fee": 59000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 59000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757512190677",
+          "name": "Mì Thập Cẩm ",
+          "fee": 64000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 64000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1757512201199",
+          "name": "Mì Bò",
+          "fee": 49000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 49000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1757512211066",
+          "name": "Sữa Tươi",
+          "fee": 38000,
+          "splitMethod": "PERCENT",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 9500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 19000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 9500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757512235031",
+          "name": "Khăn Lạnh",
+          "fee": 6000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 6,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 2000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 2000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 2000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmfgherk30001ldk8h130wxn0",
+      "title": "Circle K",
+      "date": 1757659984624,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Xúc Xích Bò",
+          "fee": 11000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 11000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757660072157",
+          "name": "Dừa Xiêm",
+          "fee": 48000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 24000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 24000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757660089053",
+          "name": "Bánh Oishi",
+          "fee": 13000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 13000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1757660113503",
+          "name": "Swing",
+          "fee": 25000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 25000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": -1500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": -1500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmfttq0uz0001ldfwoe7swfkb",
+      "title": "Co.op Xtra ",
+      "date": 1758466769497,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t7u80003ldbkvtybvz3r",
+          "personId": "cmf76t7u80003ldbkvtybvz3r"
+        },
+        {
+          "id": "cmf76td7n0004ldbkffm0gqfn",
+          "personId": "cmf76td7n0004ldbkffm0gqfn"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Dầu đậu nành 2 lít",
+          "fee": 104800,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 52400,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 52400,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1758466914602",
+          "name": "Thùng rác",
+          "fee": 25500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 25500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1758466933805",
+          "name": "Túi rác",
+          "fee": 48500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 12125,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 12125,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 12125,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 12125,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1758466947291",
+          "name": "Mì ngao",
+          "fee": 26200,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 26200,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1758466963492",
+          "name": "Nước tẩy trang",
+          "fee": 119000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 119000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1758466982540",
+          "name": "Nước mắm",
+          "fee": 32500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 16250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 16250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmgfx0w1y0001ldbsv0i8cq3r",
+      "title": "PIN",
+      "date": 1759802546630,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t7u80003ldbkvtybvz3r",
+          "personId": "cmf76t7u80003ldbkvtybvz3r"
+        },
+        {
+          "id": "cmf76td7n0004ldbkffm0gqfn",
+          "personId": "cmf76td7n0004ldbkffm0gqfn"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Fugacar",
+          "fee": 88000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 44000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 44000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1759802645761",
+          "name": "Mì Koreno Jumbo",
+          "fee": 73500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 36750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 36750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1759802681475",
+          "name": "Mì Oppa",
+          "fee": 6600,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 3300,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 3300,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1759802697418",
+          "name": "Tiêu đen",
+          "fee": 48000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 24000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 24000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1759802740808",
+          "name": "Đường",
+          "fee": 13900,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 6950,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 6950,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1759802798543",
+          "name": "Kitkat",
+          "fee": 52000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 26000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 26000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1759802823908",
+          "name": "Pin cửa",
+          "fee": 83000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 6,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 20750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 20750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 20750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 20750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmgkuyhvy0001ldygkfo520lv",
+      "title": "GẠO",
+      "date": 1760101437766,
+      "status": "SETTLED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76t7u80003ldbkvtybvz3r",
+          "personId": "cmf76t7u80003ldbkvtybvz3r"
+        },
+        {
+          "id": "cmf76td7n0004ldbkffm0gqfn",
+          "personId": "cmf76td7n0004ldbkffm0gqfn"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Gạo Jasmin 10kg",
+          "fee": 185000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1760366897407",
+          "name": "Nước Giặt Comfort 3kg",
+          "fee": 138000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 46000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 46000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 46000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmhlckeoy000bs60lqr12gydb",
+      "title": "Gạo và Shopee",
+      "date": 1762307785111,
+      "status": "SETTLED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76t7u80003ldbkvtybvz3r",
+          "personId": "cmf76t7u80003ldbkvtybvz3r"
+        },
+        {
+          "id": "cmf76td7n0004ldbkffm0gqfn",
+          "personId": "cmf76td7n0004ldbkffm0gqfn"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Gạo Jasmine 10kg",
+          "fee": 185000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1762307841921",
+          "name": "Đầu rửa bát",
+          "fee": 71000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 17750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 17750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 17750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 17750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1762307869964",
+          "name": "Móc treo dây điện",
+          "fee": 49000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 12250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 12250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 12250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 12250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmhrdjg970001o00lo0hkpsw9",
+      "title": "CHOI COFFEE và mua đồ",
+      "date": 1762672217069,
+      "status": "SETTLED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "CHOI Coffee",
+          "fee": 25000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 25000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1762672275873",
+          "name": "Cửa Hàng Đặc Sản Hà Nội",
+          "fee": 24930,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 12465,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 12465,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1762672353281",
+          "name": "Winmart",
+          "fee": 25300,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 12650,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 12650,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmisvd8mn0001o50lq782jab0",
+      "title": "Gạo Jasmine - 05/12/2025",
+      "date": 1764939369215,
+      "status": "SETTLED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76t7u80003ldbkvtybvz3r",
+          "personId": "cmf76t7u80003ldbkvtybvz3r"
+        },
+        {
+          "id": "cmf76td7n0004ldbkffm0gqfn",
+          "personId": "cmf76td7n0004ldbkffm0gqfn"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Gạo Jasmine 10Kg",
+          "fee": 185000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 46250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t7u80003ldbkvtybvz3r",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76td7n0004ldbkffm0gqfn",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmivof9kn0003o50la99y2wkt",
+      "title": "CoopXtra - 7/12/25",
+      "date": 1765109142465,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Snack popcorn",
+          "fee": 9600,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 9600,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 4800,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1765109855130",
+          "name": "Bánh Custard",
+          "fee": 35000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 17500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 17500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1765109878239",
+          "name": "Mì siukay",
+          "fee": 22400,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 11200,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 11200,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1765109890915",
+          "name": "Nước tương",
+          "fee": 7800,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 3900,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 3900,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1765109909241",
+          "name": "Rau câu dừa",
+          "fee": 13400,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 6700,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 13400,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1765109920438",
+          "name": "Cà chua",
+          "fee": 19370,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 9685,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 9685,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1765109941947",
+          "name": "DIANA",
+          "fee": 65000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 6,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 32500,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 65000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmj78iq5a000jo50lfqt6wgy7",
+      "title": "CoopXtra - 15/12/2025",
+      "date": 1765808019764,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Xịt côn trùng",
+          "fee": 49600,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 24800,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 24800,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1765808065392",
+          "name": "Vệ sinh bồn cầu",
+          "fee": 39000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 19500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 19500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmja78hrq000lo50l9s9ezyl4",
+      "title": "Mikado Sushi - 17/12/2025",
+      "date": 1765987246240,
+      "status": "SETTLED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmja79ogj000no50l155dbuxm",
+          "personId": "cmja79ogj000no50l155dbuxm"
+        },
+        {
+          "id": "cmja79gs6000mo50lv61kk2y4",
+          "personId": "cmja79gs6000mo50lv61kk2y4"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Mikado Sushi",
+          "fee": 979520,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 244880,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 244880,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmja79ogj000no50l155dbuxm",
+              "amount": 244880,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmja79gs6000mo50lv61kk2y4",
+              "amount": 244880,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmja79ogj000no50l155dbuxm",
+              "amount": 0,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmja79gs6000mo50lv61kk2y4",
+              "amount": 0,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmja79ogj000no50l155dbuxm",
+              "amount": 0,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmja79gs6000mo50lv61kk2y4",
+              "amount": 0,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmk9wmoml0007le0l1o38paob",
+      "title": "Mở bát Mastercard",
+      "date": 1768146219163,
+      "status": "SETTLED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Kalbi Master",
+          "fee": 522936,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 261468,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 261468,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768146263493",
+          "name": "Mikado Sushi 1",
+          "fee": 601520,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 300760,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 300760,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768328441579",
+          "name": "Mikado Sushi 2",
+          "fee": 455720,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 227860,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 227860,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768671460677",
+          "name": "Gong Cha",
+          "fee": 54400,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 27200,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 27200,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768671461717",
+          "name": "Pizza's 4P",
+          "fee": 650160,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 325080,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 325080,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768671541539",
+          "name": "Winmart",
+          "fee": 182846,
+          "splitMethod": "PERCENT",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 78623.78,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 104222.21999999999,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768992890706",
+          "name": "Nước Sương Sáo",
+          "fee": 57600,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 6,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 28800,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 28800,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768992916743",
+          "name": "Bánh Slide",
+          "fee": 27000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 7,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 13500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 13500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768992940610",
+          "name": "Sụn gà",
+          "fee": 49000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 8,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 24500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 24500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768992969885",
+          "name": "Trứng gà",
+          "fee": 35300,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 9,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 35300,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768992991485",
+          "name": "Bầu non",
+          "fee": 13134,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 10,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 6567,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 6567,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768993010740",
+          "name": "Màng bọc",
+          "fee": 65000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 11,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 32500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 32500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1768993044589",
+          "name": "Winmart ",
+          "fee": 100846,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 12,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 50423,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 50423,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1770380047662",
+          "name": "Mikado Sushi 3",
+          "fee": 758160,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 13,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 379080,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 379080,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1770380129010",
+          "name": "Sách\t\t\t\t\t\t\t\t",
+          "fee": 110000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 14,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 110000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1770533259572",
+          "name": "Co.op Xtra",
+          "fee": 179000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 15,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 179000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": -1985000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cml5b19md000ale0l3cxgngzu",
+      "title": "Mua đồ chung QN - 2/2/2026",
+      "date": 1770044874074,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Khăn ướt",
+          "fee": 76800,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 38400,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 38400,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1770044939796",
+          "name": "Bún riêu",
+          "fee": 13000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 6500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 6500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1770044948263",
+          "name": "Cà tím",
+          "fee": 17859,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 8929.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 8929.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1770044957219",
+          "name": "Hành tây",
+          "fee": 7688,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 3844,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 3844,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1770044966672",
+          "name": "Đậu hủ",
+          "fee": 6700,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 3350,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 3350,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1770044980338",
+          "name": "Kim chi",
+          "fee": 13600,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 6800,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 6800,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1770044989126",
+          "name": "Đâu hủ chiên loại lớn",
+          "fee": 12600,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 6,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 6300,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 6300,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cml6rhgt6000cle0l5oa7gn8d",
+      "title": "Winmart - 03/03/2026",
+      "date": 1770132905935,
+      "status": "SETTLED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Dừa Xiêm",
+          "fee": 18900,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 18900,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1770133011372",
+          "name": "Vinamilk Không Đường",
+          "fee": 7700,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 3850,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 3850,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1770133026300",
+          "name": "Xốt Trứng Muối",
+          "fee": 33000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 16500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 16500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmm1t1x3z0001le0k3sc5zjrt",
+      "title": "Co.op Xtra - 24/02/2026",
+      "date": 1772010057810,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Bông cải xanh",
+          "fee": 18335,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 9167.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 9167.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772010560859",
+          "name": "Rau ngót",
+          "fee": 18500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 9250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 9250,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772010572527",
+          "name": "Trà",
+          "fee": 28900,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 14450,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 14450,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772010582633",
+          "name": "Mì kokomi",
+          "fee": 37600,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 37600,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1772010591174",
+          "name": "Nước sủi",
+          "fee": 31000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 15500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 15500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772010603616",
+          "name": "Bánh ướt",
+          "fee": 19320,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 19320,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": -73000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmm9bch6t0003le0k3p6mherk",
+      "title": "Co.op Xtra + Siba Food - 03/02/2026",
+      "date": 1772464034581,
+      "status": "SETTLED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Há cảo tôm",
+          "fee": 122000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 61000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 61000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772464145537",
+          "name": "Probi",
+          "fee": 99600,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 49800,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 49800,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772464162915",
+          "name": "Cải thảo",
+          "fee": 10106,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 10106,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772464229724",
+          "name": "Thanh long",
+          "fee": 30000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 15000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 15000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772464245885",
+          "name": "Bánh khoai tây LỚN",
+          "fee": 46800,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 23400,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 46800,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772464267116",
+          "name": "Bánh khoai tây MEDIUM",
+          "fee": 27000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 13500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 13500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772464307059",
+          "name": "Bánh bao",
+          "fee": 39500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 6,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 39500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772464341511",
+          "name": "Bông cải",
+          "fee": 21147,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 7,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 10573.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 10573.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmmennlb60001le0lb4m112xt",
+      "title": "Co.op Xtra - 06/03/2026",
+      "date": 1772787041631,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Trà xanh lài",
+          "fee": 26805,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 13402.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 13402.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772787130047",
+          "name": "Sương sáo",
+          "fee": 23003,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 11501.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 11501.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772787152596",
+          "name": "Sticker",
+          "fee": 30609,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 30609,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772787188101",
+          "name": "Đũa Inox",
+          "fee": 97391,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 97391,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772787206653",
+          "name": "Mặt nạ",
+          "fee": 58435,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 58435,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772787357005",
+          "name": "Sủi",
+          "fee": 28754,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 14377,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 14377,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772787374425",
+          "name": "BVS",
+          "fee": 36359,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 6,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 36359,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772787390030",
+          "name": "Há cảo ",
+          "fee": 113159,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 7,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 56579.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 56579.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772787406007",
+          "name": "Đùi gà",
+          "fee": 30386,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 8,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 30386,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1772787420249",
+          "name": "Cá basa",
+          "fee": 12763,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 9,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 6381.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 6381.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1772787439632",
+          "name": "Sườn non",
+          "fee": 54316,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 10,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 27158,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 27158,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmmu5voqx0001le0lzev5pk6y",
+      "title": "Mua đồ - 16/03/2026",
+      "date": 1773724656098,
+      "status": "SETTLED",
+      "payerId": "cmf76t2jp0002ldbk0ta2ubb3",
+      "participants": [
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Quần bơi",
+          "fee": 119000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 119000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1773725288130",
+          "name": "Dưa hấu",
+          "fee": 32553,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 16276.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 16276.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1773725453078",
+          "name": "Sữa tắm",
+          "fee": 261500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 261500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1773725471451",
+          "name": "Bánh trứng",
+          "fee": 35500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 17750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 17750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1773725489554",
+          "name": "Khoai tây",
+          "fee": 22500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 22500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1773725509489",
+          "name": "Rong nho tươi",
+          "fee": 29500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 14750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 14750,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1773725534888",
+          "name": "Ức gà phi lê",
+          "fee": 55000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 6,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 27500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 27500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1773725557841",
+          "name": "Sụn gà",
+          "fee": 55000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 7,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 27500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 27500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": -150000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmn71r6pz0003le0l5kd8y56m",
+      "title": "Đi chơi chill chill - 25/03/2026 - MC",
+      "date": 1774503686971,
+      "status": "COMPLETED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Kem",
+          "fee": 72900,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 36450,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 36450,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1774503830478",
+          "name": "Xem phim",
+          "fee": 129000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 64500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 64500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": -70000,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmn71w9pj0005le0l01x0dfgw",
+      "title": "Museum Date - 20/03/2026",
+      "date": 1774503906139,
+      "status": "SETTLED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Mì xào Indomie",
+          "fee": 30400,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 30400,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 15200,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1774504089553",
+          "name": "Bánh su kem",
+          "fee": 26000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 13000,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 26000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1774504099863",
+          "name": "Hủ tiếu thịt heo",
+          "fee": 89000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 89000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 44500,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1774504167145",
+          "name": "Hủ tiếu thịt bò",
+          "fee": 99000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 49500,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 99000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1774504180833",
+          "name": "Da heo chiên giòn",
+          "fee": 25000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 12500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 12500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1774504190339",
+          "name": "Xôi xoài",
+          "fee": 75000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 37500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 37500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1774504202966",
+          "name": "Nước suối",
+          "fee": 29000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 6,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 14500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 14500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1774504233072",
+          "name": "Ức gà ",
+          "fee": 58581,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 7,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 29290.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 29290.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1774682840853",
+          "name": "Thịt đùi heo",
+          "fee": 38048,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 8,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 19024,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 19024,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": -51000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmn92wiqc0007le0li7cpz1d2",
+      "title": "T6 giải lao with mimi - 27/3/2026 - MC",
+      "date": 1774626587419,
+      "status": "ACTIVE",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Gốm - Momo",
+          "fee": 500000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 250000,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 250000,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1774626859028",
+          "name": "Mikado Sushi",
+          "fee": 567360,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 283680,
+              "include": true,
+              "locked": false,
+              "paid": true
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 283680,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": -125000,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": -283680,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmnhl2cxs0009le0lfs1ny8tb",
+      "title": "Co.op Xtra + Winmart - 01/04/2026",
+      "date": 1775140862804,
+      "status": "COMPLETED",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Má đùi gà",
+          "fee": 24941,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 12470.5,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 12470.5,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1775140931946",
+          "name": "Kitkat",
+          "fee": 45400,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 45400,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1775140949259",
+          "name": "Bàn chải đánh răng",
+          "fee": 58500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 58500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1775140991649",
+          "name": "Mì gấu cay",
+          "fee": 5500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 5500,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "item-1775141004467",
+          "name": "Mì Omachi xốt bò hầm",
+          "fee": 7700,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 7700,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1775141020676",
+          "name": "Dồi sụn",
+          "fee": 64900,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 5,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 32450,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 32450,
+              "include": true,
+              "locked": false,
+              "paid": true
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmnlzg541000ble0lfhysiexa",
+      "title": "Co.op Xtra - 05/04/2026",
+      "date": 1775406894258,
+      "status": "DRAFT",
+      "payerId": "cmf76svsw0001ldbk7nmf78u1",
+      "participants": [
+        {
+          "id": "cmf76t2jp0002ldbk0ta2ubb3",
+          "personId": "cmf76t2jp0002ldbk0ta2ubb3"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Tương ớt",
+          "fee": 28000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 28000,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1775406976463",
+          "name": "Chai trà lài",
+          "fee": 23500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 23500,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1775407032030",
+          "name": "Mủ trôm",
+          "fee": 32500,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 16250,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 16250,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1775410543792",
+          "name": "Mayonaise",
+          "fee": 38800,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 3,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 19400,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 19400,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1775410555960",
+          "name": "quyyst",
+          "fee": 48790,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 4,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 24395,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 24395,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmf76t2jp0002ldbk0ta2ubb3",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmo7axefp000dle0ljbnlci39",
+      "title": "Mua đồ - 20/04/2026 - Phát",
+      "date": 1776680596495,
+      "status": "DRAFT",
+      "payerId": "cmfe1azq10002ldfkp92o6ces",
+      "participants": [
+        {
+          "id": "cml3q3ftm0001le0l9dtx6bxq",
+          "personId": "cml3q3ftm0001le0l9dtx6bxq"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        },
+        {
+          "id": "cmfe1azq10002ldfkp92o6ces",
+          "personId": "cmfe1azq10002ldfkp92o6ces"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Nấm mở",
+          "fee": 60000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cml3q3ftm0001le0l9dtx6bxq",
+              "amount": 20000,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 20000,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 20000,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1776696973416",
+          "name": "Sữa tươi không đường",
+          "fee": 20000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cml3q3ftm0001le0l9dtx6bxq",
+              "amount": 6666.666666666667,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 6666.666666666667,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 6666.666666666667,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1776697008696",
+          "name": "Khoa",
+          "fee": 47000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cml3q3ftm0001le0l9dtx6bxq",
+              "amount": 15666.666666666666,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 15666.666666666666,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 15666.666666666666,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cml3q3ftm0001le0l9dtx6bxq",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cml3q3ftm0001le0l9dtx6bxq",
+              "amount": -17200,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cmo7bfjze000fle0lk93qjvhu",
+      "title": "Mua đồ - 20/04/2026 - Bảo",
+      "date": 1776696784731,
+      "status": "DRAFT",
+      "payerId": "cml3q3ftm0001le0l9dtx6bxq",
+      "participants": [
+        {
+          "id": "cmfe1azq10002ldfkp92o6ces",
+          "personId": "cmfe1azq10002ldfkp92o6ces"
+        },
+        {
+          "id": "cml3q3ftm0001le0l9dtx6bxq",
+          "personId": "cml3q3ftm0001le0l9dtx6bxq"
+        },
+        {
+          "id": "cmf76svsw0001ldbk7nmf78u1",
+          "personId": "cmf76svsw0001ldbk7nmf78u1"
+        }
+      ],
+      "items": [
+        {
+          "id": "item-1",
+          "name": "Đậu hủ ta",
+          "fee": 13700,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 0,
+          "shares": [
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 4566.666666666667,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cml3q3ftm0001le0l9dtx6bxq",
+              "amount": 4566.666666666667,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 4566.666666666667,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1776696868892",
+          "name": "Canh khoai",
+          "fee": 26900,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 1,
+          "shares": [
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 8966.666666666666,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cml3q3ftm0001le0l9dtx6bxq",
+              "amount": 8966.666666666666,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 8966.666666666666,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "item-1776696888539",
+          "name": "Kim chi",
+          "fee": 12000,
+          "splitMethod": "EQUAL",
+          "type": "NORMAL",
+          "order": 2,
+          "shares": [
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 4000,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cml3q3ftm0001le0l9dtx6bxq",
+              "amount": 4000,
+              "include": true,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 4000,
+              "include": true,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "carry-over",
+          "name": "Previous Debt",
+          "fee": 0,
+          "splitMethod": "EQUAL",
+          "type": "CARRY_OVER",
+          "order": 1000,
+          "shares": [
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cml3q3ftm0001le0l9dtx6bxq",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        },
+        {
+          "id": "discount",
+          "name": "Discount",
+          "fee": -500,
+          "splitMethod": "EQUAL",
+          "type": "SPECIAL",
+          "order": 1001,
+          "shares": [
+            {
+              "participantId": "cmfe1azq10002ldfkp92o6ces",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cml3q3ftm0001le0l9dtx6bxq",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            },
+            {
+              "participantId": "cmf76svsw0001ldbk7nmf78u1",
+              "amount": 0,
+              "include": false,
+              "locked": false,
+              "paid": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

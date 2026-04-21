@@ -146,7 +146,7 @@ async function migrate() {
             accountNumber: person.accountNumber || null,
             accountHolder: person.accountHolder || null,
             qrUrl: person.qrUrl || null,
-            active: person.active ?? true,
+            active: Boolean(person.active ?? true),
           },
         });
       }
