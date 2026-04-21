@@ -89,7 +89,7 @@ export default function LoginPage() {
             id="btn-login-google"
             onClick={handleGoogle}
             disabled={googleLoading}
-            className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-border text-sm font-medium text-foreground hover:border-foreground hover:bg-accent transition-all disabled:opacity-50 mb-6"
+            className="w-full flex items-center justify-center gap-3 py-3 px-4 border border-border text-sm font-medium text-foreground hover:border-foreground hover:bg-accent transition-colors disabled:opacity-50 mb-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
           >
             <svg className="w-4 h-4 flex-shrink-0" viewBox="0 0 24 24" aria-hidden="true">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -116,11 +116,14 @@ export default function LoginPage() {
               <input
                 id="email"
                 type="email"
+                name="email"
+                autoComplete="email"
+                spellCheck={false}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="you@example.com"
-                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-0 transition-colors"
+                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/30 transition-colors"
               />
             </div>
 
@@ -131,11 +134,13 @@ export default function LoginPage() {
               <input
                 id="password"
                 type="password"
+                name="password"
+                autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary focus:ring-0 transition-colors"
+                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/30 transition-colors"
               />
             </div>
 
@@ -143,7 +148,7 @@ export default function LoginPage() {
               id="btn-login"
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 px-4 bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 active:scale-[0.99] transition-[filter,transform] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               {loading ? 'Signing in…' : 'Sign in →'}
             </button>

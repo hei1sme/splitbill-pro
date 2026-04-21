@@ -130,11 +130,14 @@ export default function RegisterPage() {
               <input
                 id="email"
                 type="email"
+                name="email"
+                autoComplete="email"
+                spellCheck={false}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="you@example.com"
-                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/30 transition-colors"
               />
             </div>
 
@@ -145,11 +148,13 @@ export default function RegisterPage() {
               <input
                 id="password"
                 type="password"
+                name="password"
+                autoComplete="new-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 placeholder="Min. 8 characters"
-                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/30 transition-colors"
               />
             </div>
 
@@ -160,11 +165,13 @@ export default function RegisterPage() {
               <input
                 id="confirm-password"
                 type="password"
+                name="confirm-password"
+                autoComplete="new-password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
                 required
                 placeholder="••••••••"
-                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus:outline-none focus:border-primary transition-colors"
+                className="w-full px-3 py-3 bg-card border border-border text-sm text-foreground placeholder:text-muted-foreground/50 focus-visible:outline-none focus-visible:border-primary focus-visible:ring-2 focus-visible:ring-primary/30 transition-colors"
               />
             </div>
 
@@ -172,7 +179,7 @@ export default function RegisterPage() {
               id="btn-register"
               type="submit"
               disabled={loading}
-              className="w-full py-3 px-4 bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 active:scale-[0.99] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3 px-4 bg-primary text-primary-foreground text-sm font-semibold hover:brightness-110 active:scale-[0.99] transition-[filter,transform] disabled:opacity-50 disabled:cursor-not-allowed focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               {loading ? 'Creating account…' : 'Create account →'}
             </button>

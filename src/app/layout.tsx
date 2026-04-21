@@ -36,6 +36,7 @@ export default async function RootLayout({
     <html
       lang="en"
       className="dark"
+      style={{ colorScheme: "dark" }}
       suppressHydrationWarning
     >
       <body

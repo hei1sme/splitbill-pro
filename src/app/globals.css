@@ -86,17 +86,22 @@
 
   /* Lime accent CTA */
   .btn-primary {
-    @apply inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-sm font-semibold transition-all hover:brightness-110 active:scale-[0.98];
+    @apply inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground text-sm font-semibold transition-[filter,transform] hover:brightness-110 active:scale-[0.98];
   }
 
   /* Ghost button */
   .btn-ghost {
-    @apply inline-flex items-center gap-2 px-6 py-3 border border-border text-foreground text-sm font-medium transition-all hover:border-foreground hover:bg-foreground/5;
+    @apply inline-flex items-center gap-2 px-6 py-3 border border-border text-foreground text-sm font-medium transition-colors hover:border-foreground hover:bg-foreground/5;
   }
 
   /* Data row */
   .data-row {
     @apply flex items-center justify-between py-3 border-b border-border last:border-0;
+  }
+
+  /* Flat card — replaces old frosted-card/glass-panel with clean design-system card */
+  .frosted-card {
+    @apply bg-card border border-border rounded-xl;
   }
 }
 

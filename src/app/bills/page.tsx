@@ -201,8 +201,9 @@ export default function BillsPage() {
                 <Button
                   variant="ghost"
                   size="sm"
+                  aria-label="Clear search"
                   onClick={() => setGlobalSearch("")}
-                  className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full text-slate-300 transition hover:text-white"
+                  className="absolute right-1 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -213,10 +214,12 @@ export default function BillsPage() {
               <div className="space-y-3">
                 {filteredBills.length > 0 ? (
                   filteredBills.map((bill) => (
-                    <Card
+                    <Link
                       key={bill.id}
-                      className="cursor-pointer overflow-hidden border border-white/10 bg-white/5 transition hover:border-white/20 hover:bg-white/10"
-                      onClick={() => (window.location.href = `/bills/${bill.id}`)}
+                      href={`/bills/${bill.id}`}
+                    >
+                    <Card
+                      className="cursor-pointer overflow-hidden border border-border bg-card transition-colors hover:border-primary/40 hover:bg-accent"
                     >
                       <CardContent className="flex items-center justify-between gap-4 p-4">
                         <div className="flex-1 space-y-2">
@@ -233,7 +236,7 @@ export default function BillsPage() {
                             </span>
                             <span className="inline-flex items-center gap-1">
                               <Calendar className="h-3 w-3" />
-                              {format(new Date(bill.createdAt), "MMM dd, yyyy")}
+                              {new Intl.DateTimeFormat('vi-VN', { dateStyle: 'medium' }).format(new Date(bill.createdAt))}
                             </span>
                             <span>
                               Payer: {bill.payer?.displayName || "Unknown"}
@@ -254,6 +257,7 @@ export default function BillsPage() {
                         </Button>
                       </CardContent>
                     </Card>
+                    </Link>
                   ))
                 ) : (
                   <div className="flex flex-col items-center gap-2 rounded-2xl border border-white/10 bg-white/5 py-8 text-sm text-slate-300/80">
