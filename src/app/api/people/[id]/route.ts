@@ -1,10 +1,16 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { PersonUpdateSchema } from '@/lib/validations';
+import { createClient } from '@/lib/supabase/server';
 
 export async function PUT(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return NextResponse.json({ success: false, error: { message: 'Unauthorized' } }, { status: 401 });
+    const userId = user.id;
+
     const body = await request.json();
     const validation = PersonUpdateSchema.safeParse(body);
 
@@ -12,9 +18,6 @@ export async function PUT(request: Request, { params }: { params: Promise<{ id: 
       return NextResponse.json({ success: false, error: { message: 'Invalid data', details: validation.error.flatten().fieldErrors } }, { status: 400 });
     }
     
-    // Hardcoded default user ID for now until Auth is fully integrated
-    const userId = "default-org-user-id";
-
     // Check for unique display name if it's being changed
     if (validation.data.displayName) {
         const existingPerson = await prisma.person.findFirst({ where: { displayName: validation.data.displayName, userId, NOT: { id } } });

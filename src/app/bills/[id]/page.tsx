@@ -21,6 +21,17 @@ async function getBill(id: string) {
         }
       },
       items: {
+        include: {
+          shares: {
+            include: {
+              participant: {
+                include: {
+                  person: true
+                }
+              }
+            }
+          }
+        },
         orderBy: {
           createdAt: 'asc',
         },
@@ -29,8 +40,22 @@ async function getBill(id: string) {
   });
   
   if (!bill) return null;
-
   return bill;
+}
+
+/** Convert all Prisma Decimal fields to plain numbers so they can cross the Server→Client boundary */
+function serializeBill(bill: NonNullable<Awaited<ReturnType<typeof getBill>>>) {
+  return {
+    ...bill,
+    items: bill.items.map(item => ({
+      ...item,
+      fee: item.fee !== null ? Number(item.fee) : null,
+      shares: item.shares.map(share => ({
+        ...share,
+        amount: Number(share.amount),
+      })),
+    })),
+  };
 }
 
 export default async function BillDetailsPage({ params }: { params: Promise<{ id: string }> }) {
@@ -41,5 +66,5 @@ export default async function BillDetailsPage({ params }: { params: Promise<{ id
     notFound();
   }
 
-  return <BillDetails bill={bill} />;
+  return <BillDetails bill={serializeBill(bill)} />;
 }

@@ -1,6 +1,14 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { PersonCreateSchema } from '@/lib/validations';
+import { createClient } from '@/lib/supabase/server';
+
+// Helper: get userId from auth (or dev fallback)
+async function getUserId(): Promise<string | null> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  return user?.id ?? null;
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -24,6 +32,11 @@ export async function GET(request: Request) {
   }
 
   try {
+    const userId = await getUserId();
+    if (!userId) return NextResponse.json({ success: false, error: { message: 'Unauthorized' } }, { status: 401 });
+
+    where.userId = userId;
+
     const people = await prisma.person.findMany({
       where,
       include: {
@@ -42,6 +55,9 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   try {
+    const userId = await getUserId();
+    if (!userId) return NextResponse.json({ success: false, error: { message: 'Unauthorized' } }, { status: 401 });
+
     const body = await request.json();
     const validation = PersonCreateSchema.safeParse(body);
 
@@ -50,9 +66,6 @@ export async function POST(request: Request) {
     }
 
     const { displayName } = validation.data;
-    
-    // Hardcoded default user ID for now until Auth is fully integrated
-    const userId = "default-org-user-id";
 
     const existingPerson = await prisma.person.findFirst({ where: { displayName, userId } });
     if (existingPerson) {

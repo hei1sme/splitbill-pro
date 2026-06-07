@@ -30,6 +30,15 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: '*.supabase.in',
       },
+      // Bank logos and other external images (e.g. cdn.haitrieu.com)
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+      {
+        protocol: 'http',
+        hostname: '**',
+      },
     ],
   },
   // Suppress hydration warnings caused by browser extensions

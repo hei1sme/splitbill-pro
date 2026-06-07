@@ -15,7 +15,7 @@ interface SnapshotViewProps {
 }
 
 export default function SnapshotView({ bill }: SnapshotViewProps) {
-  // Parse saved data from description field (like BillDetailsEnhanced does)
+  // Parse saved data from description field (legacy fallback)
   let savedData: any = null;
   try {
     if (bill?.description && bill.description.startsWith('{')) {
@@ -25,35 +25,59 @@ export default function SnapshotView({ bill }: SnapshotViewProps) {
     console.log('No saved data found in description');
   }
 
-  // Get participants and items from saved data or fallback to database
-  const participants = savedData?.participants || bill.group?.members?.map((member: any) => member.person) || [];
-  const payer = bill.payer;
+  // Priority 1: Use database participants if they exist
+  let participants = [];
+  if (bill?.participants && bill.participants.length > 0) {
+    participants = bill.participants.map((p: any) => ({
+      ...p.person,
+      id: p.personId, // Map to personId for consistency
+      isPayer: p.isPayer,
+      completed: false
+    }));
+  } else if (savedData?.participants && savedData.participants.length > 0) {
+    participants = savedData.participants;
+  } else if (bill?.group?.members) {
+    participants = bill.group.members.map((m: any) => ({
+      ...m.person,
+      isPayer: m.personId === bill.payerId,
+      completed: false
+    }));
+  }
+
+  const payer = participants.find((p: any) => p.isPayer) || participants[0];
   
-  // Get items from saved data (primary source) or fallback to bill.items
-  const rawItems = savedData?.items || bill.items || [];
+  // Use DB items as primary source, fallback to saved JSON
+  const rawItems = (bill?.items && bill.items.length > 0) ? bill.items : (savedData?.items || []);
   
   // Helper function to determine item type
   const getItemType = (description: string) => {
-    const desc = description.toLowerCase();
+    const desc = (description || '').toLowerCase();
     if (desc.includes('previous') || desc.includes('debt') || desc.includes('carry')) {
-      return 'PREVIOUS';
+      return 'CARRY_OVER';
     }
     if (desc.includes('discount') || desc.includes('giảm') || desc.includes('giá')) {
-      return 'DISCOUNT';
+      return 'SPECIAL';
     }
     if (desc.includes('adjustment') || desc.includes('điều chỉnh')) {
-      return 'ADJUSTMENT';
+      return 'SPECIAL';
     }
     return 'NORMAL';
   };
   
-  // Transform items to match the modal format
+  // Transform items to match the rendering format
   const items = rawItems.map((item: any) => ({
     id: item.id,
-    name: item.name || item.description,
-    fee: item.fee || item.amount,
-    type: item.type || getItemType(item.name || item.description || ''),
-    shares: item.shares || participants.map((p: any) => ({
+    name: item.name || item.description || 'Unknown Item',
+    fee: Number(item.fee || item.amount || 0),
+    type: item.type || getItemType(item.name || item.description),
+    shares: item.shares ? item.shares.map((s: any) => ({
+      ...s,
+      // DB share participantId is BillParticipant.id, we need personId to match our participants array
+      participantId: s.participant?.personId || s.participantId,
+      amount: Number(s.amount || 0),
+      include: s.include ?? true,
+      paid: s.paid ?? false
+    })) : participants.map((p: any) => ({
       participantId: p.id,
       include: true,
       amount: 0,
@@ -87,7 +111,7 @@ export default function SnapshotView({ bill }: SnapshotViewProps) {
   const participantTotals = participants.map((participant: any) => {
     const total = items.reduce((sum: number, item: any) => {
       const share = item.shares.find((s: any) => s.participantId === participant.id);
-      return sum + (share?.include && share?.amount > 0 ? share.amount : 0);
+      return sum + (share?.include ? (share.amount || 0) : 0);
     }, 0);
     return { participant, total };
   });
@@ -310,7 +334,7 @@ export default function SnapshotView({ bill }: SnapshotViewProps) {
       </div>
 
       {/* Portrait Bill Frame - Updated Modern Design */}
-      <div className="w-full mx-auto">
+      <div className="w-full mx-auto max-w-7xl mt-16">
         <div id="snapshot-content" className="bg-white rounded-3xl shadow-2xl border-2 border-purple-200/50 overflow-hidden">
           <div className="p-6 space-y-6">
             
@@ -322,10 +346,10 @@ export default function SnapshotView({ bill }: SnapshotViewProps) {
                 </div>
                 <div className="flex items-center justify-center gap-6 text-gray-600 mt-4">
                   <span className="flex items-center gap-2 rounded-full bg-white/80 px-4 py-2 text-sm font-medium shadow-sm">
-                    📅 {new Date(bill?.createdAt || Date.now()).toLocaleDateString('vi-VN')}
+                    📅 {new Date(bill?.date || Date.now()).toLocaleDateString('vi-VN')}
                   </span>
                   <Badge className="bg-gradient-to-r from-purple-500 to-indigo-500 text-white px-4 py-2 text-sm font-semibold shadow-md">
-                    {bill?.status || 'OPEN'}
+                    {bill?.status || 'ACTIVE'}
                   </Badge>
                 </div>
               </div>
@@ -333,7 +357,7 @@ export default function SnapshotView({ bill }: SnapshotViewProps) {
 
             {/* Main Content Grid: Expense Table (Left) + Payment Info (Right) */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Expense Breakdown - Takes 2 columns */}
+              {/* Expense Breakdown Table - Takes 2 columns */}
               <div className="lg:col-span-2">
                 <div className="bg-white rounded-3xl shadow-xl border-2 border-purple-100/50 overflow-hidden">
                   <div className="bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-600 p-5">
@@ -343,90 +367,42 @@ export default function SnapshotView({ bill }: SnapshotViewProps) {
                     </h2>
                   </div>
                   
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                  <thead className="bg-gradient-to-r from-purple-50 to-indigo-50">
-                    <tr>
-                      <th className="p-4 text-left font-bold text-gray-800 border-b-2 border-purple-200">Item</th>
-                      <th className="p-4 text-right font-bold text-gray-800 border-b-2 border-purple-200">Price</th>
-                      {participants.map((p: any, index: number) => {
-                        const strongChipColors = [
-                          'bg-purple-600', 'bg-indigo-600', 'bg-pink-600', 'bg-blue-600', 
-                          'bg-violet-600', 'bg-fuchsia-600', 'bg-cyan-600', 'bg-teal-600',
-                          'bg-emerald-600', 'bg-green-600', 'bg-amber-600', 'bg-orange-600'
-                        ];
-                        const chipClass = strongChipColors[index % strongChipColors.length];
-                        return (
-                          <th key={p.id} className="p-3 text-center border-b-2 border-purple-200">
-                            <div className={`${chipClass} rounded-xl px-3 py-2 mx-1 shadow-sm`}>
-                              <span className="font-bold text-white text-sm">
-                                {p.displayName}
-                              </span>
-                            </div>
-                          </th>
-                        );
-                      })}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {items.filter((i: any) => i.type === "NORMAL").map((item: any, itemIndex: number) => (
-                      <tr key={item.id} className={`border-b border-purple-100/50 transition-colors hover:bg-purple-50/30 ${itemIndex % 2 === 0 ? 'bg-gray-50/50' : 'bg-white'}`}>
-                        <td className="p-4 font-semibold text-gray-800">{item.name}</td>
-                        <td className="p-4 text-right font-bold text-gray-900">{formatCurrency(item.fee || 0)}</td>
-                        {participants.map((p: any, pIndex: number) => {
-                          const share = item.shares.find((s: any) => s.participantId === p.id);
-                          const lightBackgroundColors = [
-                            'bg-purple-50', 'bg-indigo-50', 'bg-pink-50', 'bg-blue-50', 
-                            'bg-violet-50', 'bg-fuchsia-50', 'bg-cyan-50', 'bg-teal-50',
-                            'bg-emerald-50', 'bg-green-50', 'bg-amber-50', 'bg-orange-50'
-                          ];
-                          const lightBgClass = lightBackgroundColors[pIndex % lightBackgroundColors.length];
-                          return (
-                            <td key={p.id} className={`p-3 text-center border-l border-purple-100/30 ${lightBgClass}`}>
-                              {!share?.include ? (
-                                <span className="text-gray-300 text-2xl">–</span>
-                              ) : (
-                                <div className="flex flex-col items-center gap-1.5">
-                                  <span className="font-bold text-gray-900">
-                                    {formatCurrency(share.amount)}
+                  <div className="w-full overflow-x-auto">
+                    <table className="w-full table-auto">
+                      <thead className="bg-gradient-to-r from-purple-50 to-indigo-50">
+                        <tr>
+                          <th className="p-4 text-left font-bold text-gray-800 border-b-2 border-purple-200" style={{ width: 'auto' }}>Item</th>
+                          <th className="p-4 text-right font-bold text-gray-800 border-b-2 border-purple-200" style={{ width: '120px' }}>Price</th>
+                          {participants.map((p: any, index: number) => {
+                            const lightBackgroundColors = [
+                              'bg-purple-50', 'bg-indigo-50', 'bg-pink-50', 'bg-blue-50', 
+                              'bg-violet-50', 'bg-fuchsia-50', 'bg-cyan-50', 'bg-teal-50',
+                              'bg-emerald-50', 'bg-green-50', 'bg-amber-50', 'bg-orange-50'
+                            ];
+                            const strongChipColors = [
+                              'bg-purple-600', 'bg-indigo-600', 'bg-pink-600', 'bg-blue-600', 
+                              'bg-violet-600', 'bg-fuchsia-600', 'bg-cyan-600', 'bg-teal-600',
+                              'bg-emerald-600', 'bg-green-600', 'bg-amber-600', 'bg-orange-600'
+                            ];
+                            const lightBgClass = lightBackgroundColors[index % lightBackgroundColors.length];
+                            const chipClass = strongChipColors[index % strongChipColors.length];
+                            return (
+                              <th key={p.id} className={`p-3 text-center border-b-2 border-purple-200 ${lightBgClass}`} style={{ minWidth: '90px' }}>
+                                <div className={`${chipClass} rounded-xl px-3 py-2 mx-1 shadow-sm`}>
+                                  <span className="font-bold text-white text-sm">
+                                    {p.displayName}
                                   </span>
-                                  {share.paid && (
-                                    <div className="flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5">
-                                      <Check className="h-3 w-3 text-emerald-600" />
-                                      <span className="text-xs text-emerald-700 font-bold">PAID</span>
-                                    </div>
-                                  )}
                                 </div>
-                              )}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    ))}
-                    
-                    {/* Adjustments Section */}
-                    {items.filter((i: any) => i.type !== "NORMAL").length > 0 && (
-                      <>
-                        <tr className="bg-gradient-to-r from-amber-50 to-yellow-50 border-t-2 border-amber-300">
-                          <td colSpan={participants.length + 2} className="p-4 text-center">
-                            <div className="flex items-center justify-center gap-2">
-                              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-400/20">
-                                <span className="text-lg">⚡</span>
-                              </div>
-                              <span className="text-amber-800 font-bold text-base uppercase tracking-wider">Adjustments</span>
-                            </div>
-                          </td>
+                              </th>
+                            );
+                          })}
                         </tr>
-                        {items.filter((i: any) => i.type !== "NORMAL").map((item: any) => (
-                          <tr key={item.id} className="bg-amber-50/40 border-l-4 border-amber-400 hover:bg-amber-50/60 transition-colors">
-                            <td colSpan={2} className="p-4 font-semibold text-gray-800">
-                              <div className="flex items-center gap-3">
-                                <span className="text-xl">
-                                  {item.name.includes('Previous') ? '🔄' : item.name.includes('Discount') ? '💸' : '⚡'}
-                                </span>
-                                <span>{item.name}</span>
-                              </div>
-                            </td>
+                      </thead>
+                      <tbody>
+                        {items.filter((i: any) => i.type === "NORMAL").map((item: any, itemIndex: number) => (
+                          <tr key={item.id} className={`border-b border-purple-100/50 transition-colors hover:bg-purple-50/30 ${itemIndex % 2 === 0 ? 'bg-gray-50/50' : 'bg-white'}`}>
+                            <td className="p-4 font-semibold text-gray-800">{item.name}</td>
+                            <td className="p-4 text-right font-bold text-gray-900">{formatCurrency(item.fee || 0)}</td>
                             {participants.map((p: any, pIndex: number) => {
                               const share = item.shares.find((s: any) => s.participantId === p.id);
                               const lightBackgroundColors = [
@@ -437,11 +413,11 @@ export default function SnapshotView({ bill }: SnapshotViewProps) {
                               const lightBgClass = lightBackgroundColors[pIndex % lightBackgroundColors.length];
                               return (
                                 <td key={p.id} className={`p-3 text-center border-l border-purple-100/30 ${lightBgClass}`}>
-                                  {!share?.include || (share.amount === 0 && (item.type !== "NORMAL")) ? (
+                                  {!share?.include ? (
                                     <span className="text-gray-300 text-2xl">–</span>
                                   ) : (
                                     <div className="flex flex-col items-center gap-1.5">
-                                      <span className={`font-bold ${share.amount < 0 ? 'text-red-600' : 'text-gray-900'}`}>
+                                      <span className="font-bold text-gray-900">
                                         {formatCurrency(share.amount)}
                                       </span>
                                       {share.paid && (
@@ -457,110 +433,164 @@ export default function SnapshotView({ bill }: SnapshotViewProps) {
                             })}
                           </tr>
                         ))}
-                      </>
-                    )}
-                    
-                    <tr className="bg-gradient-to-r from-purple-100 via-indigo-100 to-purple-100 border-t-4 border-purple-300">
-                      <td className="p-4 font-black text-purple-900 uppercase tracking-wider text-base">Total</td>
-                      <td className="p-4 text-right font-black text-purple-900 text-lg">
-                        {formatCurrency(grandTotal)}
-                      </td>
-                      {participants.map((p: any, pIndex: number) => {
-                        const total = participantTotals.find((t: any) => t.participant.id === p.id)?.total || 0;
-                        return (
-                          <td key={p.id} className="p-3 text-center border-l border-purple-200">
-                            <div className={`rounded-xl p-2.5 text-white font-bold text-base shadow-md ${getParticipantColor(pIndex)}`}>
-                              {formatCurrency(total)}
-                            </div>
+                        
+                        {/* Adjustments Section - Only show if there are non-normal items */}
+                        {items.filter((i: any) => i.type !== "NORMAL").length > 0 && (
+                          <>
+                            <tr className="bg-gradient-to-r from-amber-50 to-yellow-50 border-t-2 border-amber-300">
+                              <td colSpan={participants.length + 2} className="p-4 text-center">
+                                <div className="flex items-center justify-center gap-2">
+                                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-400/20">
+                                    <span className="text-lg">⚡</span>
+                                  </div>
+                                  <span className="text-amber-800 font-bold text-base uppercase tracking-wider">Adjustments</span>
+                                </div>
+                              </td>
+                            </tr>
+                            {items.filter((i: any) => i.type !== "NORMAL").map((item: any) => (
+                              <tr key={item.id} className="bg-amber-50/40 border-l-4 border-amber-400 hover:bg-amber-50/60 transition-colors">
+                                <td colSpan={2} className="p-4 font-semibold text-gray-800">
+                                  <div className="flex items-center gap-3">
+                                    <span className="text-xl">
+                                      {item.name.includes('Previous') ? '🔄' : item.name.includes('Discount') ? '💸' : '⚡'}
+                                    </span>
+                                    <span>{item.name}</span>
+                                  </div>
+                                </td>
+                                {participants.map((p: any, pIndex: number) => {
+                                  const share = item.shares.find((s: any) => s.participantId === p.id);
+                                  const lightBackgroundColors = [
+                                    'bg-purple-50', 'bg-indigo-50', 'bg-pink-50', 'bg-blue-50', 
+                                    'bg-violet-50', 'bg-fuchsia-50', 'bg-cyan-50', 'bg-teal-50',
+                                    'bg-emerald-50', 'bg-green-50', 'bg-amber-50', 'bg-orange-50'
+                                  ];
+                                  const lightBgClass = lightBackgroundColors[pIndex % lightBackgroundColors.length];
+                                  return (
+                                    <td key={p.id} className={`p-3 text-center border-l border-purple-100/30 ${lightBgClass}`}>
+                                      {!share?.include || (share.amount === 0 && (item.type !== "NORMAL")) ? (
+                                        <span className="text-gray-300 text-2xl">–</span>
+                                      ) : (
+                                        <div className="flex flex-col items-center gap-1.5">
+                                          <span className={`font-bold ${share.amount < 0 ? 'text-red-600' : 'text-gray-900'}`}>
+                                            {formatCurrency(share.amount)}
+                                          </span>
+                                          {share.paid && (
+                                            <div className="flex items-center gap-1 rounded-full bg-emerald-100 px-2 py-0.5">
+                                              <Check className="h-3 w-3 text-emerald-600" />
+                                              <span className="text-xs text-emerald-700 font-bold">PAID</span>
+                                            </div>
+                                          )}
+                                        </div>
+                                      )}
+                                    </td>
+                                  );
+                                })}
+                              </tr>
+                            ))}
+                          </>
+                        )}
+                        
+                        <tr className="bg-gradient-to-r from-purple-100 via-indigo-100 to-purple-100 border-t-4 border-purple-300">
+                          <td className="p-4 font-black text-purple-900 uppercase tracking-wider text-base">Total</td>
+                          <td className="p-4 text-right font-black text-purple-900 text-lg">
+                            {formatCurrency(grandTotal)}
                           </td>
-                        );
-                      })}
-                    </tr>
-                  </tbody>
-                </table>
+                          {participants.map((p: any, pIndex: number) => {
+                            const total = participantTotals.find((t: any) => t.participant.id === p.id)?.total || 0;
+                            return (
+                              <td key={p.id} className="p-3 text-center border-l border-purple-200">
+                                <div className={`rounded-xl p-2.5 text-white font-bold text-base shadow-md ${getParticipantColor(pIndex)}`}>
+                                  {formatCurrency(total)}
+                                </div>
+                              </td>
+                            );
+                          })}
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+              {/* Payment Information Card - Takes 1 column on desktop (right side) */}
+              <div className="lg:col-span-1">
+                {payer && (
+                  <div className="bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 rounded-3xl shadow-xl border-2 border-amber-300 p-8 relative overflow-hidden h-full">
+                    {/* Decorative background elements */}
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-yellow-300/20 to-orange-300/20 rounded-full blur-3xl"></div>
+                    
+                    {/* Header Row: Payment Information (Left) + PAYER Badge (Right) */}
+                    <div className="relative flex items-center justify-between mb-8">
+                      <div className="export-safe-title">
+                        <h3 className="text-2xl font-bold text-amber-900 flex items-center gap-3">
+                          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400/30">
+                            <span className="text-xl">💳</span>
+                          </div>
+                          <span>Payment Info</span>
+                        </h3>
+                      </div>
+                      <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-black shadow-lg flex items-center gap-2">
+                        <span>👑</span>
+                        <span>PAYER</span>
+                      </div>
+                    </div>
+                    
+                    {/* 1-Column Content Layout */}
+                    <div className="relative space-y-5">
+                      {/* 1. Bank Name and Logo */}
+                      {payer.bankName && (
+                        <div className="text-center bg-white/60 rounded-2xl p-4 shadow-sm border border-amber-200/50">
+                          <div className="flex items-center justify-center gap-3 text-gray-800 font-semibold">
+                            {payer.bankLogoUrl && (
+                              <Image 
+                                src={payer.bankLogoUrl} 
+                                alt={`${payer.bankName} logo`}
+                                width={36} 
+                                height={36} 
+                                className="rounded-lg shadow-sm"
+                              />
+                            )}
+                            <span className="font-black text-xl text-gray-900">{payer.bankName}</span>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* 2. QR Code */}
+                      {payer.qrUrl && (
+                        <div className="flex justify-center">
+                          <div className="bg-white p-4 rounded-2xl shadow-lg border-2 border-amber-300">
+                            <Image 
+                              src={payer.qrUrl} 
+                              alt="Payment QR Code" 
+                              width={140} 
+                              height={140} 
+                              className="rounded-xl"
+                            />
+                            <p className="text-xs text-gray-700 mt-3 text-center font-bold bg-amber-100 rounded-full px-3 py-1">Scan to Pay</p>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* 3. Account Holder */}
+                      <div className="text-center">
+                        <div className="font-black text-gray-900 text-xl bg-gradient-to-r from-amber-100 to-yellow-100 px-4 py-3 rounded-2xl inline-block shadow-sm border border-amber-200">
+                          {payer.accountHolder || payer.displayName}
+                        </div>
+                      </div>
+                      
+                      {/* 4. Account Number */}
+                      {payer.accountNumber && (
+                        <div className="text-center">
+                          <div className="text-gray-800 font-bold text-xl font-mono bg-white/60 rounded-2xl px-4 py-3 shadow-sm border border-amber-200/50">
+                            {payer.accountNumber}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
-          </div>
-
-          {/* Payment Information Card - Takes 1 column on desktop (right side) */}
-          <div className="lg:col-span-1">
-            {payer && (
-              <div className="bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 rounded-3xl shadow-xl border-2 border-amber-300 p-8 relative overflow-hidden h-full">
-                {/* Decorative background elements */}
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-yellow-300/20 to-orange-300/20 rounded-full blur-3xl"></div>
-                
-                {/* Header Row: Payment Information (Left) + PAYER Badge (Right) */}
-                <div className="relative flex items-center justify-between mb-8">
-                  <div className="export-safe-title">
-                    <h3 className="text-2xl font-bold text-amber-900 flex items-center gap-3">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-amber-400/30">
-                        <span className="text-xl">💳</span>
-                      </div>
-                      <span>Payment Info</span>
-                    </h3>
-                  </div>
-                  <div className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-black shadow-lg flex items-center gap-2">
-                    <span>👑</span>
-                    <span>PAYER</span>
-                  </div>
-                </div>
-                
-                {/* 1-Column Content Layout */}
-                <div className="relative space-y-5">
-                  {/* 1. Bank Name and Logo */}
-                  {payer.bank?.name && (
-                    <div className="text-center bg-white/60 rounded-2xl p-4 shadow-sm border border-amber-200/50">
-                      <div className="flex items-center justify-center gap-3 text-gray-800 font-semibold">
-                        {payer.bank?.logoUrl && (
-                          <Image 
-                            src={payer.bank.logoUrl} 
-                            alt={`${payer.bank.name} logo`}
-                            width={36} 
-                            height={36} 
-                            className="rounded-lg shadow-sm"
-                          />
-                        )}
-                        <span className="font-black text-xl text-gray-900">{payer.bank.name}</span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* 2. QR Code */}
-                  {payer.qrUrl && (
-                    <div className="flex justify-center">
-                      <div className="bg-white p-4 rounded-2xl shadow-lg border-2 border-amber-300">
-                        <Image 
-                          src={payer.qrUrl} 
-                          alt="Payment QR Code" 
-                          width={140} 
-                          height={140} 
-                          className="rounded-xl"
-                        />
-                        <p className="text-xs text-gray-700 mt-3 text-center font-bold bg-amber-100 rounded-full px-3 py-1">Scan to Pay</p>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {/* 3. Account Holder */}
-                  <div className="text-center">
-                    <div className="font-black text-gray-900 text-xl bg-gradient-to-r from-amber-100 to-yellow-100 px-4 py-3 rounded-2xl inline-block shadow-sm border border-amber-200">
-                      {payer.accountHolder || payer.displayName}
-                    </div>
-                  </div>
-                  
-                  {/* 4. Account Number */}
-                  {payer.accountNumber && (
-                    <div className="text-center">
-                      <div className="text-gray-800 font-bold text-xl font-mono bg-white/60 rounded-2xl px-4 py-3 shadow-sm border border-amber-200/50">
-                        {payer.accountNumber}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
 
             {/* Summary Statistics Card - Full Width Below */}
             <div className="bg-white rounded-3xl shadow-xl border-2 border-purple-100/50 p-8">

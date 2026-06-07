@@ -26,9 +26,23 @@ export async function updateSession(request: NextRequest) {
   );
 
   // Refresh session — do NOT remove this block
-  const {
+  let {
     data: { user },
   } = await supabase.auth.getUser();
+
+  // DEV_MODE bypasses auth — use server-side env var (not NEXT_PUBLIC_)
+  if (process.env.DEV_MODE === 'true' || process.env.DEV_MODE === '1') {
+    user = {
+      id: '00000000-0000-0000-0000-000000000000',
+      aud: 'authenticated',
+      role: 'authenticated',
+      email: 'dev@local.host',
+      app_metadata: { provider: 'email', providers: ['email'] },
+      user_metadata: {},
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString(),
+    } as any;
+  }
 
   const { pathname } = request.nextUrl;
   const isAuthPage = pathname.startsWith('/auth');

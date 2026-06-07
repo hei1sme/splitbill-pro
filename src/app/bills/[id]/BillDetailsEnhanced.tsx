@@ -257,152 +257,47 @@ export default function BillDetails({ bill }: { bill: any }) {
       const payerData = bill?.payer;
       let participantList: Participant[] = [];
       
-      // Check the participant mode to determine how to load participants
-      const participantMode = (bill as any).participantMode;
-      const customParticipants = (bill as any).customParticipants;
+      console.log("[BILL_DETAILS] Database participants:", bill?.participants?.length || 0);
       
-      console.log("[BILL_DETAILS] Participant mode:", participantMode);
-      console.log("[BILL_DETAILS] Custom participants:", customParticipants);
-      console.log("[BILL_DETAILS] Group members:", bill?.group?.members?.length || 0);
-      
-      if (participantMode === "MANUAL" && customParticipants) {
-        // MANUAL mode: Load only custom participants
-        try {
-          const customParticipantIds = JSON.parse(customParticipants);
-          const customParticipantsData = (bill as any).customParticipantsData || [];
-          
-          console.log("[BILL_DETAILS] Loading MANUAL participants:", customParticipantIds);
-          console.log("[BILL_DETAILS] Custom participants data:", customParticipantsData);
-          
-          // Map IDs to actual person data
-          participantList = customParticipantIds.map((personId: string, index: number) => {
-            const personData = customParticipantsData.find((p: any) => p.id === personId);
-            
-            return {
-              id: personId,
-              displayName: personData?.displayName || `Unknown Participant ${index + 1}`,
-              isPayer: personId === payerData?.id,
-              order: index,
-              accountNumber: personData?.accountNumber,
-              bankCode: personData?.bankCode,
-              accountHolder: personData?.accountHolder,
-              qrUrl: personData?.qrUrl,
-              bankName: personData?.bank?.name,
-              bankLogoUrl: personData?.bank?.logoUrl,
-              completed: false,
-            };
-          });
-          
-        } catch (error) {
-          console.error("[BILL_DETAILS] Error parsing custom participants:", error);
-        }
-        
-      } else if (participantMode === "MIXED" && customParticipants) {
-        // MIXED mode: Combine group members + custom participants
-        const groupMembers = bill?.group?.members || [];
-        const customParticipantsData = (bill as any).customParticipantsData || [];
-        
-        // Add group members first
-        const groupParticipants = groupMembers.map((member: any, index: number) => ({
-          id: member.person?.id || `member-${index}`,
-          displayName: member.person?.displayName || `Member ${index + 1}`,
-          isPayer: member.person?.id === payerData?.id,
-          order: index,
-          accountNumber: member.person?.accountNumber,
-          bankCode: member.person?.bankCode,
-          accountHolder: member.person?.accountHolder,
-          qrUrl: member.person?.qrUrl,
-          bankName: member.person?.bank?.name,
-          bankLogoUrl: member.person?.bank?.logoUrl,
+      if (bill?.participants && bill.participants.length > 0) {
+        // Use standard participants from DB
+        participantList = bill.participants.map((p: any) => ({
+          id: p.person.id,
+          displayName: p.person.displayName || `Participant`,
+          isPayer: p.isPayer,
+          order: p.order,
+          accountNumber: p.person.accountNumber,
+          bankCode: p.person.bankCode,
+          accountHolder: p.person.accountHolder,
+          qrUrl: p.person.qrUrl,
+          bankName: p.person.bank?.name,
+          bankLogoUrl: p.person.bank?.logoUrl,
           completed: false,
         }));
         
-        // Add custom participants (these are additional people, not duplicates)
-        try {
-          const additionalParticipantIds = JSON.parse(customParticipants);
-          console.log("[BILL_DETAILS] Loading MIXED additional participants:", additionalParticipantIds);
-          console.log("[BILL_DETAILS] Group members:", groupParticipants.map((p: any) => p.id));
-          console.log("[BILL_DETAILS] Additional participants data:", customParticipantsData);
-          
-          // These are already filtered additional people from the API
-          const additionalParticipants = additionalParticipantIds.map((personId: string, index: number) => {
-            const personData = customParticipantsData.find((p: any) => p.id === personId);
-            
-            return {
-              id: personId,
-              displayName: personData?.displayName || `Additional ${index + 1}`,
-              isPayer: personId === payerData?.id,
-              order: groupParticipants.length + index,
-              accountNumber: personData?.accountNumber,
-              bankCode: personData?.bankCode,
-              accountHolder: personData?.accountHolder,
-              qrUrl: personData?.qrUrl,
-              bankName: personData?.bank?.name,
-              bankLogoUrl: personData?.bank?.logoUrl,
-              completed: false,
-            };
-          });
-          
-          participantList = [...groupParticipants, ...additionalParticipants];
-          console.log("[BILL_DETAILS] Final MIXED participant list:", participantList.map(p => p.displayName));
-          
-          // Always ensure payer is at the end
-          const nonPayers = participantList.filter(p => !p.isPayer);
-          const payer = participantList.find(p => p.isPayer);
-          participantList = payer ? [...nonPayers, payer] : nonPayers;
-          
-        } catch (error) {
-          console.error("[BILL_DETAILS] Error parsing mixed participants:", error);
-          participantList = groupParticipants;
-          
-          // Always ensure payer is at the end even in fallback
-          const nonPayers = participantList.filter(p => !p.isPayer);
-          const payer = participantList.find(p => p.isPayer);
-          participantList = payer ? [...nonPayers, payer] : nonPayers;
-        }
+        // Sort to ensure payer is last if not already handled in order
+        const nonPayers = participantList.filter((p: any) => !p.isPayer);
+        const payer = participantList.find((p: any) => p.isPayer);
+        participantList = payer ? [...nonPayers, payer] : nonPayers;
         
+        console.log("[BILL_DETAILS] Loaded from bill.participants:", participantList);
       } else {
-        // GROUP mode or fallback: Use group members only
-        const groupMembers = bill?.group?.members || [];
-        
-        if (groupMembers.length > 0) {
-          // Separate payer and non-payers
-          const nonPayers = groupMembers
-            .filter((member: any) => member.person?.id !== payerData?.id)
-            .map((member: any, index: number) => ({
-              id: member.person?.id || `member-${index}`,
-              displayName: member.person?.displayName || `Member ${index + 1}`,
-              isPayer: false,
-              order: index,
-              accountNumber: member.person?.accountNumber,
-              bankCode: member.person?.bankCode,
-              accountHolder: member.person?.accountHolder,
-              qrUrl: member.person?.qrUrl,
-              bankName: member.person?.bank?.name,
-              bankLogoUrl: member.person?.bank?.logoUrl,
-              completed: false,
-            }));
-          
-          // Add payer at the end
-          const payerMember = groupMembers.find((member: any) => member.person?.id === payerData?.id);
-          if (payerMember) {
-            participantList = [...nonPayers, {
-              id: payerMember.person?.id || 'payer',
-              displayName: payerMember.person?.displayName || 'Payer',
-              isPayer: true,
-              order: nonPayers.length,
-              accountNumber: payerMember.person?.accountNumber,
-              bankCode: payerMember.person?.bankCode,
-              accountHolder: payerMember.person?.accountHolder,
-              qrUrl: payerMember.person?.qrUrl,
-              bankName: payerMember.person?.bank?.name,
-              bankLogoUrl: payerMember.person?.bank?.logoUrl,
-              completed: false,
-            }];
-          } else {
-            participantList = nonPayers;
+        // Try to load from saved JSON in description first (most reliable for old bills)
+        let loadedFromDesc = false;
+        try {
+          if (bill?.description && bill.description.startsWith('{')) {
+            const savedData = JSON.parse(bill.description);
+            if (savedData.participants && savedData.participants.length > 0) {
+              participantList = savedData.participants;
+              loadedFromDesc = true;
+              console.log("[BILL_DETAILS] Loaded participants from description:", participantList);
+            }
           }
-        } else {
+        } catch (error) {
+          console.log('No saved participants found in description');
+        }
+
+        if (!loadedFromDesc) {
           // Fallback to default participants with payer at the end
           const defaultParticipants = Array.from({ length: 3 }, (_, i) => ({
             id: `participant-${i + 1}`,
@@ -425,6 +320,7 @@ export default function BillDetails({ bill }: { bill: any }) {
             bankLogoUrl: payerData?.bank?.logoUrl,
             completed: false,
           }];
+          console.log("[BILL_DETAILS] Loaded fallback participants:", participantList);
         }
       }
       
@@ -435,120 +331,146 @@ export default function BillDetails({ bill }: { bill: any }) {
 
     // Initialize items with participants  
     const initItems = (participantList: Participant[]) => {
-      // Try to load saved data first
-      let savedData = null;
-      try {
-        if (bill?.description && bill.description.startsWith('{')) {
-          savedData = JSON.parse(bill.description);
-        }
-      } catch (error) {
-        console.log('No saved data found, creating default items');
-      }
-
-      if (savedData && savedData.items && savedData.participants) {
-        console.log('Loading saved bill data:', savedData);
-        console.log('Saved participants:', savedData.participants.map((p: any) => ({ id: p.id, name: p.displayName })));
-        console.log('Current participants:', participantList.map(p => ({ id: p.id, name: p.displayName })));
-        
-        setItems(savedData.items);
-        
-        // Use saved participants as the primary source, but merge with current data for any missing info
-        const savedParticipants = savedData.participants || [];
-        const finalParticipants = savedParticipants.map((saved: any) => {
-          // Find matching current participant to get any updated info
-          const current = participantList.find(p => p.id === saved.id);
-          // Prioritize saved data but fill in any missing fields from current
-          return current ? { ...current, ...saved } : saved;
-        });
-        
-        // Add any participants from current list that aren't in saved (shouldn't happen but safety)
-        participantList.forEach(current => {
-          if (!finalParticipants.find((p: any) => p.id === current.id)) {
-            finalParticipants.push(current);
-          }
-        });
-        
-        console.log('Final merged participants:', finalParticipants.map((p: any) => ({ id: p.id, name: p.displayName })));
-        setParticipants(finalParticipants);
-        
-        if (savedData.settings) {
-          setBillSettings(prev => ({ ...prev, ...savedData.settings }));
-        }
-        return;
-      }
-
-      // Create from bill items or default
       const billItems = bill?.items || [];
-      
-      // Convert bill items to our format
-      const normalItems: Item[] = billItems.length > 0 ? billItems.map((item: any, index: number) => ({
-        id: item.id || `item-${index}`,
-        name: item.description || `Item ${index + 1}`,
-        fee: item.amount || 0,
-        splitMethod: "EQUAL",
-        type: "NORMAL",
-        order: index,
-        shares: participantList.map(p => ({
-          participantId: p.id,
-          include: true,
-          locked: false,
-          paid: false,
-          amount: 0,
-        })),
-      })) : [
-        // Default item if no items exist
-        {
+
+      const mapShares = (item: any) => participantList.map(p => {
+        const savedShare = (item.shares || []).find((s: any) =>
+          s.participant?.personId === p.id ||
+          s.participant?.person?.id === p.id
+        );
+        if (savedShare) {
+          return {
+            participantId: p.id,
+            include: savedShare.include,
+            locked: savedShare.locked,
+            paid: savedShare.paid,
+            amount: Number(savedShare.amount) || 0,
+            rawInput: savedShare.rawInput,
+          };
+        }
+        return { participantId: p.id, include: true, locked: false, paid: false, amount: 0 };
+      });
+
+      const defaultSharesExcluded = () => participantList.map(p => ({
+        participantId: p.id, include: false, locked: false, paid: false, amount: 0,
+      }));
+
+      if (billItems.length > 0) {
+        // Separate DB items by type
+        const normalDbItems = billItems.filter((i: any) => i.type === 'NORMAL' || !i.type);
+        const carryOverDbItems = billItems.filter((i: any) => i.type === 'CARRY_OVER');
+        const specialDbItems = billItems.filter((i: any) => i.type === 'SPECIAL');
+
+        const normalItems: Item[] = normalDbItems.map((item: any, index: number) => ({
+          id: item.id,
+          name: item.name || `Item ${index + 1}`,
+          fee: Number(item.fee) || 0,
+          splitMethod: item.splitMethod || 'EQUAL',
+          type: 'NORMAL',
+          order: item.order ?? index,
+          shares: mapShares(item),
+        }));
+
+        // If no normal items exist, add a default placeholder
+        if (normalItems.length === 0) {
+          normalItems.push({
+            id: 'item-1',
+            name: 'Main Course',
+            fee: 150000,
+            splitMethod: 'EQUAL',
+            type: 'NORMAL',
+            order: 0,
+            shares: participantList.map(p => ({
+              participantId: p.id, include: true, locked: false, paid: false, amount: 0,
+            })),
+          });
+        }
+
+        // Map saved adjustment items or create defaults if missing
+        const carryOverItems: Item[] = carryOverDbItems.length > 0
+          ? carryOverDbItems.map((item: any) => ({
+              id: item.id,
+              name: item.name || 'Previous Debt',
+              fee: Number(item.fee) || 0,
+              splitMethod: item.splitMethod || 'EQUAL',
+              type: 'CARRY_OVER',
+              order: item.order ?? 1000,
+              shares: mapShares(item),
+            }))
+          : [{
+              id: 'carry-over',
+              name: 'Previous Debt',
+              fee: 0,
+              splitMethod: 'EQUAL',
+              type: 'CARRY_OVER',
+              order: 1000,
+              shares: defaultSharesExcluded(),
+            }];
+
+        const specialItems: Item[] = specialDbItems.length > 0
+          ? specialDbItems.map((item: any) => ({
+              id: item.id,
+              name: item.name || 'Discount',
+              fee: Number(item.fee) || 0,
+              splitMethod: item.splitMethod || 'EQUAL',
+              type: 'SPECIAL',
+              order: item.order ?? 1001,
+              shares: mapShares(item),
+            }))
+          : [{
+              id: 'discount',
+              name: 'Discount',
+              fee: -500,
+              splitMethod: 'EQUAL',
+              type: 'SPECIAL',
+              order: 1001,
+              shares: defaultSharesExcluded(),
+            }];
+
+        // Extract settings from description
+        try {
+          if (bill?.description && bill.description.startsWith('{')) {
+            const parsedDesc = JSON.parse(bill.description);
+            if (parsedDesc.settings) setBillSettings(prev => ({ ...prev, ...parsedDesc.settings }));
+          }
+        } catch { /* no saved settings */ }
+
+        setItems([...normalItems, ...carryOverItems, ...specialItems]);
+      } else {
+        // No DB items — create full defaults
+        const defaultNormal: Item[] = [{
           id: 'item-1',
           name: 'Main Course',
           fee: 150000,
-          splitMethod: "EQUAL",
-          type: "NORMAL",
+          splitMethod: 'EQUAL',
+          type: 'NORMAL',
           order: 0,
           shares: participantList.map(p => ({
-            participantId: p.id,
-            include: true,
-            locked: false,
-            paid: false,
-            amount: 0,
+            participantId: p.id, include: true, locked: false, paid: false, amount: 0,
           })),
-        }
-      ];
-      
-      // Add adjustment items
-      const adjustmentItems: Item[] = [
-        {
-          id: 'carry-over',
-          name: 'Previous Debt',
-          fee: 0,
-          splitMethod: "EQUAL",
-          type: "CARRY_OVER",
-          order: 1000,
-          shares: participantList.map(p => ({
-            participantId: p.id,
-            include: false,
-            locked: false,
-            paid: false,
-            amount: 0,
-          })),
-        },
-        {
-          id: 'discount',
-          name: 'Discount',
-          fee: -500,
-          splitMethod: "EQUAL", 
-          type: "SPECIAL",
-          order: 1001,
-          shares: participantList.map(p => ({
-            participantId: p.id,
-            include: false,
-            locked: false,
-            paid: false,
-            amount: 0,
-          })),
-        },
-      ];
-      
-      setItems([...normalItems, ...adjustmentItems]);
+        }];
+        const defaultAdjustments: Item[] = [
+          {
+            id: 'carry-over',
+            name: 'Previous Debt',
+            fee: 0,
+            splitMethod: 'EQUAL',
+            type: 'CARRY_OVER',
+            order: 1000,
+            shares: defaultSharesExcluded(),
+          },
+          {
+            id: 'discount',
+            name: 'Discount',
+            fee: -500,
+            splitMethod: 'EQUAL',
+            type: 'SPECIAL',
+            order: 1001,
+            shares: defaultSharesExcluded(),
+          },
+        ];
+        setItems([...defaultNormal, ...defaultAdjustments]);
+      }
     };
 
     const participantList = initParticipants();

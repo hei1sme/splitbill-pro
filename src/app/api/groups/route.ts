@@ -1,10 +1,21 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { GroupCreateSchema } from '@/lib/validations';
+import { createClient } from '@/lib/supabase/server';
+
+async function getUserId(): Promise<string | null> {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  return user?.id ?? null;
+}
 
 export async function GET() {
   try {
+    const userId = await getUserId();
+    if (!userId) return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+
     const groups = await prisma.group.findMany({
+      where: { userId },
       include: {
         members: {
           include: {
@@ -32,6 +43,9 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const userId = await getUserId();
+    if (!userId) return NextResponse.json({ success: false, error: { message: 'Unauthorized' } }, { status: 401 });
+
     const body = await request.json();
     const validation = GroupCreateSchema.safeParse(body);
 
@@ -40,9 +54,6 @@ export async function POST(request: Request) {
     }
 
     const { name, personIds } = validation.data;
-
-    // Hardcoded default user ID for now until Auth is fully integrated
-    const userId = "default-org-user-id";
 
     // Find first instead of findUnique because unique is compound
     const existingGroup = await prisma.group.findFirst({ where: { name, userId } });
